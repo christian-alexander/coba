@@ -77,3 +77,106 @@ defined('EXIT_USER_INPUT')     || define('EXIT_USER_INPUT', 7); // invalid user 
 defined('EXIT_DATABASE')       || define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      || define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
+
+
+/*
+|
+|   konstan variabel
+|
+*/
+
+//konstan variabel untuk title page
+defined('TITLE') || define('TITLE', 'Magang Informatika');
+
+
+//penamaan standard untuk nama inputan form
+//array keys = name/id
+//dont change associative array keys dan name/id (karena terkait dengan js dan controller)
+//struktur >> [name / id, input type, judul, text inside-box] di setiap itemnya
+
+defined('LOGIN_NAMING') || define('LOGIN_NAMING',[
+
+    'username' => [
+        'name/id'    => 'username',
+        'input_type' => 'text',
+        'input_text' => 'Username',
+        'inside_box' => 'Email/NRP/NIDN/NIP'
+    ],
+
+    'password' => [
+        'name/id'    => 'password',
+        'input_type' => 'password',
+        'input_text' => 'Password',
+        'inside_box' => '********'
+    ]
+]);
+
+
+//penamaan standard untuk form akun
+//array keys = name/id
+//dont change associative array keys dan name/id (karena terkait dengan js dan controller)
+//struktur >> [name / id, input type(if dikasi selection otomatis membentuk seleksi), judul ] di setiap itemnya
+
+defined('FORM_AKUN_NAMING') || define('FORM_AKUN_NAMING',[
+
+    'nama_akun' => [
+        'name/id'    => 'nama_akun',
+        'input_type' => 'text',
+        'input_text' => 'Nama Lengkap'
+    ],
+
+    'no_unik_akun' => [
+        'name/id'    => 'no_unik_akun',
+        'input_type' => 'tel',
+        'input_text' => 'NRP'
+    ],
+    
+    'email_akun' => [
+        'name/id'    => 'email_akun',
+        'input_type' => 'text',
+        'input_text' => 'Email'
+    ],
+
+    'password_akun' => [
+        'name/id'    => 'password_akun',
+        'input_type' => 'password',
+        'input_text' => 'Password'
+    ],
+
+    'konfirmasi_password_akun' => [
+        'name/id'    => 'konfirmasi_password_akun',
+        'input_type' => 'password',
+        'input_text' => 'Konfirmasi Password'
+    ],
+
+    'no_wa_akun' => [
+        'name/id'    => 'no_wa_akun', 
+        'input_type' => 'tel',
+        'input_text' => 'No WhatsApp'
+    ],
+
+    'peran_akun' => [
+        'name/id'    => 'peran_akun', 
+        'input_type' => 'selection',
+        'input_text' => 'Peran'
+    ],
+
+    'instansi_akun' => [
+        'name/id'    => 'instansi_akun',
+        'input_type' => 'selection',
+        'input_text' => 'Instansi'
+    ],
+
+    'dosbing_akun' => [
+        'name/id'    => 'dosbing_akun',
+        'input_type' => 'selection',
+        'input_text' => 'Dosen Pembimbing'
+    ],
+
+    'pemlap_akun' => [
+        'name/id'    => 'pemlap_akun',
+        'input_type' => 'selection',
+        'input_text' => 'Pembimbing Lapangan'
+    ]
+    
+]);

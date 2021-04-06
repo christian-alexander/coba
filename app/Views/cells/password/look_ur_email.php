@@ -5,7 +5,7 @@
                     <b><h3>Verifikasi Email</h3></b>
                 </div>		
                 <div style = 'text-align:center;font-size:14pt;'>
-                    Klik link yang kami kirimkan ke email anda <b><?= $_SESSION['email'] ?></b> untuk melanjutkan
+                    Klik link yang kami kirimkan ke email anda <b><?= $_SESSION['email'] ?></b> untuk melanjutkan. Buka link di browser dan perangkat yang sama dengan yang anda gunakan saat ini.
                     
                 </div>
                 <div class="kirim-lagi-div" id='countdown'>
@@ -16,7 +16,6 @@
                 </div>
                 <?php
                 session()->get();
-                echo $_SESSION['captcha'];
                 ?>
             </div>
         </div>

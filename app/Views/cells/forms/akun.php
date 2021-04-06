@@ -186,6 +186,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
         }else{ ?>
             var valid = true;
             required = verif_dobel_data_akun(for_auth,required);
+            console.log(required);
             if( ! verif_typo_akun(required)){
                 valid = false;
             }
@@ -197,6 +198,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                 $('#lds-dual-ring').css('display','inline-block');
                 return true;
             }else{
+                alert("ehjhehe")
                 return false;
             }
             

@@ -180,6 +180,7 @@ class BaseController extends Controller
 	}
 
 	protected function data_for_auth(){
+		//untuk mengeluarkan data sebagai pengecekan data dobel di js
 		$Get = new Get();
 		$data = array();
 		

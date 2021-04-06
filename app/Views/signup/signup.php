@@ -6,8 +6,8 @@
 <?= 
 view_cell('\App\Libraries\Cells::form_akun',
     [
-        'config' => ['form_title' => 'Sign Up','form_action' => base_url()."/Signup/Signup/save_signup",'show_password' => TRUE,'use_box' => TRUE],
-        'required' => ['nama_akun','no_unik_akun','email_akun','password_akun','konfirmasi_password_akun','no_wa_akun','peran_akun','dosbing_akun'],
+        'config' => ['form_title' => 'Sign Up','form_action' => base_url()."/Signup/Signup/captcha_signup",'show_password' => TRUE,'use_box' => TRUE],
+        'required' => $required,
         'display' => ['block','block','block','block','block','block'],
         'peran_display' => ['block','none','block'],
         'button' => [

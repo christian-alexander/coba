@@ -19,7 +19,7 @@ class AddEditDelete extends Model
         ->update();
     }
 
-    public function delete($table,$namaKolom, $value)
+    public function hapus($table,$namaKolom, $value) //nama delete ketumpuk dengan built in CI4
     {
         $this->db->table($table)
         ->delete([$namaKolom => $value]);

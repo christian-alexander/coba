@@ -88,6 +88,9 @@ defined('EXIT__AUTO_MAX')      || define('EXIT__AUTO_MAX', 125); // highest auto
 //konstan variabel untuk title page
 defined('TITLE') || define('TITLE', 'Magang Informatika');
 
+//semua penamaan standard hanya untuk kegunaan front end saja, misal input type dll
+//sengaja ditaruh disini agar view bisa lebih clean, bila ingin mengganti input text misal 
+//bisa dari sini, karena terkadang susah bila mencari di view yang sudah semrawut apalagi tercampur php
 
 //penamaan standard untuk nama inputan form
 //array keys = name/id

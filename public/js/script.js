@@ -107,7 +107,7 @@ function verif_no(tipe,isPemlap = false){
         	valid = false;
         }
     }else if(isNaN($('#no_'+tipe).val())){
-        $('#warning_no_'+tipe).html(' *Nomor Tidak Valid');
+        $('#warning_no_'+tipe).html(' *Harus Angka');
         $('#no_'+tipe).removeClass('correct');
         $('#no_'+tipe).addClass('wrong');
         valid = false;
@@ -116,11 +116,12 @@ function verif_no(tipe,isPemlap = false){
         $('#no_'+tipe).removeClass('wrong');
         $('#no_'+tipe).addClass('correct');
     }
+    return valid;
 }
 
 function verif_password(tipe,pass1,pass2 = null){
     //if pass2 null maka dianggap verif typo, if ada value maka verif konfirmasi pass
-	var valid = true;
+    var valid = true;
     if(pass2 != null){    
         if($('#konfirmasi_password_'+tipe).val() == ''){
             $('#warning_konfirmasi_password_'+tipe).html(' *Wajib');
@@ -154,7 +155,7 @@ function verif_password(tipe,pass1,pass2 = null){
             $('#password_'+tipe).addClass('correct');	
         }
     }
-    
+    return valid;
 }
 
 //fungsi utama verifikasi
@@ -172,15 +173,14 @@ function verif_typo_akun(required){
         }
     }
     if(required.includes('password_akun')){
-        var pass1 = $('#password_akun');
+        var pass1 = $('#password_akun').val();
         if(required.includes('konfirmasi_password_akun')){
-            var pass2 = $('#konfirmasi_password_akun');
+            var pass2 = $('#konfirmasi_password_akun').val();
             valid = verif_password('akun',pass1,pass2);
         }
         valid = verif_password('akun',pass1);
     }
-    
-    
+
 	return valid;
 }
 
@@ -188,7 +188,7 @@ function verif_dobel_data_akun(for_auth,required ,edit_data = null){
     // edit_data[0] = email_logged_user, edit_data[1] = no_unik_logged_user
     // akan me return required untuk verif typo
     // bila ada email atau no unik tak valid maka akan dikurangi dari required, karena hitungannya sudah dicek
-    console.log(for_auth);
+
     var valid_email = true;
     var valid_no_unik = true;
     for(var i = 0 ; i < for_auth.length ; i++){

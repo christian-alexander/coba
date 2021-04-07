@@ -173,9 +173,12 @@ class BaseController extends Controller
 		if($email != NULL && $captcha != NULL){
             session()->set('captcha',$captcha);
             session()->set('email', $email);
+			session()->set('captcha_start', time());
+			
 		}else{
 			session()->remove('email');
 			session()->remove('captcha');
+			session()->remove('captcha_start');
 		}
 	}
 

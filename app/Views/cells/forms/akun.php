@@ -74,7 +74,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                 if(isset($config['show_password'])){if($config['show_password']){ ?>
                     <div class="custom-control custom-checkbox" style='margin-top:1em;margin-left:1em;'>
                         <input type="checkbox" class="custom-control-input" id="lihat_pass">
-                        <label class="custom-control-label" for="lihat_pass">Perlihatkan Kata Sandi</label>
+                        <label class="custom-control-label" for="lihat_pass">Perlihatkan Password</label>
                     </div><?php
                 }} ?>
                 <!-- buttons -->

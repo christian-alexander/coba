@@ -15,8 +15,8 @@ class Login extends BaseController
     public function auth_login()
     {
         $Get = new Get();
-        $username = $_REQUEST[LOGIN_NAMING['username']['name/id']];
-        $password = $_REQUEST[LOGIN_NAMING['password']['name/id']];
+        $username = $_REQUEST['username'];
+        $password = $_REQUEST['password_akun'];
         
         $arrSU = $Get->get('su');
         $arrDosbing = $Get->get('dosbing',NULL,NULL,['status_dosbing' => 'on']);

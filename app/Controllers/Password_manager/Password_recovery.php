@@ -2,6 +2,7 @@
 namespace App\Controllers\Password_manager;
 use App\Controllers\BaseController;
 use App\Models\Get;
+use App\Models\AddEditDelete;
 
 class Password_recovery extends BaseController
 {
@@ -29,13 +30,33 @@ class Password_recovery extends BaseController
         if(!$dataCocok){
             $alert['message'] = "Email tidak terdaftar di sistem atau telah non-aktif";
             $alert['path'] = "Password_manager/Password_recovery";
-            return $this->view('alertBox',$alert);
+            return view('alertBox',$alert);
         }else{
-            $captcha = $this->get_captcha(15);
-            $pesan = 'Klik link berikut ini untuk mereset password anda<br>'.base_url().'/Password_manager/Reset/reset_password/'.$captcha;
-            $this->send_email("Pemulihan Password",$pesan,NULL,$email);
+            $captcha = $this->get_captcha(150);
+            $pesan = 'Klik link berikut ini untuk mereset password anda<br><br>Link berlaku selama 60 detik.<br><br>'.base_url().'/Password_manager/Reset/reset_password/'.$captcha;
+            //$this->send_email("Pemulihan Password",$pesan,NULL,$email);
+            $ses_data = [
+                'db' => $dataCocok['db'],
+                'email' => $dataCocok['email'] 
+            ];
+            session()->set('recovery_data',$ses_data);
             $this->session_verif_link($email,$captcha);
-            return view('look_ur_email');
+            return view('password/look_ur_email');
         } 
+    }
+
+    public function save_new_password(){
+        session()->get();
+        $AddEditDelete = new AddEditDelete();
+        $data['password_'.$_SESSION['recovery_data']['db']] = password_hash($_REQUEST['password_akun'],PASSWORD_DEFAULT);
+        $email = $_SESSION['recovery_data']['email'];
+        $db = $_SESSION['recovery_data']['db'];
+        
+
+        $AddEditDelete->edit($db,$data,"email_$db",$email);
+
+        $alert['message'] = "Berhasil mengubah Password";
+        $alert['path'] = "";
+        return view('alertBox',$alert);
     }
 }

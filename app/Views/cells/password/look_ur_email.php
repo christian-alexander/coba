@@ -1,12 +1,15 @@
+<?php var_dump($_SESSION); ?>
     <div id="body-login" style="position:fixed;width:100%;height:100%;">
-        <div class="container" id='box-login'>
+        <div class="container" id='box-login' style="background-color:white;">
             <div id='box-dalam-login'>
                 <div class = teks-login>
                     <b><h3>Verifikasi Email</h3></b>
                 </div>		
                 <div style = 'text-align:center;font-size:14pt;'>
-                    Klik link yang kami kirimkan ke email anda <b><?= $_SESSION['email'] ?></b> untuk melanjutkan. Buka link di browser dan perangkat yang sama dengan yang anda gunakan saat ini.
-                    
+                    Klik link yang kami kirimkan ke email anda <b><?= $_SESSION['email'] ?></b> untuk melanjutkan.
+                </div>
+                <div style = "text-align:center;margin-top:20px;color:rgba(256,0, 0, 0.7)">
+                    Buka link di browser dan perangkat yang sama dengan yang anda gunakan saat ini.
                 </div>
                 <div class="kirim-lagi-div" id='countdown'>
                     <p>Tidak menerimanya? kirim lagi dalam <b id='timer'> 60 </b> Detik</p>

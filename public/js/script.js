@@ -176,12 +176,15 @@ function verif_typo_akun(required){
         var pass1 = $('#password_akun').val();
         if(required.includes('konfirmasi_password_akun')){
             var pass2 = $('#konfirmasi_password_akun').val();
-            valid = verif_password('akun',pass1,pass2);
+            valid_konf = verif_password('akun',pass1,pass2);
         }
-        valid = verif_password('akun',pass1);
+        valid_pass = verif_password('akun',pass1);
     }
-
-	return valid;
+    if(valid_pass && valid_konf){    
+        return true;
+    }else{
+        return false;
+    }
 }
 
 function verif_dobel_data_akun(for_auth,required ,edit_data = null){

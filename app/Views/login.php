@@ -29,7 +29,7 @@
                     </div><?php
                 } ?>
         		<!-- checkbox lihat password -->
-                <div class="custom-control custom-checkbox" onchange="lihat_pass()">
+                <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="lihat_pass">
                     <label class="custom-control-label" for="lihat_pass">Perlihatkan Password</label>
                 </div>
@@ -56,13 +56,5 @@
 	<script src="jquery-3.6.0/jquery-3.6.0.min.js"></script>
 	<!-- bootstrap bundle suda dengan popper -->
 	<script src="bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js"></script>
-	<script>
-		function lihat_pass(){
-			if(document.getElementById('lihat_pass').checked){
-				document.getElementById('<?=LOGIN_NAMING['password']['name/id'] ?>').type = "text";
-			}else{
-				document.getElementById('<?= LOGIN_NAMING['password']['name/id'] ?>').type = "password";
-			}
-		}
-	</script>
+	<script src = "<?= base_url()?>/js/script.js"></script>
 </body>

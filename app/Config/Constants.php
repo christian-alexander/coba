@@ -106,8 +106,8 @@ defined('LOGIN_NAMING') || define('LOGIN_NAMING',[
         'inside_box' => 'Email/NRP/NIDN/NIP'
     ],
 
-    'password' => [
-        'name/id'    => 'password',
+    'password_akun' => [
+        'name/id'    => 'password_akun',
         'input_type' => 'password',
         'input_text' => 'Password',
         'inside_box' => '********'

@@ -32,16 +32,16 @@ class Signup extends BaseController
         $session->set('signup_data',$ses_data);
 
         $email = $_REQUEST['email_akun'];
-        $captcha = $this->get_captcha(15);
-        $pesan = 'JANGAN KLIK LINK BILA TIDAK MERASA MELAKUKAN SIGN UP <br><br> Klik link berikut ini untuk verifikasi email anda<br>'.base_url().'/Signup/Signup/save_signup/'.$captcha;
+        $captcha = $this->get_captcha(150);
+        $pesan = 'Klik link berikut ini untuk verifikasi email anda<br><br>'.base_url().'/Signup/Signup/save_signup/'.$captcha."<br><br>Link berlaku selama 60 detik.";
         $this->send_email("Verifikasi Email",$pesan,NULL,$email);
         $this->session_verif_link($email,$captcha);
-        return view('look_ur_email');
+        return view('signup/look_ur_email');
     }
 
     public function save_signup($captcha){
         session()->get();
-        if($captcha == $_SESSION['captcha']){
+        if($captcha == $_SESSION['captcha'] && time()-$_SESSION['captcha_start'] < 60){
 
             //panggil model AddEditDelete
             $AddEditDelete = new AddEditDelete();

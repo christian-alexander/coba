@@ -5,8 +5,10 @@
     view_cell('\App\Libraries\Cells::form_akun',
     [
         'config' => ['form_title' => '(judul form)', 'form_action' => "(form ini mau dibawa kemana ketika submit)",'show_password' => TRUE/FALSE (pake see password atau ga), 'use_box' => TRUE / FALSE (box include with form) ],
-        'required' => ['nama_akun','email_akun'],
-        'display' => [ (display1), (display2)],
+        'required' => [
+            ['nama_akun','email_akun'],
+            ['display1','display2']
+        ];
         'peran_display' => ['relative','none','relative'], 
         'button' => [
             ['button_type' => 'btn-success', 'button_text' => '(teks dalam btn)'],
@@ -39,5 +41,27 @@ class Cells
     public function form_akun($arrConfig)
     {
         return view('cells/forms/akun',$arrConfig);
+    }
+
+    
+    public function nav_su()
+    {
+        return view('cells/nav/nav_su');
+    }
+
+    
+    public function nav_dosbing()
+    {
+        return view('cells/nav/nav_dosbing');
+    }
+    
+    public function nav_pemlap()
+    {
+        return view('cells/nav/nav_pemlap');
+    }
+    
+    public function nav_mhs()
+    {
+        return view('cells/nav/nav_mhs');
     }
 }

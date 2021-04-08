@@ -1,4 +1,4 @@
-<?php var_dump($_SESSION); ?>
+<?php var_dump($_SESSION['captcha']); ?>
     <div id="body-login" style="position:fixed;width:100%;height:100%;">
         <div class="container" id='box-login' style="background-color:white;">
             <div id='box-dalam-login'>

@@ -57,6 +57,7 @@ class Password_recovery extends BaseController
 
         $alert['message'] = "Berhasil mengubah Password";
         $alert['path'] = "";
+        $this->session_verif_link();
         return view('alertBox',$alert);
     }
 }

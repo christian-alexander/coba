@@ -7,7 +7,10 @@ use App\Models\AddEditDelete;
 
 class Signup extends BaseController
 {
-    private $required = ['nama_akun','no_unik_akun','email_akun','password_akun','konfirmasi_password_akun','no_wa_akun','peran_akun','dosbing_akun'];
+    private $required = [
+        ['nama_akun','no_unik_akun','email_akun','password_akun','konfirmasi_password_akun','no_wa_akun','peran_akun','dosbing_akun'],
+        ['block','block','block','block','block','block']
+    ];
 
     public function index(){
         $liveSearh = new LiveSearch();

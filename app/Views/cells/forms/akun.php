@@ -13,9 +13,9 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                 <div class = "row"><?php
                     $i = 0; //untuk display per div nya
                     foreach(FORM_AKUN_NAMING as $item){ 
-                        if(in_array($item['name/id'],$required)){ 
+                        if(in_array($item['name/id'],$required[0])){ 
                             if($item['input_type'] != 'selection') { ?>
-                                <div class = "col-lg-6 col-md-6 col-sm-12 col-xs-12 input-box" style="display:<?= $display[$i] ?>;"><?php 
+                                <div class = "col-lg-6 col-md-6 col-sm-12 col-xs-12 input-box" style="display:<?= $required[1][$i] ?>;"><?php 
                                     if($item['name/id'] == 'no_unik_akun'){ ?>
                                         <a id = "teks_<?= $item['name/id'] ?>"> <?= $item['input_text'] ?> </a> <a id="warning_<?= $item['name/id'] ?>" style="color:red;"></a><?php
                                     }else{ ?>
@@ -65,8 +65,9 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                                 </p>
                                 </div><?php
                             }
+                            $i++;
                         }
-                        $i++;
+                        
                     } 
                     ?>
                 </div>
@@ -100,7 +101,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
 <script src = "<?= base_url() ?>/js/script.js"></script>
 <script>
     <?php
-    if(in_array("peran_akun",$required) && in_array("no_unik_akun",$required)){ ?>
+    if(in_array("peran_akun",$required[0]) && in_array("no_unik_akun",$required[0])){ ?>
         $(document).ready(function(){
             gantiNNN();
         }); <?php
@@ -153,7 +154,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
     //js untuk masukkan required ke arr js
     var required = new Array();
     <?php
-    foreach($required as $item){ ?>
+    foreach($required[0] as $item){ ?>
 		required.push('<?= $item ?>');<?php
     }?>
     
@@ -198,7 +199,6 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                 $('#lds-dual-ring').css('display','inline-block');
                 return true;
             }else{
-                alert("ehjhehe")
                 return false;
             }
             

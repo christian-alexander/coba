@@ -2,6 +2,7 @@
     session()->get();
 ?>
 
+<div style = "margin-bottom:5em;" >
     <!-- Navigation -->
     <!-- tambahkan navbar-expand-lg utk expand -->
     <nav class="navbar navbar-expand-lg navbar-expand-md navbar-dark bg-dark fixed-top">
@@ -60,7 +61,7 @@
             </div>
         </div>
     </nav>
-
+</div>
 
 <script>
     $('#<?= $selected[0] ?>').addClass('active');

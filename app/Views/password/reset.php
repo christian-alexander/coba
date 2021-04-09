@@ -9,7 +9,6 @@ if(isset($_SESSION['loginData'])){
     $path_cancel = base_url()."/Pages/Home";
 
     echo view_cell("\App\Libraries\Cells::nav_".$_SESSION['loginData']['db'],['selected' => ['profil']]);
-    echo "<div style = 'margin-top:5em;'>";
 }else{
     $path = base_url()."/Password_manager/Password_recovery/save_new_password";
     $path_cancel = base_url();
@@ -35,6 +34,10 @@ view_cell('\App\Libraries\Cells::form_akun',
     ]
 ); 
 ?>
-</div>
 
+<?php
+if(!isset($_SESSION['loginData'])){
+    echo "</div>";
+}
+?>
 <?= $this->endSection(); ?>

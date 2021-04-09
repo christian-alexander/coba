@@ -4,9 +4,8 @@
 
 <?php session()->get() ?>
 <?= view_cell("\App\Libraries\Cells::nav_".$_SESSION['loginData']['db'],['selected' => ['profil']]);?>
-<?php
-echo "<div style = 'margin-top:5em;'>"; 
-echo view_cell('\App\Libraries\Cells::form_akun',
+<?= 
+view_cell('\App\Libraries\Cells::form_akun',
     [
         'config' => ['form_title' => 'Masukkan Password Lama','form_action' => base_url()."/Password_manager/Password_change/auth",'show_password' => TRUE,'use_box' => TRUE],
         'required' => $required,
@@ -20,7 +19,6 @@ echo view_cell('\App\Libraries\Cells::form_akun',
         'is_edit_form' => FALSE
     ]
 ); 
-echo "</div>";
 ?>
 
 <?= $this->endSection() ?>

@@ -30,6 +30,31 @@
 - for_auth untuk mengecek ada dobelan data atau tidak di database
 */
 
+/*
+    PEMANGGILAN SIMPLE TABLE
+    view_cell(\App\Libraries\Cells::simple_table,
+        [
+            'tables' => 
+                ['namaTabel1',
+                    [
+                        ['thead','tbody'],
+                        ['thead','tbody'],
+                        ['thead','tbody']
+                    ]
+                ],
+                ['namaTabel2',
+                    [
+                        ['thead','tbody'],
+                        ['thead','tbody'],
+                        ['thead','tbody']
+                    ]
+                ]
+                
+                dst
+        ] 
+    );
+
+*/
 
 class Cells
 {
@@ -63,5 +88,10 @@ class Cells
     public function nav_mhs($selected_nav_item)
     {
         return view('cells/nav/nav_mhs',$selected_nav_item);
+    }
+
+    public function simple_table($arrConfig)
+    {
+        return view('cells/table/simple_table',$arrConfig);
     }
 }

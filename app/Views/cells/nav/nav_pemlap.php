@@ -1,6 +1,8 @@
 <?php
     session()->get();
 ?>
+
+<div style = "margin-bottom:5em;" >
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container">
@@ -35,7 +37,7 @@
                     <li class="nav-item dropdown dropdown-nav" id="profil">
                         <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profil</a>
                         <div class="dropdown-menu dropdown-menu-nav">
-                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/#">Lihat Profil</a>
+                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Pages/Profil">Lihat Profil</a>
                             <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/#">Edit Profil</a>
                             <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Password_manager/Password_change">Ubah Password</a>
                         </div>
@@ -47,7 +49,7 @@
             </div>
         </div>
     </nav>
-
+</div>
 
 <script>
     $('#<?= $selected[0] ?>').addClass('active');

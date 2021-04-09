@@ -3,6 +3,7 @@
 <?= $this->section('content') ?>
 <?php
 session()->get();
+
 if($_SESSION['loginData']['db'] == "su"){
     echo view_cell('\App\Libraries\Cells::nav_su',['selected' => ['home']]);
 }else if($_SESSION['loginData']['db'] == "dosbing"){

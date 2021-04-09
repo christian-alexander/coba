@@ -2,89 +2,142 @@
 namespace App\Controllers\Pages;
 use App\Controllers\BaseController;
 use App\Models\Get;
+use App\Models\AddEditDelete;
+use App\Models\LiveSearch;
 
 class Profil extends BaseController
 {
+    private $required = [
+        ['nama_akun','no_unik_akun','email_akun','no_wa_akun','peran_akun'],
+        ['block','block','block','block','none']
+    ];
+
     public function index(){
         $Get = new Get();
         session()->get();
+        if(isset($_SESSION['loginData'])){
+            $db = $_SESSION['loginData']['db'];
+            $id = $_SESSION['loginData']['id'];
+
+
+            if($db == "dosbing"){
+                $dataDosbing = [
+                    'nama_tabel' => 'Data Dosen',
+                    'db'         => 'dosbing',
+                    'data'       => $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE)
+                ];
+
+                $id_instansi = $dataDosbing['data']['id_instansi_dosbing'];
+
+                $dataInstansi = [
+                    'nama_tabel' => 'Data Instansi',
+                    'db'         => 'instansi',
+                    'data'       => $Get->get('instansi',NULL,NULL,['id_instansi' => $id_instansi],TRUE)
+                ];
+
+                $data['tables'] = [$dataDosbing,$dataInstansi];
+            
+            
+            }else if($db == "pemlap"){
+                $dataPemlap = [
+                    'nama_tabel' => 'Data Pembimbing',
+                    'db'         => 'pemlap',
+                    'data'       => $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE)
+                ];
+
+                $id_instansi = $dataPemlap['data']['id_instansi_pemlap'];
+
+                $dataInstansi = [
+                    'nama_tabel' => 'Data Instansi',
+                    'db'         => 'instansi',
+                    'data'       => $Get->get('instansi',NULL,NULL,['id_instansi' => $id_instansi],TRUE)
+                ];
+
+                $data['tables'] = [$dataPemlap,$dataInstansi];
+            
+            
+            }else if($db == "mhs"){
+                $dataMhs = [
+                    'nama_tabel' => 'Data Mahasiswa',
+                    'db'         => 'mhs',
+                    'data'       => $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE)
+                ];
+
+                $id_dosbing = $dataMhs['data']['id_dosbing_mhs'];
+                $id_pemlap = $dataMhs['data']['id_pemlap_mhs'];
+                $id_instansi = $dataMhs['data']['id_instansi_mhs'];
+
+                $dataDosbing = [
+                    'nama_tabel' => 'Dosen Pembimbing',
+                    'db'         => 'dosbing',
+                    'data'       => $Get->get('dosbing',NULL,NULL,['id_dosbing' => $id_dosbing],TRUE)
+                ];
+
+                $dataInstansi = [
+                    'nama_tabel' => 'Data Instansi',
+                    'db'         => 'instansi',
+                    'data'       => $Get->get('instansi',NULL,NULL,['id_instansi' => $id_instansi],TRUE)
+                ];
+
+                if($id_pemlap == NULL){
+                    $data['tables'] = [$dataMhs,$dataDosbing,$dataInstansi];
+                }else{
+                    $dataPemlap = [
+                        'nama_tabel' => 'Pembimbing Lapangan',
+                        'db'         => 'pemlap',
+                        'data'       => $Get->get('pemlap',NULL,NULL,['id_pemlap' => $id_pemlap],TRUE)
+                    ];
+
+                    $data['tables'] = [$dataMhs,$dataDosbing,$dataPemlap,$dataInstansi];
+                }
+                
+            }else{
+                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            }
+
+            return view('pages/profil/lihat_profil',$data);
+    
+        }else{
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+    }
+
+    public function edit_profil(){
+        $Get = new Get();
+        session()->get();
+
+        $data['for_auth'] = $this->akun_for_auth();    
+        $data['required'] = $this->required;  
+
+        $db = $_SESSION['loginData']['db'];
+        $id = $_SESSION['loginData']['id'];
+        $data['edit_data'] = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE); 
+        return view('pages/profil/edit_profil', $data);
+
+    }
+
+    public function save_edit_profil(){
+        session()->get();
+        $AddEditDelete = new AddEditDelete();
         $db = $_SESSION['loginData']['db'];
         $id = $_SESSION['loginData']['id'];
 
+        $data = [
+            'nama_'.$db => $_REQUEST['nama_akun'],
+            'no_unik_'.$db => $_REQUEST['no_unik_akun'],
+            'email_'.$db => $_REQUEST['email_akun'],
+            'no_wa_'.$db => $_REQUEST['no_wa_akun']
+        ];
 
-        if($db == "dosbing"){
-            $dataDosbing = [
-                'nama_tabel' => 'Data Dosen',
-                'db'         => 'dosbing',
-                'data'       => $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE)
-            ];
+        $AddEditDelete->edit($db,$data,"id_".$db,$id);
 
-            $id_instansi = $dataDosbing['data']['id_instansi_dosbing'];
+        //session tentu harus ikut berubah juga, karena verif dobel data bergantung dari session
+        $_SESSION['loginData']['nama'] = $_REQUEST['nama_akun'];
+        $_SESSION['loginData']['no_unik'] = $_REQUEST['no_unik_akun'];
+        $_SESSION['loginData']['email'] = $_REQUEST['email_akun'];
 
-            $dataInstansi = [
-                'nama_tabel' => 'Data Instansi',
-                'db'         => 'instansi',
-                'data'       => $Get->get('instansi',NULL,NULL,['id_instansi' => $id_instansi],TRUE)
-            ];
-
-            $data['tables'] = [$dataDosbing,$dataInstansi];
-        
-        
-        }else if($db == "pemlap"){
-            $dataPemlap = [
-                'nama_tabel' => 'Data Pembimbing',
-                'db'         => 'pemlap',
-                'data'       => $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE)
-            ];
-
-            $id_instansi = $dataPemlap['data']['id_instansi_pemlap'];
-
-            $dataInstansi = [
-                'nama_tabel' => 'Data Instansi',
-                'db'         => 'instansi',
-                'data'       => $Get->get('instansi',NULL,NULL,['id_instansi' => $id_instansi],TRUE)
-            ];
-
-            $data['tables'] = [$dataPemlap,$dataInstansi];
-        
-        
-        }else if($db == "mhs"){
-            $dataMhs = [
-                'nama_tabel' => 'Data Mahasiswa',
-                'db'         => 'mhs',
-                'data'       => $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE)
-            ];
-
-            $id_dosbing = $dataMhs['data']['id_dosbing_mhs'];
-            $id_pemlap = $dataMhs['data']['id_pemlap_mhs'];
-            $id_instansi = $dataMhs['data']['id_instansi_mhs'];
-
-            $dataDosbing = [
-                'nama_tabel' => 'Dosen Pembimbing',
-                'db'         => 'dosbing',
-                'data'       => $Get->get('dosbing',NULL,NULL,['id_dosbing' => $id_dosbing],TRUE)
-            ];
-
-            $dataInstansi = [
-                'nama_tabel' => 'Data Instansi',
-                'db'         => 'instansi',
-                'data'       => $Get->get('instansi',NULL,NULL,['id_instansi' => $id_instansi],TRUE)
-            ];
-
-            if($id_pemlap == NULL){
-                $data['tables'] = [$dataMhs,$dataDosbing,$dataInstansi];
-            }else{
-                $dataPemlap = [
-                    'nama_tabel' => 'Pembimbing Lapangan',
-                    'db'         => 'pemlap',
-                    'data'       => $Get->get('pemlap',NULL,NULL,['id_pemlap' => $id_pemlap],TRUE)
-                ];
-
-                $data['tables'] = [$dataMhs,$dataDosbing,$dataPemlap,$dataInstansi];
-            }
-            
-        }
-
-        return view('pages/profil/lihat_profil',$data);
+        $alert['message'] = "Berhasil mengedit profil";
+        $alert['path'] = "Pages/Profil";
+        return view('alertBox',$alert);
     }
 }

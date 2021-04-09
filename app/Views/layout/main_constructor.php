@@ -31,7 +31,7 @@
     <!-- untuk data tables -->
     <script src="<?= base_url() ?>/DataTables-1.10.24/js/jquery.dataTables.min.js"></script>
     <script>
-        $(document).ready(function(){
+    $(document).ready(function(){
         $('table.table').dataTable();
     });
     </script>

@@ -26,7 +26,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                                     </p>
                                 </div><?php
                             }else if($item['name/id'] == 'peran_akun'){ ?>
-                                <div class = "col-lg-6 col-md-6 col-sm-12 col-xs-12 input-box">
+                                <div class = "col-lg-6 col-md-6 col-sm-12 col-xs-12 input-box" style="display:<?= $required[1][$i] ?>;">
                                 <?= $item['input_text'] ?> <br>
                                 <p>
                                     <select name="<?= $item['name/id'] ?>" class="selectpicker" id="<?= $item['name/id'] ?>" onchange="gantiNNN()">
@@ -37,7 +37,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                                 </p>
                                 </div><?php
                             }else if($item['name/id'] == 'instansi_akun'){ ?>
-                                <div class = "col-lg-6 col-md-6 col-sm-12 col-xs-12 input-box">
+                                <div class = "col-lg-6 col-md-6 col-sm-12 col-xs-12 input-box" style="display:<?= $required[1][$i] ?>;">
                                     <?= $item['input_text'] ?> <br>
                                     <p>
                                         <select name="<?= $item['name/id'] ?>" class="selectpicker" id="<?= $item['name/id'] ?>"> <?php
@@ -48,21 +48,21 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                                     </p> 
                                 </div><?php
                             }else{ ?>
-                                <div class = "col-lg-6 col-md-6 col-sm-12 col-xs-12 input-box utkmhs">
-                                <?= $item['input_text'] ?> <br>
-                                <p>
-                                    <select name="<?= $item['name/id'] ?>" class="selectpicker" id="<?= $item['name/id'] ?>"><?php
-                                        if($item['name/id'] == 'dosbing_akun'){
-                                            foreach($live_search['dosbing'] as $result){ ?>
-                                                <option value="<?= $result['id_dosbing']?>" data-subtext = "<?= $result['nama_instansi'] ?>" ><?= $result['nama_dosbing']?></option><?php
-                                            } ?><?php
-                                        }else if($item['name/id'] == 'pemlap_akun'){
-                                            foreach($live_search['pemlap'] as $result){ ?>
-                                                <option value="<?= $result['id_pemlap']?>" data-subtext = "<?= $result['nama_instansi'] ?>" ><?= $result['nama_pemlap']?></option><?php
-                                            } ?><?php
-                                        } ?>
-                                    </select>
-                                </p>
+                                <div class = "col-lg-6 col-md-6 col-sm-12 col-xs-12 input-box utkmhs" style="display:<?= $required[1][$i] ?>;">
+                                    <?= $item['input_text'] ?> <br>
+                                    <p>
+                                        <select name="<?= $item['name/id'] ?>" class="selectpicker" id="<?= $item['name/id'] ?>"><?php
+                                            if($item['name/id'] == 'dosbing_akun'){
+                                                foreach($live_search['dosbing'] as $result){ ?>
+                                                    <option value="<?= $result['id_dosbing']?>" data-subtext = "<?= $result['nama_instansi'] ?>" ><?= $result['nama_dosbing']?></option><?php
+                                                } ?><?php
+                                            }else if($item['name/id'] == 'pemlap_akun'){
+                                                foreach($live_search['pemlap'] as $result){ ?>
+                                                    <option value="<?= $result['id_pemlap']?>" data-subtext = "<?= $result['nama_instansi'] ?>" ><?= $result['nama_pemlap']?></option><?php
+                                                } ?><?php
+                                            } ?>
+                                        </select>
+                                    </p>
                                 </div><?php
                             }
                             $i++;
@@ -93,13 +93,49 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
         </form>
     </div><?php
 }} ?>
-
+<!-- <button onclick = "final_verify()">djkaja</button> -->
 <!-- loading bar -->
 <div id = 'bg-for-loading'>
     <div id = 'lds-dual-ring'></div>
 </div>
 <script src = "<?= base_url() ?>/js/script.js"></script>
 <script>
+    //jquery bila edit form
+    <?php
+    if($is_edit_form){ session()->get(); $db = $_SESSION['loginData']['db'];?>
+        $(document).ready(function(){
+            $("#peran_akun").val("<?= $db ?>").change();
+
+            if($('#nama_akun').length > 0){
+                $('#nama_akun').val("<?= $edit_data['nama_'.$db] ?>");
+            }
+            if($('#no_unik_akun').length > 0){
+                $('#no_unik_akun').val("<?= $edit_data['no_unik_'.$db] ?>");
+            }
+            if($('#email_akun').length > 0){
+                $('#email_akun').val("<?= $edit_data['email_'.$db] ?>");
+            }
+            if($('#no_wa_akun').length > 0){
+                $('#no_wa_akun').val("<?= $edit_data['no_wa_'.$db] ?>");
+            }
+            <?php if($db == "mhs"){ ?>
+            if($('#dosbing_akun').length > 0){ 
+                $('#dosbing_akun').val("<?= $edit_data['id_dosbing_'.$db] ?>").change();
+            }<?php } ?>
+            <?php if($db == "mhs"){ ?>
+            if($('#pemlap_akun').length > 0){
+                $('#pemlap_akun').val("<?= $edit_data['id_pemlap_'.$db] ?>").change();
+            }<?php } ?>
+            if($('#instansi_akun').length > 0){
+                $('#instansi_akun').val("<?= $edit_data['id_instansi_'.$db] ?>").change();
+            }
+            
+            
+        });    <?php
+    } ?>
+
+    //bila ada peran_akun
+    
     <?php
     if(in_array("peran_akun",$required[0]) && in_array("no_unik_akun",$required[0])){ ?>
         $(document).ready(function(){
@@ -160,17 +196,20 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
     
     function final_verify(){
         <?php
-        if($is_edit_form){ session()->get() ?>
+        if($is_edit_form){ ?>
 
             var edit_data = new Array();
-            edit_data.push(<?= $_SESSION['loginData']['email'] ?>)
-            edit_data.push(<?= $_SESSION['loginData']['no_unik'] ?>)
+            edit_data.push('<?= $edit_auth['email'] ?>')
+            edit_data.push('<?= $edit_auth['no_unik'] ?>')
             
 
 
             var valid = true;
-            required = verif_dobel_data_akun(for_auth,required);
+            required = verif_dobel_data_akun(for_auth,required,edit_data);
             if( ! verif_typo_akun(required)){
+                valid = false;
+            }
+            if(! required.includes('email_akun') || ! required.includes('no_unik_akun')){
                 valid = false;
             }
  
@@ -187,17 +226,22 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
         }else{ ?>
             var valid = true;
             required = verif_dobel_data_akun(for_auth,required);
-            console.log(required);
             if( ! verif_typo_akun(required)){
                 valid = false;
             }
-        
+            if(! required.includes('email_akun') || ! required.includes('no_unik_akun')){
+                valid = false;
+            }
 
 
             if(valid){
                 $('#bg-for-loading').css('display','block');
                 $('#lds-dual-ring').css('display','inline-block');
                 return true;
+            if(! required.includes('email_akun') || ! required.includes('no_unik_akun')){
+                valid = false;
+            }
+ 
             }else{
                 return false;
             }

@@ -9,14 +9,14 @@ class Signup extends BaseController
 {
     private $required = [
         ['nama_akun','no_unik_akun','email_akun','password_akun','konfirmasi_password_akun','no_wa_akun','peran_akun','dosbing_akun'],
-        ['block','block','block','block','block','block']
+        ['block','block','block','block','block','block','block','block']
     ];
 
     public function index(){
         $liveSearh = new LiveSearch();
         
-        $data['dosbing'] = $liveSearh->get_dosbing();
-        $data['for_auth'] = $this->data_for_auth();    
+        $data['liveSearch'] = ['dosbing' => $liveSearh->get_dosbing()];
+        $data['for_auth'] = $this->akun_for_auth();    
         $data['required'] = $this->required;  
         return view('signup/signup', $data);
     }

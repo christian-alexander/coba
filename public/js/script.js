@@ -162,14 +162,14 @@ function verif_password(tipe,pass1,pass2 = null){
 function verif_typo_akun(required){
     var valid = true;
 	
-    if(required.includes('nama_akun')){valid = verif_nama('akun');}
-    if(required.includes('email_akun')){valid = verif_email('akun');}
-    if(required.includes('no_wa_akun')){valid = verif_no('wa_akun');}
+    if(required.includes('nama_akun')){if(!verif_nama('akun')){valid = false;};}
+    if(required.includes('email_akun')){if(!verif_email('akun')){valid = false;};}
+    if(required.includes('no_wa_akun')){if(!verif_no('wa_akun')){valid = false;};}
     if(required.includes('no_unik_akun')){
         if($('#peran_akun') != 'pemlap'){
-        	valid = verif_no('unik_akun');
+        	if(!verif_no('unik_akun')){valid = false;};
         }else{
-            valid = verif_no('unik_akun',true);
+            if(!verif_no('unik_akun',true)){valid = false;};
         }
     }
     if(required.includes('password_akun')){
@@ -179,12 +179,14 @@ function verif_typo_akun(required){
             valid_konf = verif_password('akun',pass1,pass2);
         }
         valid_pass = verif_password('akun',pass1);
+        if(valid_pass && valid_konf){    
+            //nothing
+        }else{
+            valid = false;
+        }
     }
-    if(valid_pass && valid_konf){    
-        return true;
-    }else{
-        return false;
-    }
+    return valid;
+
 }
 
 function verif_dobel_data_akun(for_auth,required ,edit_data = null){
@@ -200,7 +202,7 @@ function verif_dobel_data_akun(for_auth,required ,edit_data = null){
                 valid_email = false;
             }
 
-            if($("#no_unik_akun").val() == for_auth[i][1] && $("#no_unik").val() != edit_data[1]){
+            if($("#no_unik_akun").val() == for_auth[i][1] && $("#no_unik_akun").val() != edit_data[1]){
                 valid_no_unik = false;
             }
         }else{

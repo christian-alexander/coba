@@ -5,6 +5,12 @@ use App\Controllers\BaseController;
 class Home extends BaseController
 {
     public function index(){
-        return view('pages/home');
+        session()->get();
+        if(isset($_SESSION['loginData'])){
+            return view('pages/home');
+        }else{
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+        
     }
 }

@@ -36,7 +36,7 @@
                         <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profil</a>
                         <div class="dropdown-menu dropdown-menu-nav">
                             <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Pages/Profil">Lihat Profil</a>
-                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/#">Edit Profil</a>
+                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Pages/Profil/edit_profil">Edit Profil</a>
                             <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Password_manager/Password_change">Ubah Password</a>
                         </div>
                     </li>

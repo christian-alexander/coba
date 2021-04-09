@@ -13,7 +13,7 @@ view_cell('\App\Libraries\Cells::form_akun',
             ['button_type' => 'btn-success', 'button_text' => 'Sign Up'],
             ['button_type' => 'btn-danger', 'button_text' => 'Cancel', 'button_action' => base_url()]
         ],
-        'live_search' => ['dosbing' => $dosbing],
+        'live_search' => $liveSearch,
         'for_auth' => $for_auth,
         'is_edit_form' => FALSE
     ]

@@ -113,6 +113,24 @@ td.login-table{
     .correct{
         background-color: #e8f0fe;
     }
+    
+    /* untuk dropdown hover */
+    .dropdown-nav:hover .dropdown-menu-nav {display: block;}
+
+    /* warna dropdown nav*/
+    .dropdown-menu-nav{
+        background-color: #343a40;
+        border : 0px solid black ;
+    }
+
+    .dropdown-item-nav{
+        color : rgba(256,256,256,0.5);
+    }
+
+    .dropdown-item-nav:hover{
+        background-color: #343a40;
+        color:white;
+    }
 
 
     

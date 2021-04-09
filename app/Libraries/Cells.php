@@ -35,7 +35,7 @@ class Cells
 {
     public function look_ur_email()
     {
-        return view('cells/password/look_ur_email');
+        return view('cells/verif_link/look_ur_email');
     }
 
     public function form_akun($arrConfig)
@@ -44,24 +44,24 @@ class Cells
     }
 
     
-    public function nav_su()
+    public function nav_su($selected_nav_item)
     {
-        return view('cells/nav/nav_su');
+        return view('cells/nav/nav_su',$selected_nav_item);
     }
 
     
-    public function nav_dosbing()
+    public function nav_dosbing($selected_nav_item)
     {
-        return view('cells/nav/nav_dosbing');
+        return view('cells/nav/nav_dosbing',$selected_nav_item);
     }
     
-    public function nav_pemlap()
+    public function nav_pemlap($selected_nav_item)
     {
-        return view('cells/nav/nav_pemlap');
+        return view('cells/nav/nav_pemlap',$selected_nav_item);
     }
     
-    public function nav_mhs()
+    public function nav_mhs($selected_nav_item)
     {
-        return view('cells/nav/nav_mhs');
+        return view('cells/nav/nav_mhs',$selected_nav_item);
     }
 }

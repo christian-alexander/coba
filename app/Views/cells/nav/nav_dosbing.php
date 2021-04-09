@@ -38,7 +38,7 @@
                         <div class="dropdown-menu dropdown-menu-nav">
                             <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/#">Lihat Profil</a>
                             <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/#">Edit Profil</a>
-                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/#">Ubah Password</a>
+                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Password_manager/Password_change">Ubah Password</a>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -48,3 +48,8 @@
             </div>
         </div>
     </nav>
+
+
+<script>
+    $('#<?= $selected[0] ?>').addClass('active');
+</script>

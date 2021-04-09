@@ -34,7 +34,7 @@ class Password_recovery extends BaseController
         }else{
             $captcha = $this->get_captcha(150);
             $pesan = 'Klik link berikut ini untuk mereset password anda<br><br>Link berlaku selama 60 detik.<br><br>'.base_url().'/Password_manager/Reset/reset_password/'.$captcha;
-            //$this->send_email("Pemulihan Password",$pesan,NULL,$email);
+            $this->send_email("Pemulihan Password",$pesan,NULL,$email);
             $ses_data = [
                 'db' => $dataCocok['db'],
                 'email' => $dataCocok['email'] 

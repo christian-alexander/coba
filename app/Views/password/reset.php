@@ -2,16 +2,32 @@
 
 <?= $this->section('content'); ?>
 
-<div style = "margin-top:2em;margin-bottom:2em;">
+<?php
+session()->get();
+if(isset($_SESSION['loginData'])){
+    $path = base_url()."/Password_manager/Password_change/save_new_password";
+    $path_cancel = base_url()."/Pages/Home";
+
+    echo view_cell("\App\Libraries\Cells::nav_".$_SESSION['loginData']['db'],['selected' => ['profil']]);
+    echo "<div style = 'margin-top:5em;'>";
+}else{
+    $path = base_url()."/Password_manager/Password_recovery/save_new_password";
+    $path_cancel = base_url();
+
+    echo "<div style = 'margin-top:2em;margin-bottom:2em;'>";
+}
+?>
+
+
 <?= 
 view_cell('\App\Libraries\Cells::form_akun',
     [
-        'config' => ['form_title' => 'Ubah Password','form_action' => base_url()."/Password_manager/Password_recovery/save_new_password",'show_password' => TRUE,'use_box' => TRUE],
+        'config' => ['form_title' => 'Ubah Password','form_action' => $path ,'show_password' => TRUE,'use_box' => TRUE],
         'required' => $required,
         'peran_display' => [],
         'button' => [
             ['button_type' => 'btn-success', 'button_text' => 'Ubah'],
-            ['button_type' => 'btn-danger', 'button_text' => 'Cancel', 'button_action' => base_url()]
+            ['button_type' => 'btn-danger', 'button_text' => 'Cancel', 'button_action' => $path_cancel]
         ],
         'live_search' => [],
         'for_auth' => [],

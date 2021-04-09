@@ -13,6 +13,8 @@ class Get extends Model
         // multi item allowed di joinArray untuk beberapa join sekaligus, ['tabel1','tabel2']
         // select untuk seleksi, dalam bentuk string, contoh = 'akun.nama_akun, dosbing.nama_dosbing'
         // akan me return dalam bentuk array bila single === False, default FALSE
+        
+        // NOTE : walaupun single false teteap harus memanggil nama kolom nya, single disini maksudnya single row, nah kan di dalam row adal bbrpa kolom
         $builder = $this->db->table($table);
         
         if($joinArray !== NULL){

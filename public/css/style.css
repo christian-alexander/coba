@@ -132,6 +132,25 @@ td.login-table{
         color:white;
     }
 
+    /* tabel data */
+    .div-tabel{
+        margin-top : 3em ;
+        text-align : center ;
+        padding : 2em ;
+        overflow-x: auto; 
+    }
+
+    
+    /* onphone tabel */
+
+    .onphone-hide{
+        display :relative ;
+    }
+
+    .ondesktop-hide{
+        display:none;
+    }
+
 
     
 /* LOADING ANIMATION */
@@ -196,6 +215,16 @@ td.login-table{
     #box-dalam-login{
 		margin-left:7.5%;
         margin-right:7.5%;
+    }
+
+    /* tabel */
+    
+    .onphone-hide{
+        display :none ;
+    }
+
+    .ondesktop-hide{
+        display:block;
     }
 }
 

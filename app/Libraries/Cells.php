@@ -56,6 +56,66 @@
 
 */
 
+
+/*
+        -----PEMANGGILAN CELLS DATA TABLE -----
+    
+    view_cell('\App\Libraries\Cells::data_table',
+        [
+            'config' => 
+                [
+                    'judul_tabel' => 'judul tabel nya',
+                    'id_tabel' => 'id_div_tabel' berguna untuk display block none, adapun display control dilakukan diluar cells, bila diperlukan,
+                    'default_display' => 'default display untuk tabel ini, bisa none block dll'
+                ]
+            'arr_head' =>   
+                [
+                    ['judul kolom1','boolean'],
+                    ['judul_kolom2','boolean'],
+                    dst
+                ], note: boolean di sini TRUE untuk kolom mutlak ada di phone atau desktop, FALSE bila akan tidak tampil di phone, yg di arr item booleannya juga sama maksudnya
+            'head_clickable' => 'judul untuk kolom clickable',
+            'arr_item' => 
+                [
+                    ['~kolom','boolean'],
+                    ['~kolom','boolean'],
+                    dst
+                ], note : ~kolom adalah kolom pada array data
+            'arr_clickable' =>
+                [
+                    [
+                        'jenis_icon' => 'jenis_iconnya',
+                        'toggle' => 'tulisan ketika dihover',
+                        'href' => 'href ketika icon diklik',
+                        'class' => class btn, karena tiap class btm punya jquery sendiri2
+                        'id' => '~kolom' note : id btn akan diisi secara dinamis, disini bukan diisi id aslinya, tapi diisi ingin gunakan kolom data apa (yang dari array data) sebagai pengisinnya
+                        'confirm_func' => 'nama_function_utk_confirm' note: nanti akan dibuat func jquery sesuai mama disini, isikan null bila tidak perlu confirm
+                        'confirm_msg' => "yakin pilih -id ?" note: berikan null bila tidak perlu konfirmasi
+                        note lagi : -id nanti akan diagantikan dengan id button
+                        
+                        'id_clicked' => '~kolom' note : sama,diisi dengan pengisi data dinamis
+                        'db_clicked' => nama db yang menjadi objek, bisa '~kolom' atau langsung dinyatakan contohnya 'instansi'
+                        note : clicked berguna sebagai penyalur data
+                    ],
+                    [arr clickable2], dst
+                ],
+            'is_lama_magang' => boolean true or false,
+            'kolom_lama_magang' => '~kolom' kolom mana yang akan dijadikan acuan, note : lama magang harus berformat Angka saja
+            'data' => arr_data_dari_db, ini yang terpenting agar data dari db bisa ditampilkan
+        ]
+    );
+    note :  yang dimasukkan ke dalam 'data' bisa saja array mentah dari db, ataupun array modifikasi dari db,
+            misal di db tidak ada lama magang hanya ada tanggal, maka pastikan untuk
+            sudah mengedit array data agar ada data lama magang terlebih dahulu dengan mengoperasikannya di view aslinya
+            kemudian buat array baru modifan dari yang asli db. baru array baru itu masukkan di parameter view cell
+			
+            untuk msg konfirm an akan mengambil dari id btn, di confirm_msg hadus pakai -id
+
+            jenis icon lihat di font google https://fonts.google.com/icons?selected=Material+Icons&icon.query=done
+
+*/
+
+
 class Cells
 {
     public function look_ur_email()
@@ -93,5 +153,9 @@ class Cells
     public function simple_table($arrConfig)
     {
         return view('cells/table/simple_table',$arrConfig);
+    }
+
+    public function data_table($arrConfig){
+        return view('cells/table/data_table',$arrConfig);
     }
 }

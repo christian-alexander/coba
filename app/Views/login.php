@@ -8,7 +8,7 @@
 	<!-- css lokal -->
 	<link rel="stylesheet" href="css/style.css">
 </head>
-<body id="body-login">
+<body id = "body-login">
 	<div class="container" id='box-login'>
 		<div class = teks-login>
 			<b><h3><?= TITLE ?></h3></b>

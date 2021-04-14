@@ -30,9 +30,4 @@
     <script src ="<?= base_url() ?>/bootstrap-select-1.13.18/js/bootstrap-select.min.js"></script>
     <!-- untuk data tables -->
     <script src="<?= base_url() ?>/DataTables-1.10.24/js/jquery.dataTables.min.js"></script>
-    <script>
-    $(document).ready(function(){
-        $('table.table').dataTable();
-    });
-    </script>
 </body>

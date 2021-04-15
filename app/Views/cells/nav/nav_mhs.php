@@ -24,7 +24,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item" id="home">
-                        <a class="nav-link" href="<?= base_url() ?>/Pages/Home">Home</a>
+                        <a class="nav-link" href="<?= base_url() ?>/Home">Home</a>
                     </li>
                     <li class="nav-item" id="absen">
                         <a class="nav-link" href="#">Absen</a>
@@ -35,8 +35,8 @@
                     <li class="nav-item dropdown dropdown-nav" id="profil">
                         <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profil</a>
                         <div class="dropdown-menu dropdown-menu-nav">
-                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Pages/Profil">Lihat Profil</a>
-                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Pages/Profil/edit_profil">Edit Profil</a>
+                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Akun_control/Profil">Lihat Profil</a>
+                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Akun_control/Profil/edit_profil">Edit Profil</a>
                             <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Password_manager/Password_change">Ubah Password</a>
                         </div>
                     </li>

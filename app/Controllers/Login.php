@@ -63,7 +63,7 @@ class Login extends BaseController
                 $path = '';
             }else{
                 $message = "Berhasil login";
-                $path = 'Pages/Home';
+                $path = 'Home';
                 $ses_data = [
                     'id' => $idUser,
                     'nama' => $namaUser,

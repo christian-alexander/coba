@@ -1,5 +1,8 @@
 <?php
-$h = 4;
-$ho = $h." hehe";
-echo $ho;
+$d = NULL;
+
+foreach($d as $i){
+    echo"dkaoak";
+}
+
 ?>

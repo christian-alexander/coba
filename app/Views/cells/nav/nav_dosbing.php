@@ -24,12 +24,12 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item" id="home">
-                        <a class="nav-link" href="<?= base_url() ?>/Pages/Home">Home
+                        <a class="nav-link" href="<?= base_url() ?>/Home">Home
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item" id="signup_request">
-                        <a class="nav-link" href="<?= base_url() ?>/#">SignUp Request</a>
+                        <a class="nav-link" href="<?= base_url() ?>/Signup/Signup_request">SignUp Request</a>
                     </li>
                     <li class="nav-item" id="laporan">
                         <a class="nav-link" href="#">Laporan</a>
@@ -37,8 +37,8 @@
                     <li class="nav-item dropdown dropdown-nav" id="profil">
                         <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profil</a>
                         <div class="dropdown-menu dropdown-menu-nav">
-                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Pages/Profil">Lihat Profil</a>
-                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Pages/Profil/edit_profil">Edit Profil</a>
+                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Akun_control/Profil">Lihat Profil</a>
+                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Akun_control/Profil/edit_profil">Edit Profil</a>
                             <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Password_manager/Password_change">Ubah Password</a>
                         </div>
                     </li>

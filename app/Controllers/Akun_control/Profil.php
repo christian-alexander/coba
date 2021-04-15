@@ -1,5 +1,5 @@
 <?php
-namespace App\Controllers\Pages;
+namespace App\Controllers\Akun_control;
 use App\Controllers\BaseController;
 use App\Models\Get;
 use App\Models\AddEditDelete;
@@ -95,7 +95,7 @@ class Profil extends BaseController
                 throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
             }
 
-            return view('pages/profil/lihat_profil',$data);
+            return view('profil/lihat_profil',$data);
     
         }else{
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
@@ -112,7 +112,7 @@ class Profil extends BaseController
         $db = $_SESSION['loginData']['db'];
         $id = $_SESSION['loginData']['id'];
         $data['edit_data'] = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE); 
-        return view('pages/profil/edit_profil', $data);
+        return view('profil/edit_profil', $data);
 
     }
 

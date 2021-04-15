@@ -1,5 +1,5 @@
 <?php
-namespace App\Controllers\Pages;
+namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\Get;
 
@@ -60,7 +60,7 @@ class Home extends BaseController
                 $data['data_db'] = NULL;
             }
 
-            return view('pages/home',$data);
+            return view('home',$data);
         }else{
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }

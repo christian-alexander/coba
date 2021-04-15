@@ -24,12 +24,12 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item" id="home">
-                        <a class="nav-link" href="<?= base_url() ?>/Pages/Home">Home
+                        <a class="nav-link" href="<?= base_url() ?>/Home">Home
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
                     <li class="nav-item" id="signup_request">
-                        <a class="nav-link" href="<?= base_url() ?>/#">SignUp Request</a>
+                        <a class="nav-link" href="<?= base_url() ?>/Signup/Signup_request">SignUp Request</a>
                     </li>
                     <li class="nav-item dropdown dropdown-nav" id="surat_izin">
                         <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Surat Izin</a>

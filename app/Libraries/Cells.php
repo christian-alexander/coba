@@ -100,7 +100,7 @@
                     [arr clickable2], dst
                 ],
             'is_lama_magang' => boolean true or false,
-            'kolom_lama_magang' => '~kolom' kolom mana yang akan dijadikan acuan, note : lama magang harus berformat Angka saja
+            'kolom_lama_magang' => '~kolom' kolom mana yang akan dijadikan acuan, note : lama magang harus berformat Angka saja, isi NULL bila tidak pakai
             'data' => arr_data_dari_db, ini yang terpenting agar data dari db bisa ditampilkan
         ]
     );

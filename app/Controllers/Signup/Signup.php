@@ -67,7 +67,6 @@ class Signup extends BaseController
                     'password_sg_mhs' => $_SESSION['signup_data']['password_akun'],
                     'no_wa_sg_mhs' => $_SESSION['signup_data']['no_wa_akun'],
                     'id_dosbing_sg_mhs' => $_SESSION['signup_data']['dosbing_akun'],
-                    'id_pemlap_sg_mhs' => NULL,
                     'id_instansi_sg_mhs' => 0
                 ];
                 $AddEditDelete->add('sg_mhs',$data);

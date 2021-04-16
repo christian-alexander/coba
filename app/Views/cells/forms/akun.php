@@ -209,7 +209,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
             if( ! verif_typo_akun(required)){
                 valid = false;
             }
-            if(! required.includes('email_akun') || ! required.includes('no_unik_akun')){
+            if(! required.includes('email_akun') && ! required.includes('no_unik_akun')){
                 valid = false;
             }
  
@@ -229,7 +229,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
             if( ! verif_typo_akun(required)){
                 valid = false;
             }
-            if(! required.includes('email_akun') || ! required.includes('no_unik_akun')){
+            if(! required.includes('email_akun') && ! required.includes('no_unik_akun')){
                 valid = false;
             }
 

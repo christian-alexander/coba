@@ -54,7 +54,9 @@
                                 } ?>
                                     <span><a href="#" class="<?= $item2['jenis_icon'] ?>" title="<?= $item2['toggle'] ?>" data-toggle="tooltip"><button type="submit" style="background:rgba(0,0,0,0);color:inherit;border:0px solid white;" id="<?= $id ?>" class="<?= $class ?>"><i class="material-icons"><?= $item2['jenis_icon'] ?></i></button></a></span> 
                                     <?php
-                                    if(strpos($item2['db_clicked'],'~') > 0){
+                                    //penting untuk menggunakan === atau !== bila membandingkan tipe data, karena seperti kasus strpos ini dia bisa return boolean atau int
+                                    //nah sebelumnya pakai != tidak bisa setelah diganti !== bisa
+                                    if(strpos($item2['db_clicked'],'~') !== FALSE){
                                         $kolom_db_clickable = str_replace("~",'',$item2['db_clicked']); 
                                     	$db_clickable = $item[$kolom_db_clickable];
                                     }else{
@@ -92,6 +94,11 @@
 </div> 
 
 
+<!-- loading bar -->
+<div id = 'bg-for-loading'>
+    <div id = 'lds-dual-ring'></div>
+</div>
+
 <script>
     $(document).ready(function(){
         $('table.table').dataTable();
@@ -105,6 +112,8 @@
                 var msg_awal = '<?= $item['confirm_msg'] ?>';
                 var msg = msg_awal.replace("-id",this.id);
                 if(confirm(msg)){
+                    $('#bg-for-loading').css('display','block');
+                    $('#lds-dual-ring').css('display','inline-block');
                     return true;
                 }else{
                     return false;

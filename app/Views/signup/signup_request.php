@@ -6,7 +6,7 @@
 <?php
 session()->get();
 
-echo view_cell('\App\Libraries\Cells::nav_'.$_SESSION['loginData']['db'],['selected' => ['home']]);
+echo view_cell('\App\Libraries\Cells::nav_'.$_SESSION['loginData']['db'],['selected' => ['signup_request']]);
 
 //membuat array data, disini sg secara general jadi jgn lupa untuk mengubah lagi ke sg msg2 di controller, ketika akan get datanya lewat $_REQUEST
 $data = [];
@@ -43,7 +43,7 @@ if($data_db[1] != NULL){
         $arr_dalam['no_wa_'] = $item['no_wa_sg_dosbing'];
         $arr_dalam['nama_instansi'] = $item['nama_instansi'];
         $arr_dalam['nama_dosbing'] = "Tidak Ada";
-        $arr_dalam['timestamp_'] = $item['timestamp_sg_mhs'];
+        $arr_dalam['timestamp_'] = $item['timestamp_sg_dosbing'];
         
         array_push($data,$arr_dalam);
     }
@@ -86,7 +86,7 @@ echo view_cell('\App\Libraries\Cells::data_table',
             [
                 'jenis_icon' => 'done',
                 'toggle' => 'Terima',
-                'href' => '', 
+                'href' => base_url().'/Signup/Signup_request/terima_signup', 
                 'class' => 'terima',
                 'id' => '~nama_',
                 'confirm_func' => 'terima',
@@ -98,7 +98,7 @@ echo view_cell('\App\Libraries\Cells::data_table',
             [
                 'jenis_icon' => 'block',
                 'toggle' => 'Tolak',
-                'href' => '', 
+                'href' => base_url().'/Signup/Signup_request/tolak_signup', 
                 'class' => 'tolak',
                 'id' => '~nama_',
                 'confirm_func' => 'tolak',

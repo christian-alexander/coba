@@ -1,4 +1,4 @@
-<?php var_dump($_SESSION['captcha']); ?>
+<?php //var_dump($_SESSION['captcha']); ?>
     <div id="body-login" style="position:fixed;width:100%;height:100%;">
         <div class="container" id='box-login' style="background-color:white;">
             <div id='box-dalam-login'>
@@ -24,10 +24,16 @@
         </div>
     </div>
 
+    <!-- loading bar -->
+    <div id = 'bg-for-loading'>
+        <div id = 'lds-dual-ring'></div>
+    </div>
 
     <script>
         
         function reload(){
+            $('#bg-for-loading').css('display','block');
+            $('#lds-dual-ring').css('display','inline-block');
             location.reload();
         }
         

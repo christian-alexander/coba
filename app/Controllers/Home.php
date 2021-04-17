@@ -9,50 +9,22 @@ class Home extends BaseController
         session()->get();
         $Get = new Get();
         if(isset($_SESSION['loginData'])){
-            //akan dilakukan 2 kali pengulangan untuk data_db yang ada pemlap dan tidak
-            //untuk halaman home su dosbing dan pemlap
+            //utk home su dosbing pemlap
+            $joinArray = [
+                ['dosbing','dosbing.id_dosbing = mhs.id_dosbing_mhs','left'],
+                ['pemlap','pemlap.id_pemlap = mhs.id_pemlap_mhs','left'],
+                ['instansi','instansi.id_instansi = mhs.id_instansi_mhs','left'],
+                ['status_magang','status_magang.id_mhs = mhs.id_mhs']
+            ];
+            $select = 'mhs.timestamp_mhs, mhs.id_mhs, mhs.nama_mhs, mhs.no_unik_mhs, IFNULL(dosbing.nama_dosbing,"Tidak Ada") as nama_dosbing, IFNULL(pemlap.nama_pemlap,"Tidak Ada") as nama_pemlap, IFNULL(instansi.nama_instansi,"Tidak Ada") as nama_instansi, status_magang.*';
             
-            //pengulangan pertama
-            $joinArray = [
-                ['dosbing','dosbing.id_dosbing = mhs.id_dosbing_mhs'],
-                ['pemlap','pemlap.id_pemlap = mhs.id_pemlap_mhs'],
-                ['instansi','instansi.id_instansi = mhs.id_instansi_mhs'],
-                ['status_magang','status_magang.id_mhs = mhs.id_mhs']
-            ];
-            $select = 'mhs.timestamp_mhs, mhs.id_mhs, mhs.nama_mhs, mhs.no_unik_mhs, mhs.id_pemlap_mhs, dosbing.nama_dosbing, pemlap.nama_pemlap, instansi.nama_instansi, status_magang.*';
-            if($_SESSION['loginData']['db'] == "su"){
-                $data['data_db'] = $Get->get('mhs',$joinArray,$select,['mhs.status_mhs' => 'on']);
-            }else if($_SESSION['loginData']['db'] == "dosbing"){
-                $data['data_db'] = $Get->get('mhs',$joinArray,$select,['mhs.status_mhs' => 'on','mhs.id_dosbing_mhs' => $_SESSION['loginData']['id'] ]);
-            }else if($_SESSION['loginData']['db'] == "pemlap"){
-                $data['data_db'] = $Get->get('mhs',$joinArray,$select,['mhs.status_mhs' => 'on','mhs.id_pemlap_mhs' => $_SESSION['loginData']['id'] ]);
-            }
+            $db = $_SESSION['loginData']['db'];
+            $id = $_SESSION['loginData']['id'];
 
-            //pengulangan kedua untuk yang pemlapnya null
-            $joinArray = [
-                ['dosbing','dosbing.id_dosbing = mhs.id_dosbing_mhs'],
-                ['instansi','instansi.id_instansi = mhs.id_instansi_mhs'],
-                ['status_magang','status_magang.id_mhs = mhs.id_mhs']
-            ];
-            $select = 'mhs.timestamp_mhs, mhs.id_mhs, mhs.nama_mhs, mhs.no_unik_mhs, mhs.id_pemlap_mhs,dosbing.nama_dosbing, instansi.nama_instansi,status_magang.*';
-            if($_SESSION['loginData']['db'] == "su"){
-                $array = $Get->get('mhs',$joinArray,$select,['mhs.status_mhs' => 'on']);
-                //mencari yang tidak tidak punya pemlap untuk kemudian ditambahkan
-                foreach($array as $item){
-                    if($item['id_pemlap_mhs'] == NULL){
-                        array_push($data['data_db'],$item);
-                    }
-                }
-            }else if($_SESSION['loginData']['db'] == "dosbing"){
-                $array = $Get->get('mhs',$joinArray,$select,['mhs.status_mhs' => 'on','mhs.id_dosbing_mhs' => $_SESSION['loginData']['id'] ]);
-                //mencari yang tidak punya pemlap untuk kemudian ditambahkan
-                foreach($array as $item){
-                    if($item['id_pemlap_mhs'] == NULL){
-                        array_push($data['data_db'],$item);
-                    }
-                }
-            }else if($_SESSION['loginData']['db'] == "pemlap"){
-                //none kan gaada pemlapnya emang
+            if($db == "su"){
+                $data['data_db'] = $Get->get('mhs',$joinArray,$select,['mhs.status_mhs' => 'on']);
+            }else if($db == "dosbing" || $db == "pemlap"){
+                $data['data_db'] = $Get->get('mhs',$joinArray,$select,['mhs.status_mhs' => 'on','mhs.id_'.$db.'_mhs' => $id ]);
             }
 
             //untuk home mhs

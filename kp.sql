@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2021 at 04:55 PM
+-- Generation Time: Apr 18, 2021 at 01:59 AM
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
@@ -35,8 +35,7 @@ CREATE TABLE `dosbing` (
   `nama_dosbing` char(100) NOT NULL,
   `no_wa_dosbing` char(15) NOT NULL,
   `id_instansi_dosbing` int(50) DEFAULT NULL,
-  `acc_by_su_dosbing` int(50) DEFAULT NULL,
-  `acc_by_dosbing_dosbing` int(50) DEFAULT NULL,
+  `acc_by_dosbing` varchar(100) NOT NULL,
   `password_dosbing` varchar(1000) NOT NULL,
   `status_dosbing` char(5) NOT NULL DEFAULT 'on'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -45,9 +44,9 @@ CREATE TABLE `dosbing` (
 -- Dumping data for table `dosbing`
 --
 
-INSERT INTO `dosbing` (`timestamp_dosbing`, `id_dosbing`, `email_dosbing`, `no_unik_dosbing`, `nama_dosbing`, `no_wa_dosbing`, `id_instansi_dosbing`, `acc_by_su_dosbing`, `acc_by_dosbing_dosbing`, `password_dosbing`, `status_dosbing`) VALUES
-('2021-02-04 11:14:41', 1, 'dosen1@gmail.com', '777001', 'DosenSatu', '08123456789', 0, 1, NULL, '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on'),
-('2021-04-14 03:37:34', 2, 'dosen2@gmail.com', '777002', 'DosenDua', '08221789', 0, 1, NULL, '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on');
+INSERT INTO `dosbing` (`timestamp_dosbing`, `id_dosbing`, `email_dosbing`, `no_unik_dosbing`, `nama_dosbing`, `no_wa_dosbing`, `id_instansi_dosbing`, `acc_by_dosbing`, `password_dosbing`, `status_dosbing`) VALUES
+('2021-02-04 11:14:41', 1, 'dosen1@gmail.com', '777001', 'DosenSatu', '08123456789', 0, 'Tata Usaha', '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on'),
+('2021-04-14 03:37:34', 2, 'dosen2@gmail.com', '777002', 'DosenDua', '08221789', 0, 'Tata Usaha', '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on');
 
 -- --------------------------------------------------------
 
@@ -118,9 +117,8 @@ CREATE TABLE `mhs` (
   `id_instansi_mhs` int(50) DEFAULT NULL,
   `id_dosbing_mhs` int(50) DEFAULT NULL,
   `id_pemlap_mhs` int(50) DEFAULT NULL,
+  `acc_by_mhs` varchar(100) NOT NULL,
   `jam_magang` char(10) NOT NULL DEFAULT '0',
-  `acc_by_su_mhs` int(50) DEFAULT NULL,
-  `acc_by_dosbing_mhs` int(50) DEFAULT NULL,
   `password_mhs` varchar(1000) NOT NULL,
   `status_mhs` varchar(5) NOT NULL DEFAULT 'on'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -129,10 +127,10 @@ CREATE TABLE `mhs` (
 -- Dumping data for table `mhs`
 --
 
-INSERT INTO `mhs` (`timestamp_mhs`, `id_mhs`, `email_mhs`, `no_unik_mhs`, `nama_mhs`, `no_wa_mhs`, `id_instansi_mhs`, `id_dosbing_mhs`, `id_pemlap_mhs`, `jam_magang`, `acc_by_su_mhs`, `acc_by_dosbing_mhs`, `password_mhs`, `status_mhs`) VALUES
-('2021-02-11 01:48:47', 4, 'mhs1@gmail.com', '999001', 'MahasiswaSatu', '08123456789', 1, 1, 1, '0', 1, NULL, '$2y$10$.6DaLqi.2Bk3MugduABZweGsnyNkfp5pmKu6Qr9F2ZVMLjcgjY.nC', 'on'),
-('2021-02-11 08:09:20', 7, 'mhs2@gmail.com', '999002', 'MahasiswaDua', '08123456789', 0, 2, 1, '0', 1, NULL, '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on'),
-('2021-03-12 03:09:03', 12, 'satdua86@gmail.com', '999003', 'satdua', '0288292929', 0, 1, NULL, '0', 1, NULL, '$2y$10$ieVaJcinjj6evnp2Ysj18eIKv4HOSXymUYJVBAuNgSd3s5GAIv4ku', 'on');
+INSERT INTO `mhs` (`timestamp_mhs`, `id_mhs`, `email_mhs`, `no_unik_mhs`, `nama_mhs`, `no_wa_mhs`, `id_instansi_mhs`, `id_dosbing_mhs`, `id_pemlap_mhs`, `acc_by_mhs`, `jam_magang`, `password_mhs`, `status_mhs`) VALUES
+('2021-02-11 01:48:47', 4, 'mhs1@gmail.com', '999001', 'MahasiswaSatu', '08123456789', 0, 1, NULL, 'Tata Usaha', '0', '$2y$10$.6DaLqi.2Bk3MugduABZweGsnyNkfp5pmKu6Qr9F2ZVMLjcgjY.nC', 'on'),
+('2021-02-11 08:09:20', 7, 'mhs2@gmail.com', '999002', 'MahasiswaDua', '08123456789', 0, 2, NULL, 'Tata Usaha', '0', '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on'),
+('2021-03-12 03:09:03', 12, 'satdua86@gmail.com', '999003', 'satdua', '0288292929', 0, 1, NULL, 'Tata Usaha', '0', '$2y$10$ieVaJcinjj6evnp2Ysj18eIKv4HOSXymUYJVBAuNgSd3s5GAIv4ku', 'on');
 
 --
 -- Triggers `mhs`
@@ -179,8 +177,7 @@ CREATE TABLE `pemlap` (
   `nama_pemlap` char(100) NOT NULL,
   `no_wa_pemlap` char(15) NOT NULL,
   `id_instansi_pemlap` int(50) DEFAULT NULL,
-  `acc_by_su_pemlap` int(50) DEFAULT NULL,
-  `acc_by_dosbing_pemlap` int(50) DEFAULT NULL,
+  `acc_by_pemlap` varchar(100) NOT NULL,
   `password_pemlap` varchar(1000) NOT NULL,
   `status_pemlap` char(5) NOT NULL DEFAULT 'on'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -189,8 +186,8 @@ CREATE TABLE `pemlap` (
 -- Dumping data for table `pemlap`
 --
 
-INSERT INTO `pemlap` (`timestamp_pemlap`, `id_pemlap`, `email_pemlap`, `no_unik_pemlap`, `nama_pemlap`, `no_wa_pemlap`, `id_instansi_pemlap`, `acc_by_su_pemlap`, `acc_by_dosbing_pemlap`, `password_pemlap`, `status_pemlap`) VALUES
-('2021-02-04 11:16:11', 1, 'pemlap1@gmail.com', '888001', 'PemlapSatu', '08123456789', 3, 1, NULL, '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on');
+INSERT INTO `pemlap` (`timestamp_pemlap`, `id_pemlap`, `email_pemlap`, `no_unik_pemlap`, `nama_pemlap`, `no_wa_pemlap`, `id_instansi_pemlap`, `acc_by_pemlap`, `password_pemlap`, `status_pemlap`) VALUES
+('2021-02-04 11:16:11', 1, 'pemlap1@gmail.com', '888001', 'PemlapSatu', '08123456789', 3, 'Tata Usaha', '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on');
 
 -- --------------------------------------------------------
 
@@ -224,8 +221,7 @@ CREATE TABLE `sg_mhs` (
   `nama_sg_mhs` char(100) NOT NULL,
   `no_wa_sg_mhs` char(15) NOT NULL,
   `id_instansi_sg_mhs` int(50) DEFAULT NULL,
-  `id_dosbing_sg_mhs` int(50) DEFAULT NULL,
-  `id_pemlap_sg_mhs` int(50) DEFAULT NULL
+  `id_dosbing_sg_mhs` int(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -307,9 +303,7 @@ INSERT INTO `template_izin` (`id`, `nama_file`, `subjek_email`, `isi_email`) VAL
 --
 ALTER TABLE `dosbing`
   ADD PRIMARY KEY (`id_dosbing`),
-  ADD KEY `instansi` (`id_instansi_dosbing`),
-  ADD KEY `dosen_pembimbing_ibfk_3` (`acc_by_su_dosbing`),
-  ADD KEY `acc_by_dosbing_dosbing` (`acc_by_dosbing_dosbing`);
+  ADD KEY `instansi` (`id_instansi_dosbing`);
 
 --
 -- Indexes for table `instansi`
@@ -335,9 +329,7 @@ ALTER TABLE `mhs`
   ADD PRIMARY KEY (`id_mhs`),
   ADD KEY `id_instansi` (`id_instansi_mhs`),
   ADD KEY `id_dosbing` (`id_dosbing_mhs`),
-  ADD KEY `id_pemlap` (`id_pemlap_mhs`),
-  ADD KEY `akun_acc_by` (`acc_by_dosbing_mhs`),
-  ADD KEY `acc_by_su_mhs` (`acc_by_su_mhs`);
+  ADD KEY `id_pemlap` (`id_pemlap_mhs`);
 
 --
 -- Indexes for table `nama_status_magang`
@@ -350,9 +342,7 @@ ALTER TABLE `nama_status_magang`
 --
 ALTER TABLE `pemlap`
   ADD PRIMARY KEY (`id_pemlap`),
-  ADD KEY `akun_acc_by` (`acc_by_su_pemlap`),
-  ADD KEY `id_instansi` (`id_instansi_pemlap`),
-  ADD KEY `acc_by_dosbing_pemlap` (`acc_by_dosbing_pemlap`);
+  ADD KEY `id_instansi` (`id_instansi_pemlap`);
 
 --
 -- Indexes for table `sg_dosbing`
@@ -367,8 +357,7 @@ ALTER TABLE `sg_dosbing`
 ALTER TABLE `sg_mhs`
   ADD PRIMARY KEY (`id_sg_mhs`),
   ADD KEY `id_instansi` (`id_instansi_sg_mhs`),
-  ADD KEY `id_dosbing` (`id_dosbing_sg_mhs`),
-  ADD KEY `id_pemlap` (`id_pemlap_sg_mhs`);
+  ADD KEY `id_dosbing` (`id_dosbing_sg_mhs`);
 
 --
 -- Indexes for table `status_magang`
@@ -398,7 +387,7 @@ ALTER TABLE `template_izin`
 -- AUTO_INCREMENT for table `dosbing`
 --
 ALTER TABLE `dosbing`
-  MODIFY `id_dosbing` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_dosbing` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `instansi`
@@ -416,7 +405,7 @@ ALTER TABLE `izin`
 -- AUTO_INCREMENT for table `mhs`
 --
 ALTER TABLE `mhs`
-  MODIFY `id_mhs` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_mhs` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `pemlap`
@@ -428,19 +417,19 @@ ALTER TABLE `pemlap`
 -- AUTO_INCREMENT for table `sg_dosbing`
 --
 ALTER TABLE `sg_dosbing`
-  MODIFY `id_sg_dosbing` int(50) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_sg_dosbing` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sg_mhs`
 --
 ALTER TABLE `sg_mhs`
-  MODIFY `id_sg_mhs` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_sg_mhs` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `status_magang`
 --
 ALTER TABLE `status_magang`
-  MODIFY `id_status_magang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_status_magang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `su`
@@ -456,9 +445,7 @@ ALTER TABLE `su`
 -- Constraints for table `dosbing`
 --
 ALTER TABLE `dosbing`
-  ADD CONSTRAINT `dosbing_ibfk_1` FOREIGN KEY (`id_instansi_dosbing`) REFERENCES `instansi` (`id_instansi`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `dosbing_ibfk_2` FOREIGN KEY (`acc_by_su_dosbing`) REFERENCES `su` (`id_su`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `dosbing_ibfk_3` FOREIGN KEY (`acc_by_dosbing_dosbing`) REFERENCES `dosbing` (`id_dosbing`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `dosbing_ibfk_1` FOREIGN KEY (`id_instansi_dosbing`) REFERENCES `instansi` (`id_instansi`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `instansi`
@@ -481,17 +468,13 @@ ALTER TABLE `izin`
 ALTER TABLE `mhs`
   ADD CONSTRAINT `mhs_ibfk_1` FOREIGN KEY (`id_instansi_mhs`) REFERENCES `instansi` (`id_instansi`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `mhs_ibfk_2` FOREIGN KEY (`id_dosbing_mhs`) REFERENCES `dosbing` (`id_dosbing`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `mhs_ibfk_5` FOREIGN KEY (`id_pemlap_mhs`) REFERENCES `pemlap` (`id_pemlap`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `mhs_ibfk_6` FOREIGN KEY (`acc_by_su_mhs`) REFERENCES `su` (`id_su`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `mhs_ibfk_7` FOREIGN KEY (`acc_by_dosbing_mhs`) REFERENCES `dosbing` (`id_dosbing`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `mhs_ibfk_5` FOREIGN KEY (`id_pemlap_mhs`) REFERENCES `pemlap` (`id_pemlap`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pemlap`
 --
 ALTER TABLE `pemlap`
-  ADD CONSTRAINT `pemlap_ibfk_1` FOREIGN KEY (`id_instansi_pemlap`) REFERENCES `instansi` (`id_instansi`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `pemlap_ibfk_2` FOREIGN KEY (`acc_by_su_pemlap`) REFERENCES `su` (`id_su`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `pemlap_ibfk_3` FOREIGN KEY (`acc_by_dosbing_pemlap`) REFERENCES `dosbing` (`id_dosbing`);
+  ADD CONSTRAINT `pemlap_ibfk_1` FOREIGN KEY (`id_instansi_pemlap`) REFERENCES `instansi` (`id_instansi`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `sg_dosbing`
@@ -504,8 +487,7 @@ ALTER TABLE `sg_dosbing`
 --
 ALTER TABLE `sg_mhs`
   ADD CONSTRAINT `sg_mhs_ibfk_1` FOREIGN KEY (`id_dosbing_sg_mhs`) REFERENCES `dosbing` (`id_dosbing`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `sg_mhs_ibfk_3` FOREIGN KEY (`id_instansi_sg_mhs`) REFERENCES `instansi` (`id_instansi`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `sg_mhs_ibfk_4` FOREIGN KEY (`id_pemlap_sg_mhs`) REFERENCES `pemlap` (`id_pemlap`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `sg_mhs_ibfk_3` FOREIGN KEY (`id_instansi_sg_mhs`) REFERENCES `instansi` (`id_instansi`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `status_magang`

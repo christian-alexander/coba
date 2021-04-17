@@ -20,11 +20,7 @@ if($_SESSION['loginData']['db'] == "su" || $_SESSION['loginData']['db'] == "dosb
         $arr_dalam['no_unik_mhs'] = $item['no_unik_mhs'];
         $arr_dalam['nama_dosbing'] = $item['nama_dosbing'];
         $arr_dalam['nama_instansi'] = $item['nama_instansi'];
-        if($item['id_pemlap_mhs'] != NULL){
-            $arr_dalam['nama_pemlap'] = $item['nama_pemlap'];
-        }else{
-            $arr_dalam['nama_pemlap'] = "Tidak Ada";
-        }
+        $arr_dalam['nama_pemlap'] = $item['nama_pemlap'];
 
         //untuk menghitung lama magang
         if($item['time4']!="" && $item['time4']!=NULL){ 

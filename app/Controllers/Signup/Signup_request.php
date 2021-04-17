@@ -62,7 +62,7 @@ class Signup_request extends BaseController
         $data['no_wa_'.$to_db]                                   = $data_sg['no_wa_'.$db];
         $data['id_instansi_'.$to_db]                             = $data_sg['id_instansi_'.$db];
         $data['password_'.$to_db]                                = $data_sg['password_'.$db];
-        $data['acc_by_'.$_SESSION['loginData']['db'].'_'.$to_db] = $_SESSION['loginData']['id'];
+        $data['acc_by_'.$_SESSION['loginData']['db']]            = $_SESSION['loginData']['nama'];
         if($db == "sg_mhs"){
             $data['id_dosbing_'.$to_db] = $data_sg['id_dosbing_'.$db];
             $data['id_pemlap_'.$to_db] = NULL;

@@ -88,7 +88,7 @@
                         'toggle' => 'tulisan ketika dihover',
                         'href' => 'href ketika icon diklik',
                         'class' => class btn, karena tiap class btm punya jquery sendiri2
-                        'id' => '~kolom' note : id btn akan diisi secara dinamis, disini bukan diisi id aslinya, tapi diisi ingin gunakan kolom data apa (yang dari array data) sebagai pengisinnya
+                        'id' => '~kolom' note : id btn akan diisi secara dinamis, disini bukan diisi id aslinya, tapi diisi ingin gunakan kolom data apa (yang dari array data) sebagai pengisinnya, isikan NULL bila tidak pakai confirm func
                         'confirm_func' => 'nama_function_utk_confirm' note: nanti akan dibuat func jquery sesuai mama disini, isikan null bila tidak perlu confirm
                         'confirm_msg' => "yakin pilih -id ?" note: berikan null bila tidak perlu konfirmasi
                         note lagi : -id nanti akan diagantikan dengan id button

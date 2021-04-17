@@ -49,7 +49,7 @@
                     <li class="nav-item dropdown dropdown-nav" id="akun">
                         <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Akun</a>
                         <div class="dropdown-menu dropdown-menu-nav">
-                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/#">Daftar Akun</a>
+                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Akun_control/Akun">Daftar Akun</a>
                             <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/#">Tambahkan Akun</a>
                             <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Password_manager/Password_change">Ubah Password</a>
                         </div>

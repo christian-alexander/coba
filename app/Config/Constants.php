@@ -164,20 +164,20 @@ defined('FORM_AKUN_NAMING') || define('FORM_AKUN_NAMING',[
         'input_text' => 'Peran'
     ],
 
-    'instansi_akun' => [
-        'name/id'    => 'instansi_akun',
+    'id_instansi_akun' => [
+        'name/id'    => 'id_instansi_akun',
         'input_type' => 'selection',
         'input_text' => 'Instansi'
     ],
 
-    'dosbing_akun' => [
-        'name/id'    => 'dosbing_akun',
+    'id_dosbing_akun' => [
+        'name/id'    => 'id_dosbing_akun',
         'input_type' => 'selection',
         'input_text' => 'Dosen Pembimbing'
     ],
 
-    'pemlap_akun' => [
-        'name/id'    => 'pemlap_akun',
+    'id_pemlap_akun' => [
+        'name/id'    => 'id_pemlap_akun',
         'input_type' => 'selection',
         'input_text' => 'Pembimbing Lapangan'
     ]

@@ -15,7 +15,6 @@
             ['button_type' => 'btn-danger', 'button_text' => '(teks dalam btn)', 'button_action' => "(lokasi bila btn di-klik, tidak diperlukan bila btn default form)"]
         ], (button type menggunakan tipe2 button BootStrap4)
         'live_search' => ['instansi' => $instansi,'dosbing' => $dosbing] ini hanya meneruskan data yang dari controller
-        'for_auth' => array_for_auth yang dari BaseController
         'is_edit_form => boolean, is edit form atau tidak
     ]
 ); 
@@ -27,7 +26,6 @@
 - button adalah array sederet button yang diperlukan, berisi array lagi (numerik) dan array lagi (assoc) yang berisi button_type, button_text, dan button_action, bila ada, default action null untuk mendeteksi button default untuk form tsb
 - live_search adalah array untuk memasukkan komponen data live search, yang sebelumnya didapat dari controllernya
    live search naming selalu paten yaitu dosbing,pemlap,dan instansi, jangan gunakan nama yang lain
-- for_auth untuk mengecek ada dobelan data atau tidak di database
 */
 
 /*

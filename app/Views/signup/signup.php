@@ -6,7 +6,7 @@
 <?= 
 view_cell('\App\Libraries\Cells::form_akun',
     [
-        'config' => ['form_title' => 'Sign Up','form_action' => base_url()."/Signup/Signup/captcha_signup",'show_password' => TRUE,'use_box' => TRUE],
+        'config' => ['form_title' => 'Sign Up','form_action' => base_url()."/Signup/Signup/auth_signup",'show_password' => TRUE,'use_box' => TRUE],
         'required' => $required,
         'peran_display' => ['block','none','block'],
         'button' => [
@@ -14,7 +14,6 @@ view_cell('\App\Libraries\Cells::form_akun',
             ['button_type' => 'btn-danger', 'button_text' => 'Cancel', 'button_action' => base_url()]
         ],
         'live_search' => $liveSearch,
-        'for_auth' => $for_auth,
         'is_edit_form' => FALSE
     ]
 ); 

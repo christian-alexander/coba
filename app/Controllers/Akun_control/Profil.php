@@ -19,7 +19,7 @@ class Profil extends BaseController
             $db = $_SESSION['loginData']['db'];
             $id = $_SESSION['loginData']['id'];
 
-
+            //sengaja nda di join2 karena datanya sendiri2 utk tiap tabel data, di join2 malah bingung misah datanya per tabel
             if($db == "dosbing"){
                 $dataDosbing = [
                     'nama_tabel' => 'Data Dosen',
@@ -105,15 +105,36 @@ class Profil extends BaseController
     public function edit_profil(){
         $Get = new Get();
         session()->get();
-
-        $data['for_auth'] = $this->akun_for_auth();    
+   
         $data['required'] = $this->required;  
 
         $db = $_SESSION['loginData']['db'];
         $id = $_SESSION['loginData']['id'];
         $data['edit_data'] = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE); 
+        $data['edit_data']['db'] = $db;
         return view('profil/edit_profil', $data);
 
+    }
+
+    public function auth_edit_profil(){
+        session()->get();
+        $email = $_SESSION['loginData']['email'];
+        $no_unik = $_SESSION['loginData']['no_unik'];
+
+        $this->session_form_akun();
+        if( $this -> auth_form_akun('both',$email,$no_unik) ){
+            $this->save_edit_profil();
+            
+            //penghapusan session
+            session()->remove('form_akun_not_valid');
+            $this->session_form_akun(TRUE);
+            
+            $alert['message'] = "Berhasil mengedit profil";
+            $alert['path'] = "Akun_control/Profil";
+            return view('alertBox',$alert);
+        }else{
+            return redirect()->to(base_url()."/Akun_control/Profil/edit_profil");
+        }
     }
 
     public function save_edit_profil(){
@@ -135,9 +156,5 @@ class Profil extends BaseController
         $_SESSION['loginData']['nama'] = $_REQUEST['nama_akun'];
         $_SESSION['loginData']['no_unik'] = $_REQUEST['no_unik_akun'];
         $_SESSION['loginData']['email'] = $_REQUEST['email_akun'];
-
-        $alert['message'] = "Berhasil mengedit profil";
-        $alert['path'] = "Pages/Profil";
-        return view('alertBox',$alert);
     }
 }

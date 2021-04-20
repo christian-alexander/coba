@@ -100,73 +100,39 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
 </div>
 <script src = "<?= base_url() ?>/js/script.js"></script>
 <script>
-    //jquery bila ada dobel (tak valid) email_akun or no_unik_akun
+    //jquery bila edit form
     <?php
-    session()->get();
-    if(isset($_SESSION['form_akun_not_valid'])){ session()->get();?>
-        $(document).ready(function(){ <?php
-            // mengisikan data sebelumnya
-            foreach($_SESSION['data_form_akun'] as $key => $item){ 
-                if($item == 'peran_akun' || $item == 'id_instansi_akun' || $item == 'id_dosbing_akun' || $item == "id_pemlap_akun"){?>
-                    $("#<?= $key ?>").val("<?= $item ?>").change(); <?php
-                }else{ ?>
-                    $("#<?= $key ?>").val("<?= $item ?>"); <?php
-                }
-            } 
-            //memberi class betul pada semua form-control
-            ?>
-            $('.form-control').addClass('correct');
+    if($is_edit_form){ session()->get(); $db = $_SESSION['loginData']['db'];?>
+        $(document).ready(function(){
+            $("#peran_akun").val("<?= $db ?>").change();
 
-            <?php
-            //menyalahkan email atau no unik
-            if( in_array('email_akun',$_SESSION['form_akun_not_valid']) ){ ?>
-                $('#warning_email_akun').html(' *Sudah ada, pakai lainnya');
-                $('#email_akun').removeClass('correct');
-                $('#email_akun').addClass('wrong'); 
-                <?php        
-            } 
-
-            if( in_array('no_unik_akun',$_SESSION['form_akun_not_valid']) ){ ?>
-                $('#warning_no_unik_akun').html(' *Sudah ada, pakai lainnya');
-                $('#no_unik_akun').removeClass('correct');
-                $('#no_unik_akun').addClass('wrong'); 
-                <?php
-            } ?>
-        }); <?php
-    }else{ ?>
-
-        //jquery bila edit form
-        <?php
-        if($is_edit_form){$db = $edit_data['db'];?>
-            $(document).ready(function(){
-                $("#peran_akun").val("<?= $db ?>").change();
-
-                if($('#nama_akun').length > 0){
-                    $('#nama_akun').val("<?= $edit_data['nama_'.$db] ?>");
-                }
-                if($('#no_unik_akun').length > 0){
-                    $('#no_unik_akun').val("<?= $edit_data['no_unik_'.$db] ?>");
-                }
-                if($('#email_akun').length > 0){
-                    $('#email_akun').val("<?= $edit_data['email_'.$db] ?>");
-                }
-                if($('#no_wa_akun').length > 0){
-                    $('#no_wa_akun').val("<?= $edit_data['no_wa_'.$db] ?>");
-                }
-                <?php if($db == "mhs"){ ?>
-                if($('#id_dosbing_akun').length > 0){ 
-                    $('#id_dosbing_akun').val("<?= $edit_data['id_dosbing_'.$db] ?>").change();
-                }<?php } ?>
-                <?php if($db == "mhs"){ ?>
-                if($('#id_pemlap_akun').length > 0){
-                    $('#id_pemlap_akun').val("<?= $edit_data['id_pemlap_'.$db] ?>").change();
-                }<?php } ?>
-                if($('#id_instansi_akun').length > 0){
-                    $('#id_instansi_akun').val("<?= $edit_data['id_instansi_'.$db] ?>").change();
-                }
-            });    <?php
-        } 
-    }?>
+            if($('#nama_akun').length > 0){
+                $('#nama_akun').val("<?= $edit_data['nama_'.$db] ?>");
+            }
+            if($('#no_unik_akun').length > 0){
+                $('#no_unik_akun').val("<?= $edit_data['no_unik_'.$db] ?>");
+            }
+            if($('#email_akun').length > 0){
+                $('#email_akun').val("<?= $edit_data['email_'.$db] ?>");
+            }
+            if($('#no_wa_akun').length > 0){
+                $('#no_wa_akun').val("<?= $edit_data['no_wa_'.$db] ?>");
+            }
+            <?php if($db == "mhs"){ ?>
+            if($('#id_dosbing_akun').length > 0){ 
+                $('#id_dosbing_akun').val("<?= $edit_data['id_dosbing_'.$db] ?>").change();
+            }<?php } ?>
+            <?php if($db == "mhs"){ ?>
+            if($('#id_pemlap_akun').length > 0){
+                $('#id_pemlap_akun').val("<?= $edit_data['id_pemlap_'.$db] ?>").change();
+            }<?php } ?>
+            if($('#id_instansi_akun').length > 0){
+                $('#id_instansi_akun').val("<?= $edit_data['id_instansi_'.$db] ?>").change();
+            }
+            
+            
+        });    <?php
+    } ?>
 
     //bila ada peran_akun
     
@@ -206,6 +172,21 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
         });
     });
 
+    //js untuk memasukkan for_auth ke dalam array js;
+    <?php
+    if(isset($for_auth)){ ?>
+        var for_auth = new Array(); <?php
+        foreach($for_auth as $item){//karena for_auth strukturnya array 3 dimensi
+            foreach($item as $item2){ ?>
+                var arrDalam = new Array();<?php
+                foreach($item2 as $item3){ // item3 hanya ada email dan no unik, akan di masukkan ke arrDalam ?>
+                    arrDalam.push('<?= $item3 ?>');<?php
+                } ?>
+                for_auth.push(arrDalam);<?php
+            }
+        }
+    } //disini suda campur aduk semua email dosbing email mhs dll, karena gapenting yang penting cuma apakah ada email atau no unik dobel ?> 
+    
     //js untuk masukkan required ke arr js
     var required = new Array();
     <?php
@@ -214,12 +195,58 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
     }?>
     
     function final_verify(){
-        if(verif_typo_akun(required)){
-            $('#bg-for-loading').css('display','block');
-            $('#lds-dual-ring').css('display','inline-block');
-            return true;
-        }else{
-            return false;
-        }
+        <?php
+        if($is_edit_form){ ?>
+
+            var edit_data = new Array();
+            edit_data.push('<?= $edit_auth['email'] ?>')
+            edit_data.push('<?= $edit_auth['no_unik'] ?>')
+            
+
+
+            var valid = true;
+            required = verif_dobel_data_akun(for_auth,required,edit_data);
+            if( ! verif_typo_akun(required)){
+                valid = false;
+            }
+            if(! required.includes('email_akun') && ! required.includes('no_unik_akun')){
+                valid = false;
+            }
+ 
+
+            if(valid){
+                $('#bg-for-loading').css('display','block');
+                $('#lds-dual-ring').css('display','inline-block');
+                return true;
+            }else{
+                return false;
+            }
+            
+            <?php
+        }else{ ?>
+            var valid = true;
+            required = verif_dobel_data_akun(for_auth,required);
+            if( ! verif_typo_akun(required)){
+                valid = false;
+            }
+            if(! required.includes('email_akun') && ! required.includes('no_unik_akun')){
+                valid = false;
+            }
+
+
+            if(valid){
+                $('#bg-for-loading').css('display','block');
+                $('#lds-dual-ring').css('display','inline-block');
+                return true;
+            if(! required.includes('email_akun') || ! required.includes('no_unik_akun')){
+                valid = false;
+            }
+ 
+            }else{
+                return false;
+            }
+            
+            <?php
+        } ?>
     }
 </script>

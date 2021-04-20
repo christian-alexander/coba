@@ -182,7 +182,7 @@ class BaseController extends Controller
 		}
 	}
 
-	protected function akun_for_auth(){
+	private function data_for_auth_form_akun(){
 		//untuk mengeluarkan data sebagai pengecekan data dobel di js
 		$Get = new Get();
 		$data = array();
@@ -202,5 +202,83 @@ class BaseController extends Controller
 		
 
 		return $data;
+	}
+
+	protected function session_form_akun($destroy_session = FALSE){
+		//memasukkan data dari form akun ke dalam session
+		session()->get();
+		if($destroy_session){
+			session()->remove('data_form_akun');
+		}else{
+			if(isset($_SESSION['data_form_akun'])){
+				session()->remove('data_form_akun');
+			}
+			foreach($_REQUEST as $key => $item){
+				if($_REQUEST[$key] == "password_akun"){
+					$_SESSION['data_form_akun'][$key] = password_hash($item,PASSWORD_DEFAULT);
+				}else{
+					$_SESSION['data_form_akun'][$key] = $item;
+				}
+			}
+		}
+	}
+
+	protected function auth_form_akun($to_auth = 'both',$edit_email =NULL ,$edit_no_unik = NULL){
+		//kalau both berarti email_akun dan no_unik_akun di auth
+		//value to_auth bisa email_akun atau no_unik_akun, kosongkan bila keduanya
+		//isi edit bila ini auth edit
+		$valid = TRUE;
+		session()->get();
+		if(isset( $_SESSION['form_akun_not_valid'] )){
+			session()->remove('form_akun_not_valid');
+		}
+
+		$data = $this->data_for_auth_form_akun();
+		$arrEmail = [];
+		$arrNoUnik = [];
+		foreach($data as $item){
+			foreach($item as $item2){
+				$i = 0;
+				foreach($item2 as $item3){
+					if($i == 0){
+						array_push($arrEmail,$item3);
+					}else{
+						array_push($arrNoUnik,$item3);
+					}
+					$i++;
+					if($i > 1){ $i = 0 ; }
+				}
+			}
+		}
+
+
+		$_SESSION['form_akun_not_valid'] = [];
+		if($to_auth == 'both'){
+			foreach($arrEmail as $item){
+				if($_SESSION['data_form_akun']['email_akun'] == $item && $_SESSION['data_form_akun']['email_akun'] !== $edit_email ){
+					$valid = FALSE;
+					array_push( $_SESSION['form_akun_not_valid'], 'email_akun' );
+					break;
+				}
+			}
+			foreach($arrNoUnik as $item){
+				if($_SESSION['data_form_akun']['no_unik_akun'] == $item && $_SESSION['data_form_akun']['no_unik_akun'] !== $edit_no_unik ){
+					$valid = FALSE;
+					array_push( $_SESSION['form_akun_not_valid'], 'no_unik_akun' );
+					break;
+				}				
+			}	
+		}else{
+			if($to_auth == 'email_akun'  ) {$arr = $arrEmail ;}
+			if($to_auth == 'no_unik_akun') {$arr = $arrNoUnik;}
+			foreach($arr as $item){
+				if($_SESSION['data_form_akun'][$to_auth] == $item && $_SESSION['data_form_akun'][$to_auth] !== $edit_email && $_SESSION['data_form_akun'][$to_auth] !== $edit_no_unik ){
+					$valid = FALSE;
+					array_push( $_SESSION['form_akun_not_valid'], $to_auth);
+					break;
+				}
+			}
+		}
+		return $valid;
 	}
 }

@@ -111,7 +111,7 @@
 	<?php
     foreach($arr_clickable as $item){ 
         if($item['confirm_func'] != null && $item['confirm_msg'] != null){ ?>
-    		$('.<?= $item['class'] ?>').click(function <?= $item['confirm_func'] ?>(object){
+    		$('.<?= $item['class'] ?>').click(function <?= $item['confirm_func'] ?>(){
                 var msg_awal = '<?= $item['confirm_msg'] ?>';
                 var msg = msg_awal.replace("-id",this.id);
                 if(confirm(msg)){

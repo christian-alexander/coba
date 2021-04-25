@@ -52,7 +52,7 @@ class Signup extends BaseController
             foreach ($_SESSION['data_form_akun'] as $key => $item){
                 $field = explode("_akun",$key)[0];
                 if($field != 'konfirmasi_password' && $field != 'peran'){
-                    $peran = $_SESSION['data_akun']['peran_akun'];
+                    $peran = $_SESSION['data_form_akun']['peran_akun'];
                     $data[$field.'_sg_'.$peran] = $item;
                 }
             }
@@ -60,6 +60,7 @@ class Signup extends BaseController
             
             // destroy session
             $this->session_form_akun(TRUE);
+            $this->session_verif_link();
             $alert['message'] = "Sukses Mengajukan Permintaan Sign Up. Harap Menghubungi TU atau Dosen Pembimbing Anda Untuk Meminta Persetujuan.";
             $alert['path'] = "";
             return view('alertBox',$alert);

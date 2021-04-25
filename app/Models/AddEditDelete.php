@@ -6,6 +6,7 @@ use CodeIgniter\Model;
 
 class AddEditDelete extends Model
 {
+    //semua data berbentuk ['namakolom' => 'value']
     public function add($table,$data) //data adalah array
     {
         $this->db->table($table)

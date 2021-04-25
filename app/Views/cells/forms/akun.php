@@ -54,9 +54,10 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                                         <select name="<?= $item['name/id'] ?>" class="selectpicker select_utkmhs" id="<?= $item['name/id'] ?>"><?php
                                             if($item['name/id'] == 'id_dosbing_akun'){
                                                 foreach($live_search['dosbing'] as $result){ ?>
-                                                    <option value="<?= $result['id_dosbing']?>" data-subtext = "<?= $result['nama_instansi'] ?>" ><?= $result['nama_dosbing']?></option><?php
+                                                    <option value="<?= $result['id_dosbing']?>" ><?= $result['nama_dosbing']?></option><?php
                                                 } ?><?php
-                                            }else if($item['name/id'] == 'id_pemlap_akun'){
+                                            }else if($item['name/id'] == 'id_pemlap_akun'){?>
+                                                <option value= 'null'>Belum Ada</option> <?php
                                                 foreach($live_search['pemlap'] as $result){ ?>
                                                     <option value="<?= $result['id_pemlap']?>" data-subtext = "<?= $result['nama_instansi'] ?>" ><?= $result['nama_pemlap']?></option><?php
                                                 } ?><?php
@@ -100,7 +101,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
 </div>
 <script src = "<?= base_url() ?>/js/script.js"></script>
 <script>
-    //jquery bila ada dobel (tak valid) email_akun or no_unik_akun
+    //jquery bila ada dobel (tak valid) email_akun or no_unik_akun dalam kasus dari controller auth balik sini lagi
     <?php
     session()->get();
     if(isset($_SESSION['form_akun_not_valid'])){ session()->get();?>

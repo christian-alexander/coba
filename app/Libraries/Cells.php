@@ -15,7 +15,8 @@
             ['button_type' => 'btn-danger', 'button_text' => '(teks dalam btn)', 'button_action' => "(lokasi bila btn di-klik, tidak diperlukan bila btn default form)"]
         ], (button type menggunakan tipe2 button BootStrap4)
         'live_search' => ['instansi' => $instansi,'dosbing' => $dosbing] ini hanya meneruskan data yang dari controller
-        'is_edit_form => boolean, is edit form atau tidak
+        'is_edit_form => boolean, is edit form atau tidak,
+        'edit_data' => array edit data, bila bukan edit form tidak perlu ditulis
     ]
 ); 
 - config adalah berisi array lagi form_title dan form_action, dan kondisi perlu checkbox lihat pass or no (default FALSE)
@@ -32,24 +33,14 @@
     PEMANGGILAN SIMPLE TABLE
     view_cell(\App\Libraries\Cells::simple_table,
         [
-            'tables' => 
-                ['namaTabel1',
-                    [
-                        ['thead','tbody'],
-                        ['thead','tbody'],
-                        ['thead','tbody']
-                    ]
-                ],
-                ['namaTabel2',
-                    [
-                        ['thead','tbody'],
-                        ['thead','tbody'],
-                        ['thead','tbody']
-                    ]
+            'judul_tabel' => 'namaTabel',
+            'data_tabel' => 
+            	[
+                    ['thead','tbody'],
+                    ['thead','tbody'],
+                    ['thead','tbody']
                 ]
-                
-                dst
-        ] 
+        ]
     );
 
 */

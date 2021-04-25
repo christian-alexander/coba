@@ -27,11 +27,25 @@
             $status = 'Aktif';
             $btn = "delete";
             $btn_msg = "Hapus";
+            $href = base_url()."/Akun_control/Akun/delete_akun";
         }else{
             $status = 'Non-Aktif';
             $btn = 'restore_from_trash';
             $btn_msg = "Restore";
+            $href = base_url()."/Akun_control/Akun/restore_akun";
         }
+
+    	if($i == 1 || $i ==2){
+            $class_btn = $btn."_dosbing";
+            $confirm_func = $btn."_action_dosbing";
+        }else if($i == 3 || $i == 4){
+            $class_btn = $btn."_pemlap";
+            $confirm_func = $btn."_action_pemlap";
+        }else if($i == 5 || $i == 6){
+            $class_btn = $btn."_mhs";
+            $confirm_func = $btn."_action_mhs";
+        }
+        $confirm_msg = "Yakin $btn_msg -id ?" ;
 
         if($i == 1) { $tabel = $dosbing_on ;}
         if($i == 2) { $tabel = $dosbing_off;}
@@ -122,7 +136,7 @@
                     [
                         'jenis_icon' => 'edit',
                         'toggle' => 'Edit',
-                        'href' => '', 
+                        'href' => base_url()."/Akun_control/Akun/edit_akun", 
                         'class' => 'edit',
                         'id' => NULL,
                         'confirm_func' => NULL,
@@ -134,11 +148,11 @@
                     [
                         'jenis_icon' => $btn,
                         'toggle' => $btn_msg,
-                        'href' => '', 
-                        'class' => $btn,
+                        'href' => $href, 
+                        'class' => $class_btn,
                         'id' => '~nama_'.$identitas,
-                        'confirm_func' => $btn."_action",
-                        'confirm_msg' => "Yakin $btn_msg -id ?",
+                        'confirm_func' => $confirm_func,
+                        'confirm_msg' => $confirm_msg,
                         
                         'id_clicked' => '~id_'.$identitas,
                         'db_clicked' => $identitas

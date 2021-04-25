@@ -6,7 +6,7 @@ function gantiNNN(){ //pakai function langsung karena perlu dipanggil saat docum
         //selectpicker perlu direfresh setelah diganti statusnya
         $('.selectpicker').selectpicker('refresh');
     }else if($('#peran_akun').val() == 'pemlap'){
-        $('#teks_no_unik_akun').html('NIP(Opsional)');
+        $('#teks_no_unik_akun').html('NIP (Opsional)');
         $('.utkmhs').css("display","none");
         $('.select_utkmhs').prop("disabled", true);
         //selectpicker perlu direfresh setelah diganti statusnya
@@ -37,7 +37,7 @@ $('#lihat_pass').click(function(){
 function verif_nama(tipe){
     //validasi nama
     var valid = true;
-    var nameReg = /^([a-z,A-Z])+?$/;
+    var nameReg = /^([a-z,A-Z, ])+?$/;
     valid = nameReg.test( $('#nama_'+tipe).val() );
     
     if(valid){
@@ -94,7 +94,7 @@ function verif_no(tipe,isPemlap = false){
         $('#no_'+tipe).removeClass('wrong');
         $('#no_'+tipe).addClass('correct');
     }else{
-        $('#warning_no_'+tipe).html(' *Harus Angka');
+        $('#warning_no_'+tipe).html(' *Min 8 Angka');
         $('#no_'+tipe).removeClass('correct');
         $('#no_'+tipe).addClass('wrong');
     }
@@ -137,7 +137,7 @@ function verif_typo_akun(required){
     if(required.includes('email_akun')){if(!verif_email('akun')){valid = false;};}
     if(required.includes('no_wa_akun')){if(!verif_no('wa_akun')){valid = false;};}
     if(required.includes('no_unik_akun')){
-        if($('#peran_akun') != 'pemlap'){
+        if($('#peran_akun').val() != 'pemlap'){
         	if(!verif_no('unik_akun')){valid = false;};
         }else{
             if(!verif_no('unik_akun',true)){valid = false;};

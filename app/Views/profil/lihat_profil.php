@@ -7,47 +7,118 @@
 
 <?= view_cell('\App\Libraries\Cells::nav_'.$_SESSION['loginData']['db'],['selected' => ['profil']]) ?>
 
-<?php
-$array_table = [];
-foreach($tables as $item){
-    if($item['db'] != 'instansi'){
-        if($item['db'] == 'dosbing'){
-            $no_unik = "NIDN";
-        }else if($item['db'] == 'pemlap'){
-            $no_unik = "NIP";
-        }else if($item['db'] == 'mhs'){
-            $no_unik = "NRP";
-        }
 
-        $arrData = [
-            ['Nama', $item['data']['nama_'.$item['db']]],
-            [$no_unik, $item['data']['no_unik_'.$item['db']]],
-            ['WhatsApp', $item['data']['no_wa_'.$item['db']]],
-            ['Email', $item['data']['email_'.$item['db']]]
-        ];
-    }else{
-        $arrData = [
-            ['Nama Instansi', $item['data']['nama_instansi']],
-            ['Email', $item['data']['email_instansi']],
-            ['No Telepon', $item['data']['no_telepon_instansi']],
-            ['No Fax', $item['data']['no_fax_instansi']],
-            ['Alamat', $item['data']['alamat_instansi']]
-        ];
+<?php
+session()->get();
+$db = $_SESSION['loginData']['db']; ?>
+<div class='container'>
+<div class='row'>
+<?php
+if($db == 'dosbing'){ ?>
+	<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12'>
+	<?php
+    echo view_cell('\App\Libraries\Cells::simple_table',
+    	[
+			'judul_tabel' => 'Data Dosen',
+            'data_tabel' => 
+            	[
+                    ['Nama',$data_tabel['nama_dosbing']],
+                    ['NIDN',$data_tabel['no_unik_dosbing']],
+                    ['Email',$data_tabel['email_dosbing']],
+                    ['No WhatsApp',$data_tabel['no_wa_dosbing']]
+                ]
+        ]); ?>
+	</div>
+<?php
+}else if($db == 'pemlap'){ ?>
+	<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12'>
+    <?php
+    echo view_cell('\App\Libraries\Cells::simple_table',
+    	[
+			'judul_tabel' => 'Data Pembimbing',
+            'data_tabel' => 
+            	[
+                    ['Nama',$data_tabel['nama_pemlap']],
+                    ['NIP',$data_tabel['no_unik_pemlap']],
+                    ['Email',$data_tabel['email_pemlap']],
+                    ['No WhatsApp',$data_tabel['no_wa_pemlap']]
+                ]
+        ]); ?>
+    </div>
+<?php
+}else{ ?>
+	<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12'>
+    <?php
+    echo view_cell('\App\Libraries\Cells::simple_table',
+    [
+        'judul_tabel' => 'Data Mahasiswa',
+        'data_tabel' => 
+            [
+                ['Nama',$data_tabel['nama_mhs']],
+                ['NRP',$data_tabel['no_unik_mhs']],
+                ['Email',$data_tabel['email_mhs']],
+                ['No WhatsApp',$data_tabel['no_wa_mhs']]
+            ]
+    ]); ?>
+    </div>
+    <?php
+    if($data_tabel['id_dosbing_mhs'] !== NULL){ ?>
+        <div class='col-lg-4 col-md-6 col-sm-6 col-xs-12'>
+        <?php
+        echo view_cell('\App\Libraries\Cells::simple_table',
+    	[
+			'judul_tabel' => 'Data Dosen',
+            'data_tabel' => 
+            	[
+                    ['Nama',$data_tabel['nama_dosbing']],
+                    ['NIDN',$data_tabel['no_unik_dosbing']],
+                    ['Email',$data_tabel['email_dosbing']],
+                    ['No WhatsApp',$data_tabel['no_wa_dosbing']]
+                ]
+        ]);?>
+    </div>
+    <?php
     }
 
-    $arrDalam = [
-            $item['nama_tabel'],
-            $arrData
-    ];
-    array_push($array_table,$arrDalam);
+    if($data_tabel['id_pemlap_mhs'] !== NULL){ ?>
+        <div class='col-lg-4 col-md-6 col-sm-6 col-xs-12'>
+        <?php
+        echo view_cell('\App\Libraries\Cells::simple_table',
+    	[
+			'judul_tabel' => 'Data Pembimbing',
+            'data_tabel' => 
+            	[
+                    ['Nama',$data_tabel['nama_pemlap']],
+                    ['NIP',$data_tabel['no_unik_pemlap']],
+                    ['Email',$data_tabel['email_pemlap']],
+                    ['No WhatsApp',$data_tabel['no_wa_pemlap']]
+                ]
+        ]); ?>
+        </div>
+    <?php
+    }
 }
-?>
 
-<?= 
-    view_cell('\App\Libraries\Cells::simple_table',
-        [
-            'tables' => $array_table
-        ]
-    )
+
+if($data_tabel['id_instansi_'.$db] !== NULL){ ?>
+	<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12'>
+    <?php
+    echo view_cell('\App\Libraries\Cells::simple_table',
+    [
+        'judul_tabel' => 'Data Instansi',
+        'data_tabel' => 
+            [
+                ['Nama',$data_tabel['nama_instansi']],
+                ['Alamat',$data_tabel['alamat_instansi']],
+                ['No Telepon',$data_tabel['no_telepon_instansi']],
+                ['No Fax',$data_tabel['no_fax_instansi']],
+                ['Email',$data_tabel['email_instansi']]
+            ]
+    ]); ?>
+<?php
+}
+
 ?>
+</div>
+</div>
 <?= $this->endSection() ?>

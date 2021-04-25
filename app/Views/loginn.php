@@ -1,7 +1,4 @@
 <?php
-$d = '~sasa';
-
-if(strpos($d,'~') !== FALSE){
-    echo 'he';
-}
+session()->get();
+var_dump($_SESSION);
 ?>

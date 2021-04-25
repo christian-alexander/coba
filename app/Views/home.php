@@ -25,9 +25,7 @@ if($_SESSION['loginData']['db'] == "su" || $_SESSION['loginData']['db'] == "dosb
         //untuk menghitung lama magang
         if($item['time4']!="" && $item['time4']!=NULL){ 
             //untuk tanggal mulai
-            $timeMulai = $item['time1'];
-            $arr_time_mulai = explode(" ",$timeMulai);
-            $tanggalMulai = $arr_time_mulai[0];
+            $tanggalMulai = $item['time1'];
 
             //untuk menghitung lama magang dlm bulan 
             $awal = strtotime($item['time4']);
@@ -46,7 +44,7 @@ if($_SESSION['loginData']['db'] == "su" || $_SESSION['loginData']['db'] == "dosb
         $arr_dalam['lama_magang'] = $rentangBulan;
 
         if($item['time6'] != null && $item['time6'] != ''){
-            $tanggalSelesai = explode(' ',$item['time6'])[0];
+            $tanggalSelesai = $item['time6'];
             $arr_dalam['tanggal_selesai'] = $tanggalSelesai;
         }
 

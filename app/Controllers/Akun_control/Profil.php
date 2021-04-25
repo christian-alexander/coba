@@ -12,149 +12,97 @@ class Profil extends BaseController
         ['block','block','block','block','none']
     ];
 
-    public function index(){
-        $Get = new Get();
+    private function is_logged(){
         session()->get();
         if(isset($_SESSION['loginData'])){
-            $db = $_SESSION['loginData']['db'];
-            $id = $_SESSION['loginData']['id'];
-
-            //sengaja nda di join2 karena datanya sendiri2 utk tiap tabel data, di join2 malah bingung misah datanya per tabel
-            if($db == "dosbing"){
-                $dataDosbing = [
-                    'nama_tabel' => 'Data Dosen',
-                    'db'         => 'dosbing',
-                    'data'       => $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE)
-                ];
-
-                $id_instansi = $dataDosbing['data']['id_instansi_dosbing'];
-
-                $dataInstansi = [
-                    'nama_tabel' => 'Data Instansi',
-                    'db'         => 'instansi',
-                    'data'       => $Get->get('instansi',NULL,NULL,['id_instansi' => $id_instansi],TRUE)
-                ];
-
-                $data['tables'] = [$dataDosbing,$dataInstansi];
-            
-            
-            }else if($db == "pemlap"){
-                $dataPemlap = [
-                    'nama_tabel' => 'Data Pembimbing',
-                    'db'         => 'pemlap',
-                    'data'       => $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE)
-                ];
-
-                $id_instansi = $dataPemlap['data']['id_instansi_pemlap'];
-
-                $dataInstansi = [
-                    'nama_tabel' => 'Data Instansi',
-                    'db'         => 'instansi',
-                    'data'       => $Get->get('instansi',NULL,NULL,['id_instansi' => $id_instansi],TRUE)
-                ];
-
-                $data['tables'] = [$dataPemlap,$dataInstansi];
-            
-            
-            }else if($db == "mhs"){
-                $dataMhs = [
-                    'nama_tabel' => 'Data Mahasiswa',
-                    'db'         => 'mhs',
-                    'data'       => $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE)
-                ];
-
-                $id_dosbing = $dataMhs['data']['id_dosbing_mhs'];
-                $id_pemlap = $dataMhs['data']['id_pemlap_mhs'];
-                $id_instansi = $dataMhs['data']['id_instansi_mhs'];
-
-                $dataDosbing = [
-                    'nama_tabel' => 'Dosen Pembimbing',
-                    'db'         => 'dosbing',
-                    'data'       => $Get->get('dosbing',NULL,NULL,['id_dosbing' => $id_dosbing],TRUE)
-                ];
-
-                $dataInstansi = [
-                    'nama_tabel' => 'Data Instansi',
-                    'db'         => 'instansi',
-                    'data'       => $Get->get('instansi',NULL,NULL,['id_instansi' => $id_instansi],TRUE)
-                ];
-
-                if($id_pemlap == NULL){
-                    $data['tables'] = [$dataMhs,$dataDosbing,$dataInstansi];
-                }else{
-                    $dataPemlap = [
-                        'nama_tabel' => 'Pembimbing Lapangan',
-                        'db'         => 'pemlap',
-                        'data'       => $Get->get('pemlap',NULL,NULL,['id_pemlap' => $id_pemlap],TRUE)
-                    ];
-
-                    $data['tables'] = [$dataMhs,$dataDosbing,$dataPemlap,$dataInstansi];
-                }
-                
-            }else{
-                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-            }
-
-            return view('profil/lihat_profil',$data);
-    
+            return TRUE;
         }else{
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
     }
 
+    public function index(){
+        if($this->is_logged()){
+            $Get = new Get();
+            session()->get();
+
+            $db = $_SESSION['loginData']['db'];
+            $id = $_SESSION['loginData']['id'];
+			if($db == 'mhs'){
+                $join = [
+                    ['instansi','mhs.id_instansi_mhs = instansi.id_instansi','left'],
+                    ['dosbing','mhs.id_dosbing_mhs = dosbing.id_dosbing','left'],
+                    ['pemlap','mhs.id_pemlap_mhs = pemlap.id_pemlap','left']
+                ];
+				$data['data_tabel'] = $Get->get('mhs',$join,NULL,['id_mhs' => $id],TRUE);
+            }else{
+                $fk = $db.'.id_instansi_'.$db;
+                $join = [['instansi',"$fk = instansi.id_instansi",'left']];
+                $data['data_tabel'] = $Get->get($db,$join,NULL,['id_'.$db => $id],TRUE);
+            }
+            return view('profil/lihat_profil',$data);
+        }
+    }
+
+
     public function edit_profil(){
-        $Get = new Get();
-        session()->get();
-   
-        $data['required'] = $this->required;  
+        if($this->is_logged()){
+            $Get = new Get();
+            session()->get();
+    
+            $data['required'] = $this->required;  
 
-        $db = $_SESSION['loginData']['db'];
-        $id = $_SESSION['loginData']['id'];
-        $data['edit_data'] = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE); 
-        $data['edit_data']['db'] = $db;
-        return view('profil/edit_profil', $data);
-
+            $db = $_SESSION['loginData']['db'];
+            $id = $_SESSION['loginData']['id'];
+            $data['edit_data'] = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE); 
+            $data['edit_data']['db'] = $db;
+            return view('profil/edit_profil', $data);
+        }
     }
 
     public function auth_edit_profil(){
-        session()->get();
-        $email = $_SESSION['loginData']['email'];
-        $no_unik = $_SESSION['loginData']['no_unik'];
+        if($this->is_logged()){
+            session()->get();
+            $email = $_SESSION['loginData']['email'];
+            $no_unik = $_SESSION['loginData']['no_unik'];
 
-        $this->session_form_akun();
-        if( $this -> auth_form_akun('both',$email,$no_unik) ){
-            $this->save_edit_profil();
-            
-            //penghapusan session
-            session()->remove('form_akun_not_valid');
-            $this->session_form_akun(TRUE);
-            
-            $alert['message'] = "Berhasil mengedit profil";
-            $alert['path'] = "Akun_control/Profil";
-            return view('alertBox',$alert);
-        }else{
-            return redirect()->to(base_url()."/Akun_control/Profil/edit_profil");
+            $this->session_form_akun();
+            if( $this -> auth_form_akun('both',$email,$no_unik) ){
+                $this->save_edit_profil();
+                
+                //penghapusan session
+                session()->remove('form_akun_not_valid');
+                $this->session_form_akun(TRUE);
+                
+                $alert['message'] = "Berhasil mengedit profil";
+                $alert['path'] = "Akun_control/Profil";
+                return view('alertBox',$alert);
+            }else{
+                return redirect()->to(base_url()."/Akun_control/Profil/edit_profil");
+            }
         }
     }
 
     public function save_edit_profil(){
-        session()->get();
-        $AddEditDelete = new AddEditDelete();
-        $db = $_SESSION['loginData']['db'];
-        $id = $_SESSION['loginData']['id'];
+        if($this->is_logged()){
+            session()->get();
+            $AddEditDelete = new AddEditDelete();
+            $db = $_SESSION['loginData']['db'];
+            $id = $_SESSION['loginData']['id'];
 
-        $data = [
-            'nama_'.$db => $_REQUEST['nama_akun'],
-            'no_unik_'.$db => $_REQUEST['no_unik_akun'],
-            'email_'.$db => $_REQUEST['email_akun'],
-            'no_wa_'.$db => $_REQUEST['no_wa_akun']
-        ];
+            $data = [
+                'nama_'.$db => $_REQUEST['nama_akun'],
+                'no_unik_'.$db => $_REQUEST['no_unik_akun'],
+                'email_'.$db => $_REQUEST['email_akun'],
+                'no_wa_'.$db => $_REQUEST['no_wa_akun']
+            ];
 
-        $AddEditDelete->edit($db,$data,"id_".$db,$id);
+            $AddEditDelete->edit($db,$data,"id_".$db,$id);
 
-        //session tentu harus ikut berubah juga, karena verif dobel data bergantung dari session
-        $_SESSION['loginData']['nama'] = $_REQUEST['nama_akun'];
-        $_SESSION['loginData']['no_unik'] = $_REQUEST['no_unik_akun'];
-        $_SESSION['loginData']['email'] = $_REQUEST['email_akun'];
+            //session tentu harus ikut berubah juga, karena verif dobel data bergantung dari session
+            $_SESSION['loginData']['nama'] = $_REQUEST['nama_akun'];
+            $_SESSION['loginData']['no_unik'] = $_REQUEST['no_unik_akun'];
+            $_SESSION['loginData']['email'] = $_REQUEST['email_akun'];
+        }
     }
 }

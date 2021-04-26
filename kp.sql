@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2021 at 01:59 AM
+-- Generation Time: Apr 26, 2021 at 03:49 PM
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
@@ -45,8 +45,8 @@ CREATE TABLE `dosbing` (
 --
 
 INSERT INTO `dosbing` (`timestamp_dosbing`, `id_dosbing`, `email_dosbing`, `no_unik_dosbing`, `nama_dosbing`, `no_wa_dosbing`, `id_instansi_dosbing`, `acc_by_dosbing`, `password_dosbing`, `status_dosbing`) VALUES
-('2021-02-04 11:14:41', 1, 'dosen1@gmail.com', '777001', 'DosenSatu', '08123456789', 0, 'Tata Usaha', '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on'),
-('2021-04-14 03:37:34', 2, 'dosen2@gmail.com', '777002', 'DosenDua', '08221789', 0, 'Tata Usaha', '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on');
+('2021-04-14 03:37:34', 2, 'dosen2@gmail.com', '77700002', 'DosenDua', '08221789', 0, 'Tata Usaha', '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on'),
+('2021-04-26 13:19:08', 6, 'dosen1@email.mail', '77700001', 'DosenSatu', '082233574795', 0, 'Koordinator KP', '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on');
 
 -- --------------------------------------------------------
 
@@ -71,10 +71,10 @@ CREATE TABLE `instansi` (
 --
 
 INSERT INTO `instansi` (`timestamp_instansi`, `id_instansi`, `nama_instansi`, `no_telepon_instansi`, `no_fax_instansi`, `email_instansi`, `alamat_instansi`, `status_instansi`, `instansi_acc_by`) VALUES
-('2021-02-21 10:06:54', 0, 'Universitas Widya Kartika', '0312456', '0312456', 'admin@widyakartika.ac.id', 'Sutorejo Prima Utara II/1', 'on', 1),
-('2021-02-10 03:14:41', 1, 'UD. Bangkit', '03124567', '03124567', 'bangkit@gmail.com', 'Jalan Bangkit No. 2-4', 'on', 2),
-('2021-02-12 13:01:46', 2, 'PT. Berkarya', '0319898', '0319898', 'berkarya@berkarya.com', 'Jl. Karya Bakti No.5', 'on', 1),
-('2021-02-04 09:49:02', 3, 'PT. Jaya', '03123456', '03123456', 'jaya@gmail.com', 'jl.buah', 'on', 1);
+('2021-02-21 10:06:54', 0, 'Universitas Widya Kartika', '03124568', '03124568', 'admin@widyakartika.ac.id', 'Sutorejo Prima Utara II/1', 'on', 1),
+('2021-02-10 03:14:41', 1, 'UD. Bangkit', '031245679', '031245679', 'bangkit@gmail.com', 'Jalan Bangkit No. 2-4', 'on', 2),
+('2021-02-12 13:01:46', 2, 'PT. Berkarya', '03198980', '03198980', 'berkarya@berkarya.com', 'Jl. Karya Bakti No.5', 'on', 1),
+('2021-02-04 09:49:02', 3, 'PT. Jaya', '031234569', '031234569', 'jaya@gmail.com', 'jl.buah', 'on', 1);
 
 -- --------------------------------------------------------
 
@@ -128,9 +128,9 @@ CREATE TABLE `mhs` (
 --
 
 INSERT INTO `mhs` (`timestamp_mhs`, `id_mhs`, `email_mhs`, `no_unik_mhs`, `nama_mhs`, `no_wa_mhs`, `id_instansi_mhs`, `id_dosbing_mhs`, `id_pemlap_mhs`, `acc_by_mhs`, `jam_magang`, `password_mhs`, `status_mhs`) VALUES
-('2021-02-11 01:48:47', 4, 'mhs1@gmail.com', '999001', 'MahasiswaSatu', '08123456789', 0, 1, NULL, 'Tata Usaha', '0', '$2y$10$.6DaLqi.2Bk3MugduABZweGsnyNkfp5pmKu6Qr9F2ZVMLjcgjY.nC', 'on'),
-('2021-02-11 08:09:20', 7, 'mhs2@gmail.com', '999002', 'MahasiswaDua', '08123456789', 0, 2, NULL, 'Tata Usaha', '0', '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on'),
-('2021-03-12 03:09:03', 12, 'satdua86@gmail.com', '999003', 'satdua', '0288292929', 0, 1, NULL, 'Tata Usaha', '0', '$2y$10$ieVaJcinjj6evnp2Ysj18eIKv4HOSXymUYJVBAuNgSd3s5GAIv4ku', 'on');
+('2021-02-11 08:09:20', 7, 'mhs2@gmail.com', '99900002', 'MahasiswaDua', '08123456789', 0, 2, NULL, 'Tata Usaha', '0', '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on'),
+('2021-03-12 03:09:03', 12, 'satdua86@gmail.com', '99900003', 'satdua', '0288292929', 0, 6, NULL, 'Tata Usaha', '0', '$2y$10$ieVaJcinjj6evnp2Ysj18eIKv4HOSXymUYJVBAuNgSd3s5GAIv4ku', 'on'),
+('2021-04-26 13:15:42', 22, 'mhs1@gmail.com', '99900001', 'MahasiswaSatu', '082233574795', 0, 6, NULL, 'Koordinator KP', '0', '$2y$10$ieVaJcinjj6evnp2Ysj18eIKv4HOSXymUYJVBAuNgSd3s5GAIv4ku', 'on');
 
 --
 -- Triggers `mhs`
@@ -187,7 +187,7 @@ CREATE TABLE `pemlap` (
 --
 
 INSERT INTO `pemlap` (`timestamp_pemlap`, `id_pemlap`, `email_pemlap`, `no_unik_pemlap`, `nama_pemlap`, `no_wa_pemlap`, `id_instansi_pemlap`, `acc_by_pemlap`, `password_pemlap`, `status_pemlap`) VALUES
-('2021-02-04 11:16:11', 1, 'pemlap1@gmail.com', '888001', 'PemlapSatu', '08123456789', 3, 'Tata Usaha', '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on');
+('2021-04-26 13:45:08', 20, 'pemlap1@gmail.com', '88800001', 'PemlapSatu', '08123456789', 0, 'Koordinator KP', '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on');
 
 -- --------------------------------------------------------
 
@@ -206,6 +206,13 @@ CREATE TABLE `sg_dosbing` (
   `id_instansi_sg_dosbing` int(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `sg_dosbing`
+--
+
+INSERT INTO `sg_dosbing` (`timestamp_sg_dosbing`, `id_sg_dosbing`, `email_sg_dosbing`, `no_unik_sg_dosbing`, `password_sg_dosbing`, `nama_sg_dosbing`, `no_wa_sg_dosbing`, `id_instansi_sg_dosbing`) VALUES
+('2021-04-25 04:29:41', 4, 'zjsj@dkkd.dk', '29922828', '19191919', 'dujdjjx', '292288229', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -223,6 +230,13 @@ CREATE TABLE `sg_mhs` (
   `id_instansi_sg_mhs` int(50) DEFAULT NULL,
   `id_dosbing_sg_mhs` int(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `sg_mhs`
+--
+
+INSERT INTO `sg_mhs` (`timestamp_sg_mhs`, `id_sg_mhs`, `email_sg_mhs`, `no_unik_sg_mhs`, `password_sg_mhs`, `nama_sg_mhs`, `no_wa_sg_mhs`, `id_instansi_sg_mhs`, `id_dosbing_sg_mhs`) VALUES
+('2021-04-25 04:34:12', 7, 'kd@dkkd.dk', '23232323', '12121212', 'sjsjjs', '12121212', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -248,9 +262,9 @@ CREATE TABLE `status_magang` (
 --
 
 INSERT INTO `status_magang` (`timestamp_status_magang`, `id_status_magang`, `id_mhs`, `id_status`, `time1`, `time2`, `time3`, `time4`, `time5`, `time6`) VALUES
-('2021-04-14 14:24:20', 2, 4, 1, '2021-04-14 19:15:23', '', '', '', '', ''),
 ('2021-04-14 14:24:09', 3, 7, 1, '2021-04-14 19:15:23', '', '', '', '', ''),
-('2021-04-14 14:55:26', 4, 12, 1, '2021-04-14 19:15:23', '', '', '', '', '');
+('2021-04-14 14:55:26', 4, 12, 1, '2021-04-14 19:15:23', '', '', '', '', ''),
+('2021-04-26 13:15:42', 12, 22, 1, '2021-04-26 20:15:42', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -387,7 +401,7 @@ ALTER TABLE `template_izin`
 -- AUTO_INCREMENT for table `dosbing`
 --
 ALTER TABLE `dosbing`
-  MODIFY `id_dosbing` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_dosbing` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `instansi`
@@ -405,31 +419,31 @@ ALTER TABLE `izin`
 -- AUTO_INCREMENT for table `mhs`
 --
 ALTER TABLE `mhs`
-  MODIFY `id_mhs` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_mhs` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `pemlap`
 --
 ALTER TABLE `pemlap`
-  MODIFY `id_pemlap` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_pemlap` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `sg_dosbing`
 --
 ALTER TABLE `sg_dosbing`
-  MODIFY `id_sg_dosbing` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_sg_dosbing` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `sg_mhs`
 --
 ALTER TABLE `sg_mhs`
-  MODIFY `id_sg_mhs` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_sg_mhs` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `status_magang`
 --
 ALTER TABLE `status_magang`
-  MODIFY `id_status_magang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_status_magang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `su`

@@ -25,5 +25,4 @@ view_cell('\App\Libraries\Cells::form_akun',
     ]
 ); 
 ?>
-
 <?= $this->endSection(); ?>

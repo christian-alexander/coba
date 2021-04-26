@@ -21,7 +21,7 @@ class Signup extends BaseController
     }
 
     public function auth_signup(){
-        $this->session_form_akun();
+        $this->buat_session_form('data_form_akun');
         if( $this -> auth_form_akun() ){
             $this->captcha_signup();
 
@@ -58,8 +58,8 @@ class Signup extends BaseController
             }
             $AddEditDelete -> add('sg_'.$peran,$data);
             
-            // destroy session
-            $this->session_form_akun(TRUE);
+            // destroy session data form akun
+            $this->buat_session_form('data_form_akun',TRUE);
             $this->session_verif_link();
             $alert['message'] = "Sukses Mengajukan Permintaan Sign Up. Harap Menghubungi TU atau Dosen Pembimbing Anda Untuk Meminta Persetujuan.";
             $alert['path'] = "";

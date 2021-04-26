@@ -183,7 +183,7 @@ class BaseController extends Controller
 	}
 
 	private function data_for_auth_form_akun(){
-		//untuk mengeluarkan data sebagai pengecekan data dobel di js
+		//untuk mengeluarkan data sebagai pengecekan data dobel
 		$Get = new Get();
 		$data = array();
 		
@@ -204,20 +204,36 @@ class BaseController extends Controller
 		return $data;
 	}
 
-	protected function session_form_akun($destroy_session = FALSE){
-		//memasukkan data dari form akun ke dalam session
+	protected function buat_session($nama_session, $data = NULL){
+		// global bisa untuk menciptakan session apa saja, bila data null maka dianggap
+		// harus destroy session sebelumnya, nama session wajib isi
+		// data boleh array
+		session()->get();
+		if($data !== NULL){
+			$_SESSION[$nama_session] = $data;
+		}else{
+			session()->remove($nama_session);
+		}
+	}
+
+	protected function buat_session_form($nama_session,$destroy_session = FALSE){
+		//memasukkan data dari form ke dalam session
+		//khusus untuk pengambilan data dari form, mau apapun form itu
+		//karena mengambil dari request, nama session wajib, 
+		//bedanya dgn method buat_session ada di requestnya
 		session()->get();
 		if($destroy_session){
-			session()->remove('data_form_akun');
+			session()->remove($nama_session);
 		}else{
-			if(isset($_SESSION['data_form_akun'])){
-				session()->remove('data_form_akun');
+			if(isset($_SESSION[$nama_session])){
+				session()->remove($nama_session);
 			}
 			foreach($_REQUEST as $key => $item){
+				//perlakuan khusus utk data password dari form akun
 				if($_REQUEST[$key] == "password_akun"){
-					$_SESSION['data_form_akun'][$key] = password_hash($item,PASSWORD_DEFAULT);
+					$_SESSION[$nama_session][$key] = password_hash($item,PASSWORD_DEFAULT);
 				}else{
-					$_SESSION['data_form_akun'][$key] = $item;
+					$_SESSION[$nama_session][$key] = $item;
 				}
 			}
 		}
@@ -226,7 +242,8 @@ class BaseController extends Controller
 	protected function auth_form_akun($to_auth = 'both',$edit_email =NULL ,$edit_no_unik = NULL){
 		//kalau both berarti email_akun dan no_unik_akun di auth
 		//value to_auth bisa email_akun atau no_unik_akun, kosongkan bila keduanya
-		//isi edit bila ini auth edit
+		//isi edit bila ini auth edit, 
+		//ingat nama session yg dibuat utk simpan data form harus 'data_form_akun'
 		$valid = TRUE;
 		session()->get();
 		if(isset( $_SESSION['form_akun_not_valid'] )){

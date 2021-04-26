@@ -28,6 +28,26 @@ class Akun extends BaseController
         }
     }
 
+    private function change_data_name($db){
+        //dari form nama data adalah nama_akun,email_akun, dst
+        //maka dari itu ketika proses add atau edit ke db harus diubah
+        //ke nama_dosbing atau email_mhs, itulah gunanya method ini
+        //selain itu method ini jg mengepaskan apa yg diperlukan di db
+        //bila mhs brrti perlu dosbing pemlap, bila dosbing ga brrti ga perlu pemlap
+        foreach($_REQUEST as $key => $item){
+            if($db == 'mhs'){
+                if($key != 'peran_akun'){
+                    $data[explode('akun',$key)[0].$db] = $item;
+                }
+            }else{
+                if($key != 'peran_akun' && $key != 'id_dosbing_akun' && $key != 'id_pemlap_akun'){
+                    $data[explode('akun',$key)[0].$db] = $item;
+                }
+            }
+        }
+        return $data;
+    }
+
     public function index(){
         if($this->verif_su()){
             $Get = new Get();
@@ -102,13 +122,15 @@ class Akun extends BaseController
     }
 
     public function auth_tambahkan_akun(){
-        if($this->verif_su){
-            $this->session_form_akun();
+        if($this->verif_su()){
+            $this->buat_session_form('data_form_akun');
             if( $this -> auth_form_akun() ){
                 $this->save_tambahkan_akun();
 
-                //penghapusan sesssion
+                //penghapusan sesssion info dobel dimananya dari method auth_form_akun
                 session()->remove('form_akun_not_valid');
+                //penghapusan session data_form_akun
+                $this->buat_session_form('data_form_akun',TRUE);
                 
                 $alert['path'] = 'Akun_control/Akun';
                 $alert['message'] = "Sukses menambahkan akun, password auto generated untuk akun telah terkirim di email akun terdaftar.";
@@ -126,21 +148,15 @@ class Akun extends BaseController
             $db = $_REQUEST['peran_akun'];
             
             //bila pemlap belum ada maka 'null' yg dr cell form akun hrs diganti null yg sebenarnya
-            if($_REQUEST['id_pemlap_akun'] == 'null'){
-                $_REQUEST['id_pemlap_akun'] = NULL;
-            }
-
-            foreach($_REQUEST as $key => $item){
-                if($db == 'mhs'){
-                    if($key != 'peran_akun'){
-                        $data[explode('akun',$key)[0].$db] = $item;
-                    }
-                }else{
-                    if($key != 'peran_akun' && $key != 'id_dosbing_akun' && $key != 'id_pemlap_akun'){
-                        $data[$key] = $item;
-                    }
+          	if(isset($_REQUEST['id_pemlap_akun'])){
+                if($_REQUEST['id_pemlap_akun'] == 'null'){
+                    $_REQUEST['id_pemlap_akun'] = NULL;
                 }
             }
+
+            
+			$data = $this->change_data_name($db);
+
             $password = $this->get_captcha(10);
             $data['password_'.$db] = password_hash($password, PASSWORD_DEFAULT);
             $data['acc_by_'.$db] = $_SESSION['loginData']['nama'];
@@ -176,6 +192,7 @@ class Akun extends BaseController
             $id = $_REQUEST['id'];
             $data['edit_data'] = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE);
             $data['edit_data']['db'] = $db;
+            $this->buat_session('edit_data',$data['edit_data']); 
             
 
             $data['liveSearch'] = [
@@ -191,21 +208,65 @@ class Akun extends BaseController
 
 
     public function auth_edit_akun(){
-        //belum diubah
         if($this->verif_su()){
-            $this->session_form_akun();
-            if( $this -> auth_form_akun() ){
-                $this->save_tambahkan_akun();
+            session()->get();
+            $db = $_SESSION['edit_data']['db'];
+            if($this->verif_su()){
+                $this->buat_session_form('data_form_akun');
+                if( $this -> auth_form_akun('both',$_SESSION['edit_data']['email_'.$db],$_SESSION['edit_data']['no_unik_'.$db]) ){
+                    $this->save_edit_akun();
 
-                //penghapusan sesssion
-                session()->remove('form_akun_not_valid');
-                
-                $alert['path'] = 'Akun_control/Akun';
-                $alert['message'] = "Sukses menambahkan akun, password auto generated untuk akun telah terkirim di email akun terdaftar.";
-                return view('alertBox',$alert);
-            }else{
-                return redirect()->to(base_url()."/Akun_control/Akun/tambahkan_akun");
+                    //penghapusan sesssion info 'kedobelan dimana' dari method auth_form_akun
+                    session()->remove('form_akun_not_valid');
+                    //penghapusan session edit data
+                    $this->buat_session('edit_data');
+                    //penghapusan session data_form_akun
+                    $this->buat_session_form('data_form_akun',TRUE);
+                    
+                    $alert['path'] = 'Akun_control/Akun';
+                    $alert['message'] = "Sukses mengedit akun";
+                    return view('alertBox',$alert);
+                }else{
+                    return redirect()->to(base_url()."/Akun_control/Akun/edit_akun");
+                }
             }
         }
+    }
+
+    private function save_edit_akun(){
+		if($this->verif_su()){
+            $db = $_SESSION['edit_data']['db'];
+			$AddEditDelete = new AddEditDelete();
+
+            // kasus khusus bila terjadi pergantian peran
+            if($_REQUEST['peran_akun'] != $db){
+                $this->save_edit_peran_changed();
+            }else{
+                $data = $this->change_data_name($db);
+				$AddEditDelete->edit($db,$data,'id_'.$db,$_SESSION['edit_data']['id_'.$db]);
+            }
+        }
+    }
+
+    private function save_edit_peran_changed(){
+        session()->get();
+        $AddEditDelete = new AddEditDelete();
+        $db_lama = $_SESSION['edit_data']['db'];
+        $db_baru = $_SESSION['data_form_akun']['peran_akun'];
+
+        $data = $this->change_data_name($db_baru);
+        $data['acc_by_'.$db_baru] = $_SESSION['loginData']['nama'];
+        $data['password_'.$db_baru] = $_SESSION['edit_data']['password_'.$db_lama];
+		//if pemlapnya null, di form valunya 'null' harus di set menjadi NULL beneran
+        if(isset($data['id_pemlap_mhs'])){
+			if($data['id_pemlap_mhs'] == 'null'){
+                $data['id_pemlap_mhs'] = NULL;
+            }
+        }
+		
+        //hapus data lama
+        $AddEditDelete->hapus($db_lama,'id_'.$db_lama,$_SESSION['edit_data']['id_'.$db_lama]);
+        //insert data baru
+        $AddEditDelete->add($db_baru,$data);
     }
 }

@@ -51,15 +51,17 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                                 <div class = "col-lg-6 col-md-6 col-sm-12 col-xs-12 input-box utkmhs" style="display:<?= $required[1][$i] ?>;">
                                     <?= $item['input_text'] ?> <br>
                                     <p>
+                                    <!-- mungkin akaj bertanya2 kenapa ada id di tiap option dosbing pemlap-->
+                                    <!-- jangan dihilangkan karena terkait dengan view su control edit akun, penjelasam ada disana -->
                                         <select name="<?= $item['name/id'] ?>" class="selectpicker select_utkmhs" id="<?= $item['name/id'] ?>"><?php
                                             if($item['name/id'] == 'id_dosbing_akun'){
                                                 foreach($live_search['dosbing'] as $result){ ?>
-                                                    <option value="<?= $result['id_dosbing']?>" ><?= $result['nama_dosbing']?></option><?php
+                                                    <option value="<?= $result['id_dosbing']?>" id='option_dosbing_<?= $result['id_dosbing'] ?>' ><?= $result['nama_dosbing']?></option><?php
                                                 } ?><?php
                                             }else if($item['name/id'] == 'id_pemlap_akun'){?>
                                                 <option value= 'null'>Belum Ada</option> <?php
                                                 foreach($live_search['pemlap'] as $result){ ?>
-                                                    <option value="<?= $result['id_pemlap']?>" data-subtext = "<?= $result['nama_instansi'] ?>" ><?= $result['nama_pemlap']?></option><?php
+                                                    <option value="<?= $result['id_pemlap']?>" id='option_pemlap_<?= $result['id_pemlap'] ?>' data-subtext = "<?= $result['nama_instansi'] ?>" ><?= $result['nama_pemlap']?></option><?php
                                                 } ?><?php
                                             } ?>
                                         </select>
@@ -156,14 +158,32 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                 }
                 <?php if($db == "mhs"){ ?>
                 if($('#id_dosbing_akun').length > 0){ 
-                    $('#id_dosbing_akun').val("<?= $edit_data['id_dosbing_'.$db] ?>").change();
+					<?php
+                    $id_dosbing = $edit_data['id_dosbing_'.$db];
+                    if($id_dosbing === NULL){
+                        $id_dosbing = 'null';
+                    }
+                    ?>
+                    $('#id_dosbing_akun').val("<?= $id_dosbing ?>").change();
                 }<?php } ?>
                 <?php if($db == "mhs"){ ?>
                 if($('#id_pemlap_akun').length > 0){
-                    $('#id_pemlap_akun').val("<?= $edit_data['id_pemlap_'.$db] ?>").change();
+                    <?php
+					$id_pemlap = $edit_data['id_pemlap_'.$db];
+                    if($id_pemlap === NULL){
+                        $id_pemlap = 'null';
+                    }
+                    ?>
+                    $('#id_pemlap_akun').val("<?= $id_pemlap ?>").change();
                 }<?php } ?>
                 if($('#id_instansi_akun').length > 0){
-                    $('#id_instansi_akun').val("<?= $edit_data['id_instansi_'.$db] ?>").change();
+                    <?php
+					$id_instansi = $edit_data['id_instansi_'.$db];
+                    if($id_instansi === NULL){
+                        $id_instansi = 'null';
+                    }
+                    ?>
+                    $('#id_instansi_akun').val("<?= $id_instansi ?>").change();
                 }
             });    <?php
         } 

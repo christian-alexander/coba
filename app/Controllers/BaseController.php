@@ -56,23 +56,15 @@ class BaseController extends Controller
 	|
 	*/
 	
-	protected function matching($objek,$arrDatabase,$multiData = TRUE,$multiTabel = FALSE,$isPassword = FALSE)
+	protected function matching($objek,$arrDatabase)
 	{
-		// method untuk mencari kesamaan dengan data di database, dengan pencarian beberapa tabel sekaligus
-		// akan membentuk array 4 dimensi, lapisan 1 utk multitabel, lapisan 2 untuk tempat namaKolom yang dibandingkan dan arr itu sendiri,lapisan 3 untuk tiap item di sebuah tabel, lapisan 4 untuk associative arr hasil dari get untuk sebuah item tunggal
-		// $objek adalah yang ingin dicari dalam database
+		// method untuk mencari kesamaan dengan data di database, dengan memungkinkan pencarian beberapa tabel sekaligus
+		// $objek adalah yang ingin dicari dalam database, gabole array
 		// struktur $arrDatabase adalah [data_yang_dari_model_get,namaKolom,namaDB] di setiap itemnya
-		// default $multiTabel = FALSE, bila FALSE $arrDatabase akan diubah dulu jadi array 
-		// default $multiData = TRUE, harus di FALSE bila keluaran dari model Get adalah single (bukan array)
-		// isPassword default = FALSE, bila TRUE akan mode bandingkan password
-		// returning arr kecocokan id atau FALSE. bila ditemukan satu saja cocok akan stop searching
-		if( ! $multiData){
-			$arrDatabase = array(array($arrDatabase[0]),$arrDatabase[1],$arrDatabase[2]);
-		}
-
-		if( ! $multiTabel){
-			$arrDatabase = array($arrDatabase);
-		}
+		// arr database yg di dump kesini harus bentuk array besar, walaupun db yg utk pencarian cuma 1
+		// contoh : $arrDatabase = array([$data_dari_db,'kolom','nama db']);
+		// returning arr kecocokan id dan db atau FALSE. bila ditemukan satu saja cocok akan stop searching
+		// karena ngereturn id jgn lupa untuk select id jg saat mendapatkan data dari model Get
 		
 		$lanjutScan = TRUE;
         foreach($arrDatabase as $subArr){ //utk setiap tabel
@@ -81,29 +73,14 @@ class BaseController extends Controller
 				$tipe = $subArr[2];
 				if($subArr[0] != NULL){ //jika null berarti di get tidak ditemukan, dan di sini tidak akan diproses
 					foreach($subArr[0] as $item){ //utk setiap data di tabel tsb
-						if($isPassword){
-							if(password_verify($objek,$item[$namaKolom])){
-								$idCocok = $item["id_$tipe"];
-								$namaCocok = $item["nama_$tipe"];
-								$emailCocok = $item["email_$tipe"];
-								$noUnikCocok = $item["no_unik_$tipe"];
-								$lanjutScan = FALSE;
-								break;
-							}else{
-								$lanjutScan = TRUE;
-							}   
+						if($item[$namaKolom] == $objek){
+							$idCocok = $item["id_$tipe"];
+							$lanjutScan = FALSE;
+							break;
 						}else{
-							if($item[$namaKolom] == $objek){
-								$idCocok = $item["id_$tipe"];
-								$namaCocok = $item["nama_$tipe"];
-								$emailCocok = $item["email_$tipe"];
-								$noUnikCocok = $item["no_unik_$tipe"];
-								$lanjutScan = FALSE;
-								break;
-							}else{
-								$lanjutScan = TRUE;
-							}   
-						} 
+							$lanjutScan = TRUE;
+						}   
+					
 					}
 				}
             }else{
@@ -116,9 +93,6 @@ class BaseController extends Controller
 		}else{
 			$arr = [
 				'id'   => $idCocok,
-				'nama' => $namaCocok,
-				'email' => $emailCocok,
-				'no_unik' => $noUnikCocok,
 				'db' => $tipe
 			]; 
 			return $arr;
@@ -168,6 +142,9 @@ class BaseController extends Controller
 		return $str;
 	}
 
+	//				METHOD METHOD YANG BERHUBUNGAN DENGAN SESSION
+	//             ------------------------------------------------
+
 	protected function session_verif_link($email = NULL, $captcha = NULL){
 		//membuat atau menghapus session data terkait link verif, terkait penggantian password
 		if($email != NULL && $captcha != NULL){
@@ -182,27 +159,7 @@ class BaseController extends Controller
 		}
 	}
 
-	private function data_for_auth_form_akun(){
-		//untuk mengeluarkan data sebagai pengecekan data dobel
-		$Get = new Get();
-		$data = array();
-		
 
-		$dosbing = $Get->get('dosbing',NULL,'email_dosbing,no_unik_dosbing',['status_dosbing' => 'on']);
-		$pemlap = $Get->get('pemlap',NULL,'email_pemlap,no_unik_pemlap',['status_pemlap' => 'on']);
-		$mhs = 	$Get->get('mhs',NULL,'email_mhs,no_unik_mhs',['status_mhs' => 'on']);
-		$sg_mhs = $Get->get('sg_mhs',NULL,'email_sg_mhs,no_unik_sg_mhs');
-		$sg_dosbing = $Get->get('sg_dosbing',NULL,'email_sg_dosbing,no_unik_sg_dosbing');			
-
-		if($dosbing != NULL){array_push($data,$dosbing);}
-		if($pemlap != NULL){array_push($data,$pemlap);}
-		if($mhs != NULL){array_push($data,$mhs);}
-		if($sg_mhs != NULL){array_push($data,$sg_mhs);}
-		if($sg_dosbing != NULL){array_push($data,$sg_dosbing);}
-		
-
-		return $data;
-	}
 
 	protected function buat_session($nama_session, $data = NULL){
 		// global bisa untuk menciptakan session apa saja, bila data null maka dianggap
@@ -239,63 +196,113 @@ class BaseController extends Controller
 		}
 	}
 
-	protected function auth_form_akun($to_auth = 'both',$edit_email =NULL ,$edit_no_unik = NULL){
-		//kalau both berarti email_akun dan no_unik_akun di auth
-		//value to_auth bisa email_akun atau no_unik_akun, kosongkan bila keduanya
-		//isi edit bila ini auth edit, 
-		//ingat nama session yg dibuat utk simpan data form harus 'data_form_akun'
-		$valid = TRUE;
-		session()->get();
-		if(isset( $_SESSION['form_akun_not_valid'] )){
-			session()->remove('form_akun_not_valid');
-		}
+	
+	//  		FUNGSI AUTH FORM AKUN 
+	//   --------------------------------------------
 
-		$data = $this->data_for_auth_form_akun();
-		$arrEmail = [];
-		$arrNoUnik = [];
-		foreach($data as $item){
-			foreach($item as $item2){
-				$i = 0;
-				foreach($item2 as $item3){
-					if($i == 0){
-						array_push($arrEmail,$item3);
-					}else{
-						array_push($arrNoUnik,$item3);
+	protected function auth_dobel_akun($is_edit = FALSE){
+		//fungai utk mencari kedobelan data, bila email awal dan no unik awal diisi 
+        //berarti auth dobel utk edit form, return array email no unik dobel
+		//harus dipanggil setelah ada submittan form akun
+
+        
+        // menyimpan data submittan form ke dalam session agar tidak hilang
+        if(isset($_REQUEST)){
+			$this->buat_session_form('data_form_akun');	
+
+			session()->get();
+			$Get = new Get();
+			$email = $_SESSION['data_form_akun']['email_akun'];
+			$no_unik = $_SESSION['data_form_akun']['no_unik_akun']; 	
+			
+			$dosbing    = $Get->get('dosbing'   ,NULL,'id_dosbing   ,email_dosbing   ,no_unik_dosbing   ',['status_dosbing' => 'on']);
+			$pemlap     = $Get->get('pemlap'    ,NULL,'id_pemlap    ,email_pemlap    ,no_unik_pemlap    ',['status_pemlap'  => 'on']);
+			$mhs        = $Get->get('mhs'       ,NULL,'id_mhs       ,email_mhs       ,no_unik_mhs       ',['status_mhs'     => 'on']);
+			$sg_mhs     = $Get->get('sg_mhs'    ,NULL,'id_sg_mhs    ,email_sg_mhs    ,no_unik_sg_mhs    ');
+			$sg_dosbing = $Get->get('sg_dosbing',NULL,'id_sg_dosbing,email_sg_dosbing,no_unik_sg_dosbing');			
+			
+			$arrDatabaseEmail  = array([$dosbing,'email_dosbing'  ,'dosbing'],[$pemlap,'email_pemlap'  ,'pemlap'],[$mhs,'email_mhs'  ,'mhs'],[$sg_dosbing,'email_sg_dosbing'  ,'sg_dosbing'],[$sg_mhs,'email_sg_mhs'  ,'sg_mhs']);
+			$arrDatabaseNoUnik = array([$dosbing,'no_unik_dosbing','dosbing'],[$pemlap,'no_unik_pemlap','pemlap'],[$mhs,'no_unik_mhs','mhs'],[$sg_dosbing,'no_unik_sg_dosbing','sg_dosbing'],[$sg_mhs,'no_unik_sg_mhs','sg_mhs']);
+			
+			$email_dobel   = $this->matching($email,$arrDatabaseEmail);
+			$no_unik_dobel = $this->matching($no_unik,$arrDatabaseNoUnik);
+	
+			if($is_edit){
+				$db = $_SESSION['edit_data']['db'];
+				//kalau ternyata yg sama adalah datanya dia ndiri maka harusnya valid ga dihitung dobwl
+				if($email_dobel !== FALSE){
+					if($_SESSION['edit_data']['id_'.$db] == $email_dobel['id']){
+						$email_dobel = FALSE;
 					}
-					$i++;
-					if($i > 1){ $i = 0 ; }
 				}
-			}
-		}
-
-
-		$_SESSION['form_akun_not_valid'] = [];
-		if($to_auth == 'both'){
-			foreach($arrEmail as $item){
-				if($_SESSION['data_form_akun']['email_akun'] == $item && $_SESSION['data_form_akun']['email_akun'] !== $edit_email ){
-					$valid = FALSE;
-					array_push( $_SESSION['form_akun_not_valid'], 'email_akun' );
-					break;
+				if($email_dobel !== FALSE){
+					if($_SESSION['edit_data']['id_'.$db] == $no_unik_dobel['id']){
+						$email_dobel = FALSE;
+					}
 				}
-			}
-			foreach($arrNoUnik as $item){
-				if($_SESSION['data_form_akun']['no_unik_akun'] == $item && $_SESSION['data_form_akun']['no_unik_akun'] !== $edit_no_unik ){
-					$valid = FALSE;
-					array_push( $_SESSION['form_akun_not_valid'], 'no_unik_akun' );
-					break;
-				}				
 			}	
+			
+			return array($email_dobel, $no_unik_dobel);
 		}else{
-			if($to_auth == 'email_akun'  ) {$arr = $arrEmail ;}
-			if($to_auth == 'no_unik_akun') {$arr = $arrNoUnik;}
-			foreach($arr as $item){
-				if($_SESSION['data_form_akun'][$to_auth] == $item && $_SESSION['data_form_akun'][$to_auth] !== $edit_email && $_SESSION['data_form_akun'][$to_auth] !== $edit_no_unik ){
-					$valid = FALSE;
-					array_push( $_SESSION['form_akun_not_valid'], $to_auth);
-					break;
-				}
-			}
+			throw new \Exception("method ini harus dipanggil sesudah ada submittan form");
 		}
-		return $valid;
-	}
+    }
+
+
+	//  		FUNGSI AUTH FORM INSTANSI
+	//   --------------------------------------------
+
+	protected function auth_dobel_instansi($is_edit = FALSE){
+		//fungai utk mencari kedobelan data, bila email awal dan no unik awal diisi 
+        //berarti auth dobel utk edit form, return array email no telepom dan no fax
+		//harus dipanggil setelah ada submittan form akun
+
+        
+        // menyimpan data submittan form ke dalam session agar tidak hilang
+        if(isset($_REQUEST)){
+			$this->buat_session_form('data_form_instansi');	
+
+			session()->get();
+			$Get = new Get();
+			$email = $_SESSION['data_form_instansi']['email_instansi'];
+			$no_telepon = $_SESSION['data_form_instansi']['no_telepon_instansi']; 	
+			$no_fax = $_SESSION['data_form_instansi']['no_fax_instansi']; 	
+			
+			$arrInstansi = $Get->get('instansi',NULL,'id_instansi,email_instansi,no_telepon_instansi,no_fax_instansi');			
+			
+			$arrDatabaseEmail  = array([$arrInstansi,'email_instansi' ,'instansi']);
+			$arrDatabaseNoTelepon  = array([$arrInstansi,'no_telepon_instansi' ,'instansi']);
+			$arrDatabaseNoFax  = array([$arrInstansi,'no_fax_instansi' ,'instansi']);
+
+
+			$email_dobel   = $this->matching($email,$arrDatabaseEmail);
+			$no_telepon_dobel   = $this->matching($no_telepon,$arrDatabaseNoTelepon);
+			$no_fax_dobel   = $this->matching($no_fax,$arrDatabaseNoFax);
+	
+			if($is_edit){
+				//kalau ternyata yg sama adalah datanya dia ndiri maka harusnya valid ga dihitung dobwl
+				if($email_dobel !== FALSE){
+					if($_SESSION['edit_data']['id_instansi'] == $email_dobel['id']){
+						$email_dobel = FALSE;
+					}
+				}
+				if($email_dobel !== FALSE){
+					if($_SESSION['edit_data']['id_instansi'] == $no_telepon_dobel['id']){
+						$email_dobel = FALSE;
+					}
+				}
+				if($email_dobel !== FALSE){
+					if($_SESSION['edit_data']['id_instansi'] == $no_fax_dobel['id']){
+						$email_dobel = FALSE;
+					}
+				}
+			}	
+			
+			return array($email_dobel, $no_telepon_dobel, $no_fax_dobel);
+		}else{
+			throw new \Exception("method ini harus dipanggil sesudah ada submittan form");
+		}
+    }
+
+
 }

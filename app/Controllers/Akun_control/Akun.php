@@ -47,7 +47,7 @@ class Akun extends BaseController
         }
         return $data;
     }
-
+    
     public function index(){
         if($this->verif_su()){
             $Get = new Get();
@@ -123,12 +123,16 @@ class Akun extends BaseController
 
     public function auth_tambahkan_akun(){
         if($this->verif_su()){
-            $this->buat_session_form('data_form_akun');
-            if( $this -> auth_form_akun() ){
+            $email_dobel = $this->auth_dobel_akun()[0];
+            $no_unik_dobel = $this->auth_dobel_akun()[1];
+
+            if( ! $email_dobel && ! $no_unik_dobel ){
                 $this->save_tambahkan_akun();
 
-                //penghapusan sesssion info dobel dimananya dari method auth_form_akun
-                session()->remove('form_akun_not_valid');
+                //penghapusan sesssion info dobel dari yang sebelumnya
+                if(isset($_SESSION['form_akun_not_valid'])){
+                    session()->remove('form_akun_not_valid');
+                }
                 //penghapusan session data_form_akun
                 $this->buat_session_form('data_form_akun',TRUE);
                 
@@ -136,6 +140,13 @@ class Akun extends BaseController
                 $alert['message'] = "Sukses menambahkan akun, password auto generated untuk akun telah terkirim di email akun terdaftar.";
                 return view('alertBox',$alert);
             }else{
+                if( $email_dobel !== FALSE &&  $no_unik_dobel !== FALSE){
+                    $_SESSION['form_akun_not_valid'] = ['email_akun','no_unik_akun'];
+                }else if( $email_dobel !== FALSE){
+                    $_SESSION['form_akun_not_valid'] = ['email_akun'];
+                }else{
+                    $_SESSION['form_akun_not_valid'] = ['no_unik_akun'];
+                }
                 return redirect()->to(base_url()."/Akun_control/Akun/tambahkan_akun");
             }
         }
@@ -185,11 +196,17 @@ class Akun extends BaseController
 
     public function edit_akun(){
 		if($this->verif_su()){
+            session()->get();
             $Get = new Get();
             $liveSearh = new LiveSearch();
-
-            $db = $_REQUEST['db'];
-            $id = $_REQUEST['id'];
+			
+            if(isset($_SESSION['edit_data'])){
+				$db = $_SESSION['edit_data']['db'];
+                $id = $_SESSION['edit_data']['id_'.$db];
+            }else{
+                $db = $_REQUEST['db'];
+                $id = $_REQUEST['id'];
+            }
             $data['edit_data'] = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE);
             $data['edit_data']['db'] = $db;
             $this->buat_session('edit_data',$data['edit_data']); 
@@ -210,25 +227,32 @@ class Akun extends BaseController
     public function auth_edit_akun(){
         if($this->verif_su()){
             session()->get();
-            $db = $_SESSION['edit_data']['db'];
-            if($this->verif_su()){
-                $this->buat_session_form('data_form_akun');
-                if( $this -> auth_form_akun('both',$_SESSION['edit_data']['email_'.$db],$_SESSION['edit_data']['no_unik_'.$db]) ){
-                    $this->save_edit_akun();
 
-                    //penghapusan sesssion info 'kedobelan dimana' dari method auth_form_akun
+            $email_dobel = $this->auth_dobel_akun(TRUE)[0];
+            $no_unik_dobel = $this->auth_dobel_akun(TRUE)[1];
+
+            if( ! $email_dobel && ! $no_unik_dobel ){
+                $this->save_edit_akun();
+
+                //penghapusan sesssion info dobel dari yang sebelumnya
+                if(isset($_SESSION['form_akun_not_valid'])){
                     session()->remove('form_akun_not_valid');
-                    //penghapusan session edit data
-                    $this->buat_session('edit_data');
-                    //penghapusan session data_form_akun
-                    $this->buat_session_form('data_form_akun',TRUE);
-                    
-                    $alert['path'] = 'Akun_control/Akun';
-                    $alert['message'] = "Sukses mengedit akun";
-                    return view('alertBox',$alert);
-                }else{
-                    return redirect()->to(base_url()."/Akun_control/Akun/edit_akun");
                 }
+                //penghapusan session data_form_akun
+                $this->buat_session_form('data_form_akun',TRUE);
+                
+                $alert['path'] = 'Akun_control/Akun';
+                $alert['message'] = "Sukses mengedit akun.";
+                return view('alertBox',$alert);
+            }else{
+                if( $email_dobel !== FALSE &&  $no_unik_dobel !== FALSE){
+                    $_SESSION['form_akun_not_valid'] = ['email_akun','no_unik_akun'];
+                }else if( $email_dobel !== FALSE){
+                    $_SESSION['form_akun_not_valid'] = ['email_akun'];
+                }else{
+                    $_SESSION['form_akun_not_valid'] = ['no_unik_akun'];
+                }
+                return redirect()->to(base_url()."/Akun_control/Akun/edit_akun");
             }
         }
     }

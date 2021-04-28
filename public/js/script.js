@@ -129,6 +129,23 @@ function verif_password(tipe,pass1,pass2 = null){
     return valid;
 }
 
+function verif_alamat(tipe){
+    var alamatReg = /^(.{1,})$/ ;
+
+    valid = alamatReg.test( $('#alamat_'+tipe).val() );
+
+    if( ! valid){
+        $('#warning_alamat_'+tipe).html(' *Wajib');
+        $('#alamat_'+tipe).removeClass('correct');
+        $('#alamat_'+tipe).addClass('wrong');	
+    }else{
+        $('#warning_alamat_'+tipe).html('');
+        $('#alamat_'+tipe).removeClass('wrong');
+        $('#alamat_'+tipe).addClass('correct');	
+    }
+	return valid;
+}
+
 //fungsi utama verifikasi
 function verif_typo_akun(required){
     var valid = true;
@@ -156,6 +173,20 @@ function verif_typo_akun(required){
             valid = false;
         }
     }
+    return valid;
+
+}
+
+function verif_typo_instansi(required){
+    var valid = true;
+	
+    if(required.includes('nama_instansi')){if(!verif_alamat('instansi')){valid = false;};}
+    if(required.includes('email_instansi')){if(!verif_email('instansi')){valid = false;};}
+    if(required.includes('no_telepon_instansi')){if(!verif_no('telepon_instansi')){valid = false;};}
+    if(required.includes('no_fax_instansi')){if(!verif_no('fax_instansi')){valid = false;};}
+    if(required.includes('alamat_instansi')){if(!verif_alamat('instansi')){valid = false;};}
+    
+
     return valid;
 
 }

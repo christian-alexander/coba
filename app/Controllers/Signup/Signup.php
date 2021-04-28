@@ -21,15 +21,28 @@ class Signup extends BaseController
     }
 
     public function auth_signup(){
-        $this->buat_session_form('data_form_akun');
-        if( $this -> auth_form_akun() ){
+        $email_dobel = $this->auth_dobel_akun()[0];
+        $no_unik_dobel = $this->auth_dobel_akun()[1];
+
+        if( ! $email_dobel && ! $no_unik_dobel ){
             $this->captcha_signup();
 
-            //penghapusan sesssion
-            session()->remove('form_akun_not_valid');
+            //penghapusan sesssion info dobel dari yang sebelumnya
+            if(isset($_SESSION['form_akun_not_valid'])){
+                session()->remove('form_akun_not_valid');
+            }
+            //penghapusan session data_form_akun
+            $this->buat_session_form('data_form_akun',TRUE);
             
             return view('signup/look_ur_email');
         }else{
+            if( $email_dobel !== FALSE &&  $no_unik_dobel !== FALSE){
+                $_SESSION['form_akun_not_valid'] = ['email_akun','no_unik_akun'];
+            }else if( $email_dobel !== FALSE){
+                $_SESSION['form_akun_not_valid'] = ['email_akun'];
+            }else{
+                $_SESSION['form_akun_not_valid'] = ['no_unik_akun'];
+            }
             return redirect()->to(base_url()."/Signup/Signup");
         }
     }

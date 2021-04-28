@@ -17,6 +17,7 @@
             </tr>  
         </thead>  
         <tbody><?php
+            if($data === NULL){$data = [];}
             foreach($data as $item){ 
                 if($is_lama_magang){
                     $kolom_lama_magang = str_replace("~",'',$kolom_lama_magang);

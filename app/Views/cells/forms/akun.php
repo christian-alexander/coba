@@ -22,7 +22,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                                         <?= $item['input_text'] ?> <a id="warning_<?= $item['name/id'] ?>" style="color:red;"></a><?php
                                     } ?>
                                     <p>
-                                        <input type = "<?= $item['input_type'] ?>" name="<?= $item['name/id'] ?>" id="<?= $item['name/id'] ?>" class = "inside-box form-control" value="">
+                                        <input type = "<?= $item['input_type'] ?>" name="<?= $item['name/id'] ?>" id="<?= $item['name/id'] ?>" class = "inside-box form-control" value="" placeholder = "<?= $item['placeholder'] ?>">
                                     </p>
                                 </div><?php
                             }else if($item['name/id'] == 'peran_akun'){ ?>
@@ -51,7 +51,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                                 <div class = "col-lg-6 col-md-6 col-sm-12 col-xs-12 input-box utkmhs" style="display:<?= $required[1][$i] ?>;">
                                     <?= $item['input_text'] ?> <br>
                                     <p>
-                                    <!-- mungkin akaj bertanya2 kenapa ada id di tiap option dosbing pemlap-->
+                                    <!-- mungkin akan bertanya2 kenapa ada id di tiap option dosbing pemlap-->
                                     <!-- jangan dihilangkan karena terkait dengan view su control edit akun, penjelasam ada disana -->
                                         <select name="<?= $item['name/id'] ?>" class="selectpicker select_utkmhs" id="<?= $item['name/id'] ?>"><?php
                                             if($item['name/id'] == 'id_dosbing_akun'){
@@ -82,15 +82,18 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                     </div><?php
                 }} ?>
                 <!-- buttons -->
-                <div class="div-tombol"> <?php
-                    foreach($button as $item){ ?><?php
-                        if(!isset($item['button_action'])){ ?>
-                            <button type = "submit" class = "btn <?= $item['button_type'] ?> tombol"><?= $item['button_text'] ?></button><?php
-                        }else{ ?>
-                            <a href = "<?= $item['button_action'] ?>" class = "btn <?= $item['button_type'] ?> tombol"><?= $item['button_text'] ?></a><?php    
-                        }
-                    } ?>
-                </div><?php
+                <?php
+                if(count($button) != 0){ ?>
+                    <div class="div-tombol"> <?php
+                        foreach($button as $item){ ?><?php
+                            if(!isset($item['button_action'])){ ?>
+                                <button type = "submit" class = "btn <?= $item['button_type'] ?> tombol"><?= $item['button_text'] ?></button><?php
+                            }else{ ?>
+                                <a href = "<?= $item['button_action'] ?>" class = "btn <?= $item['button_type'] ?> tombol"><?= $item['button_text'] ?></a><?php    
+                            }
+                        } ?>
+                    </div><?php
+                }
 if(isset($config['use_box'])){if($config['use_box']){ ?>
             </div>
         </form>

@@ -42,8 +42,8 @@
                     <li class="nav-item dropdown dropdown-nav" id="instansi">
                         <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Instansi</a>
                         <div class="dropdown-menu dropdown-menu-nav">
-                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/#">Daftar Instansi</a>
-                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/#">Tambahkan Instansi</a>
+                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Akun_control/Instansi">Daftar Instansi</a>
+                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/Akun_control/Instansi/tambahkan_instansi">Tambahkan Instansi</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown dropdown-nav" id="akun">

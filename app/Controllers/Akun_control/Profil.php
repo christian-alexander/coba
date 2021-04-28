@@ -56,6 +56,7 @@ class Profil extends BaseController
             $id = $_SESSION['loginData']['id'];
             $data['edit_data'] = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE); 
             $data['edit_data']['db'] = $db;
+            $this->buat_session('edit_data',$data['edit_data']); 
             return view('profil/edit_profil', $data);
         }
     }
@@ -63,21 +64,31 @@ class Profil extends BaseController
     public function auth_edit_profil(){
         if($this->is_logged()){
             session()->get();
-            $email = $_SESSION['loginData']['email'];
-            $no_unik = $_SESSION['loginData']['no_unik'];
 
-            $this->session_form_akun();
-            if( $this -> auth_form_akun('both',$email,$no_unik) ){
+            $email_dobel = $this->auth_dobel_akun(TRUE)[0];
+            $no_unik_dobel = $this->auth_dobel_akun(TRUE)[1];
+
+            if( ! $email_dobel && ! $no_unik_dobel ){
                 $this->save_edit_profil();
+
+                //penghapusan sesssion info dobel dari yang sebelumnya
+                if(isset($_SESSION['form_akun_not_valid'])){
+                    session()->remove('form_akun_not_valid');
+                }
+                //penghapusan session data_form_akun
+                $this->buat_session_form('data_form_akun',TRUE);
                 
-                //penghapusan session
-                session()->remove('form_akun_not_valid');
-                $this->session_form_akun(TRUE);
-                
-                $alert['message'] = "Berhasil mengedit profil";
-                $alert['path'] = "Akun_control/Profil";
+                $alert['path'] = 'Akun_control/Profil';
+                $alert['message'] = "Sukses mengedit profil.";
                 return view('alertBox',$alert);
             }else{
+                if( $email_dobel !== FALSE &&  $no_unik_dobel !== FALSE){
+                    $_SESSION['form_akun_not_valid'] = ['email_akun','no_unik_akun'];
+                }else if( $email_dobel !== FALSE){
+                    $_SESSION['form_akun_not_valid'] = ['email_akun'];
+                }else{
+                    $_SESSION['form_akun_not_valid'] = ['no_unik_akun'];
+                }
                 return redirect()->to(base_url()."/Akun_control/Profil/edit_profil");
             }
         }

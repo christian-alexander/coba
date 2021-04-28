@@ -123,39 +123,45 @@ defined('LOGIN_NAMING') || define('LOGIN_NAMING',[
 defined('FORM_AKUN_NAMING') || define('FORM_AKUN_NAMING',[
 
     'nama_akun' => [
-        'name/id'    => 'nama_akun',
-        'input_type' => 'text',
-        'input_text' => 'Nama Lengkap'
+        'name/id'     => 'nama_akun',
+        'input_type'  => 'text',
+        'input_text'  => 'Nama Lengkap',
+        'placeholder' => 'Nama Lengkap'
     ],
 
     'no_unik_akun' => [
-        'name/id'    => 'no_unik_akun',
-        'input_type' => 'tel',
-        'input_text' => 'NRP'
+        'name/id'     => 'no_unik_akun',
+        'input_type'  => 'tel',
+        'input_text'  => 'NRP',
+        'placeholder' => '311xxxxx'
     ],
     
     'email_akun' => [
-        'name/id'    => 'email_akun',
-        'input_type' => 'text',
-        'input_text' => 'Email'
+        'name/id'     => 'email_akun',
+        'input_type'  => 'text',
+        'input_text'  => 'Email',
+        'placeholder' => 'email@mail.com'
     ],
 
     'password_akun' => [
-        'name/id'    => 'password_akun',
-        'input_type' => 'password',
-        'input_text' => 'Password'
+        'name/id'     => 'password_akun',
+        'input_type'  => 'password',
+        'input_text'  => 'Password',
+        'placeholder' => '********'
     ],
 
     'konfirmasi_password_akun' => [
         'name/id'    => 'konfirmasi_password_akun',
         'input_type' => 'password',
-        'input_text' => 'Konfirmasi Password'
+        'input_text' => 'Konfirmasi Password',
+        'placeholder' => '********'
     ],
 
     'no_wa_akun' => [
-        'name/id'    => 'no_wa_akun', 
-        'input_type' => 'tel',
-        'input_text' => 'No WhatsApp'
+        'name/id'     => 'no_wa_akun', 
+        'input_type'  => 'tel',
+        'input_text'  => 'No WhatsApp',
+        'placeholder' => '082xxxxxx'
     ],
 
     'peran_akun' => [
@@ -182,4 +188,43 @@ defined('FORM_AKUN_NAMING') || define('FORM_AKUN_NAMING',[
         'input_text' => 'Pembimbing Lapangan'
     ]
     
+]);
+
+
+//penamaan standar form instansi
+defined('FORM_INSTANSI_NAMING') || define('FORM_INSTANSI_NAMING',[
+    'nama_instansi' => [
+        'name/id'     => 'nama_instansi',
+        'input_type'  => 'text',
+        'input_text'  => 'Nama Instansi',
+        'placeholder' => 'Nama Perusahaan / Instansi'
+    ],
+
+    'no_telepon_instansi' => [
+        'name/id'     => 'no_telepon_instansi',
+        'input_type'  => 'tel',
+        'input_text'  => 'No Telepon',
+        'placeholder' => '031xxxxx'
+    ],
+
+    'email_instansi' => [
+        'name/id'     => 'email_instansi',
+        'input_type'  => 'text',
+        'input_text'  => 'Email',
+        'placeholder' => 'perusahaan@mail.com'
+    ],
+
+    'no_fax_instansi' => [
+        'name/id'    => 'no_fax_instansi',
+        'input_type' => 'text',
+        'input_text' => 'No Fax',
+        'placeholder' => '031xxxxx'
+    ],
+
+    'alamat_instansi' => [
+        'name/id'     => 'alamat_instansi',
+        'input_type'  => 'text',
+        'input_text'  => 'Alamat',
+        'placeholder' => 'Jl. Disitu No 7'
+    ],
 ]);

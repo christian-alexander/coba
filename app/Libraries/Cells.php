@@ -1,14 +1,14 @@
 <?php namespace App\Libraries;
 
 /*
-    ------------  CARA PEMANGGILAN CELLS FORM ---------------
+    ------------  CARA PEMANGGILAN CELLS FORM AKUN ---------------
     view_cell('\App\Libraries\Cells::form_akun',
     [
-        'config' => ['form_title' => '(judul form)', 'form_action' => "(form ini mau dibawa kemana ketika submit)",'show_password' => TRUE/FALSE (pake see password atau ga), 'use_box' => TRUE / FALSE (box include with form) ],
+        'config' => ['form_title' => '(judul form)', 'form_action' => "(form ini mau dibawa kemana ketika submit,bila not use box tidak usah ditulis)",'show_password' => TRUE/FALSE (pake see password atau ga), 'use_box' => TRUE / FALSE (box include with form, tanpa box means gaada form) ],
         'required' => [
             ['nama_akun','email_akun'],
             ['display1','display2']
-        ];
+        ],
         'peran_display' => ['relative','none','relative'], 
         'button' => [
             ['button_type' => 'btn-success', 'button_text' => '(teks dalam btn)'],
@@ -25,8 +25,31 @@
 - display adalah array numerik berisi display default dari masing2 required
 - peran display, opsional, diperlukan bila terdapat seleksi peran, valuenya display dari dosbing, pemlap, dan mhs scr berurutan
 - button adalah array sederet button yang diperlukan, berisi array lagi (numerik) dan array lagi (assoc) yang berisi button_type, button_text, dan button_action, bila ada, default action null untuk mendeteksi button default untuk form tsb
+  bila ndak mau button isi valuenya dengan array kosongan
 - live_search adalah array untuk memasukkan komponen data live search, yang sebelumnya didapat dari controllernya
    live search naming selalu paten yaitu dosbing,pemlap,dan instansi, jangan gunakan nama yang lain
+*/
+
+/*
+            --------PEMANGGILAN CELLS FORM INSTANSI--------
+
+    view_cell('\App\Libraries\Cells::form_instansi',
+    [
+        'config' => ['form_title' => '(judul form)', 'form_action' => "(form ini mau dibawa kemana ketika submit, bila no form tdk usah ditulis)", 'use_box' => TRUE / FALSE (box include with form, no box no form) ],
+        'required' => [
+            ['nama_instansi','email_instansi'],
+            ['display1','display2']
+        ], 
+        'button' => [
+            ['button_type' => 'btn-success', 'button_text' => '(teks dalam btn)'],
+            ['button_type' => 'btn-danger', 'button_text' => '(teks dalam btn)', 'button_action' => "(lokasi bila btn di-klik, tidak diperlukan bila btn default form)"]
+        ], (button type menggunakan tipe2 button BootStrap4)
+        'is_edit_form => boolean, is edit form atau tidak,
+        'edit_data' => array edit data, bila bukan edit form tidak perlu ditulis
+    ]
+); 
+
+keterangan kurleb sama dengan form akun
 */
 
 /*
@@ -117,7 +140,11 @@ class Cells
         return view('cells/forms/akun',$arrConfig);
     }
 
-    
+    public function form_instansi($arrConfig)
+    {
+        return view('cells/forms/instansi',$arrConfig);
+    }
+
     public function nav_su($selected_nav_item)
     {
         return view('cells/nav/nav_su',$selected_nav_item);

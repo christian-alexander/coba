@@ -14,13 +14,6 @@
 </div>
 
 <?php
-    if($dosbing_on === NULL) {$dosbing_on  = [];}
-    if($dosbing_off === NULL){$dosbing_off = [];}
-    if($pemlap_on === NULL)  {$pemlap_on   = [];}
-    if($pemlap_off === NULL) {$pemlap_off  = [];}
-    if($mhs_on === NULL)     {$mhs_on      = [];}
-    if($mhs_off === NULL)    {$mhs_off     = [];}
-
 
     for($i = 1 ; $i <= 6 ; $i++){
         if($i % 2 == 1){

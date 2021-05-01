@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 26, 2021 at 03:49 PM
+-- Generation Time: May 01, 2021 at 06:25 AM
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
@@ -63,43 +63,18 @@ CREATE TABLE `instansi` (
   `email_instansi` char(100) NOT NULL,
   `alamat_instansi` char(100) NOT NULL,
   `status_instansi` char(3) NOT NULL DEFAULT 'on',
-  `instansi_acc_by` int(50) DEFAULT NULL
+  `acc_by_instansi` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `instansi`
 --
 
-INSERT INTO `instansi` (`timestamp_instansi`, `id_instansi`, `nama_instansi`, `no_telepon_instansi`, `no_fax_instansi`, `email_instansi`, `alamat_instansi`, `status_instansi`, `instansi_acc_by`) VALUES
-('2021-02-21 10:06:54', 0, 'Universitas Widya Kartika', '03124568', '03124568', 'admin@widyakartika.ac.id', 'Sutorejo Prima Utara II/1', 'on', 1),
-('2021-02-10 03:14:41', 1, 'UD. Bangkit', '031245679', '031245679', 'bangkit@gmail.com', 'Jalan Bangkit No. 2-4', 'on', 2),
-('2021-02-12 13:01:46', 2, 'PT. Berkarya', '03198980', '03198980', 'berkarya@berkarya.com', 'Jl. Karya Bakti No.5', 'on', 1),
-('2021-02-04 09:49:02', 3, 'PT. Jaya', '031234569', '031234569', 'jaya@gmail.com', 'jl.buah', 'on', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `izin`
---
-
-CREATE TABLE `izin` (
-  `timestamp_izin` timestamp NOT NULL DEFAULT current_timestamp(),
-  `id_izin` int(11) NOT NULL,
-  `id_mhs_izin` int(11) NOT NULL,
-  `id_dosbing_izin` int(11) DEFAULT NULL,
-  `id_pemlap_izin` int(11) DEFAULT NULL,
-  `nama_cp` char(100) NOT NULL,
-  `email_cp` char(100) NOT NULL,
-  `nip_cp` char(15) NOT NULL,
-  `no_telepon_cp` char(15) NOT NULL,
-  `id_instansi_izin` int(11) DEFAULT NULL,
-  `nama_ci` char(100) NOT NULL,
-  `email_ci` char(100) NOT NULL,
-  `no_telepon_ci` char(15) NOT NULL,
-  `no_fax_ci` char(15) NOT NULL,
-  `alamat_ci` char(100) NOT NULL,
-  `status_izin` char(10) NOT NULL DEFAULT 'diajukan'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `instansi` (`timestamp_instansi`, `id_instansi`, `nama_instansi`, `no_telepon_instansi`, `no_fax_instansi`, `email_instansi`, `alamat_instansi`, `status_instansi`, `acc_by_instansi`) VALUES
+('2021-02-21 10:06:54', 0, 'Universitas Widya Kartika', '03124568', '03124568', 'admin@widyakartika.ac.id', 'Sutorejo Prima Utara II/1', 'on', 'Tata Usaha'),
+('2021-02-10 03:14:41', 1, 'UD. Bangkit', '031245679', '031245679', 'bangkit@gmail.com', 'Jalan Bangkit No. 2-4', 'on', 'Tata Usaha'),
+('2021-02-12 13:01:46', 2, 'PT. Berkarya', '03198980', '03198980', 'berkarya@berkarya.com', 'Jl. Karya Bakti No.5', 'on', 'Tata Usaha'),
+('2021-02-04 09:49:02', 3, 'PT. Jaya', '031989809', '031989809', 'jaya@gmail.com', 'jl.buah', 'on', 'Tata Usaha');
 
 -- --------------------------------------------------------
 
@@ -308,6 +283,33 @@ CREATE TABLE `template_izin` (
 INSERT INTO `template_izin` (`id`, `nama_file`, `subjek_email`, `isi_email`) VALUES
 (1, 'Template Izin (2) (2).docx', 'Pemberitahuan Izin KP', 'Kepada Yth,\r\n${nama_cp}\r\n${nama_ci}\r\n\r\nTerima kasih telah bersedia menerima mahasiswa kami atas nama ${nama_mhs} untuk dapat melakukan Kerja Praktek di perusahaan yang Bapak/Ibu pimpin. Berikut kami lampirkan surat izin agar mahasiswa kami dapat melaksanakan Kerja Praktek. \r\n\r\nHormat kami,\r\nUniversitas Widya Kartika\r\n\r\nSurabaya,\r\n${tanggal}');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tppi`
+--
+
+CREATE TABLE `tppi` (
+  `timestamp_tppi` timestamp NOT NULL DEFAULT current_timestamp(),
+  `id_tppi` int(11) NOT NULL,
+  `id_mhs_tppi` int(11) DEFAULT NULL,
+  `id_dosbing_tppi` int(11) DEFAULT NULL,
+  `id_pemlap_tppi` int(11) DEFAULT NULL,
+  `id_instansi_tppi` int(11) DEFAULT NULL,
+  `nama_pemlap_tppi` varchar(100) NOT NULL,
+  `email_pemlap_tppi` varchar(100) NOT NULL,
+  `no_wa_pemlap_tppi` varchar(15) NOT NULL,
+  `no_unik_pemlap_tppi` varchar(20) NOT NULL,
+  `id_instansi_pemlap_tppi` int(11) DEFAULT NULL,
+  `nama_instansi_tppi` varchar(100) NOT NULL,
+  `email_instansi_tppi` varchar(100) NOT NULL,
+  `no_telepon_instansi_tppi` varchar(15) NOT NULL,
+  `no_fax_instansi_tppi` varchar(15) NOT NULL,
+  `alamat_instansi_tppi` varchar(200) NOT NULL,
+  `acc_kampus_tppi` varchar(10) NOT NULL DEFAULT 'diajukan',
+  `acc_pemlap_tppi` varchar(10) NOT NULL DEFAULT 'diajukan'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='tppi = temp pengajuan pemlap dan instansi';
+
 --
 -- Indexes for dumped tables
 --
@@ -324,17 +326,7 @@ ALTER TABLE `dosbing`
 --
 ALTER TABLE `instansi`
   ADD PRIMARY KEY (`id_instansi`),
-  ADD KEY `instansi_acc_by` (`instansi_acc_by`);
-
---
--- Indexes for table `izin`
---
-ALTER TABLE `izin`
-  ADD PRIMARY KEY (`id_izin`),
-  ADD KEY `id_mahasiswa` (`id_mhs_izin`),
-  ADD KEY `id_pemlap` (`id_pemlap_izin`),
-  ADD KEY `id_dosbing` (`id_dosbing_izin`),
-  ADD KEY `id_instansi` (`id_instansi_izin`);
+  ADD KEY `instansi_acc_by` (`acc_by_instansi`);
 
 --
 -- Indexes for table `mhs`
@@ -394,6 +386,17 @@ ALTER TABLE `template_izin`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tppi`
+--
+ALTER TABLE `tppi`
+  ADD PRIMARY KEY (`id_tppi`),
+  ADD KEY `id_mhs_tppi1` (`id_mhs_tppi`),
+  ADD KEY `id_dosbing_tppi1` (`id_dosbing_tppi`),
+  ADD KEY `id_pemlap_tppi1` (`id_pemlap_tppi`),
+  ADD KEY `id_instansi_tppi1` (`id_instansi_tppi`),
+  ADD KEY `id_instansi_pemlap_tppi1` (`id_instansi_pemlap_tppi`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -407,13 +410,7 @@ ALTER TABLE `dosbing`
 -- AUTO_INCREMENT for table `instansi`
 --
 ALTER TABLE `instansi`
-  MODIFY `id_instansi` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
-
---
--- AUTO_INCREMENT for table `izin`
---
-ALTER TABLE `izin`
-  MODIFY `id_izin` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_instansi` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `mhs`
@@ -452,6 +449,12 @@ ALTER TABLE `su`
   MODIFY `id_su` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `tppi`
+--
+ALTER TABLE `tppi`
+  MODIFY `id_tppi` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -460,21 +463,6 @@ ALTER TABLE `su`
 --
 ALTER TABLE `dosbing`
   ADD CONSTRAINT `dosbing_ibfk_1` FOREIGN KEY (`id_instansi_dosbing`) REFERENCES `instansi` (`id_instansi`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `instansi`
---
-ALTER TABLE `instansi`
-  ADD CONSTRAINT `instansi_ibfk_1` FOREIGN KEY (`instansi_acc_by`) REFERENCES `su` (`id_su`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `izin`
---
-ALTER TABLE `izin`
-  ADD CONSTRAINT `izin_ibfk_1` FOREIGN KEY (`id_mhs_izin`) REFERENCES `mhs` (`id_mhs`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `izin_ibfk_2` FOREIGN KEY (`id_dosbing_izin`) REFERENCES `dosbing` (`id_dosbing`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `izin_ibfk_3` FOREIGN KEY (`id_instansi_izin`) REFERENCES `instansi` (`id_instansi`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `izin_ibfk_4` FOREIGN KEY (`id_pemlap_izin`) REFERENCES `pemlap` (`id_pemlap`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `mhs`

@@ -13,9 +13,9 @@ class Signup extends BaseController
     ];
 
     public function index(){
-        $liveSearh = new LiveSearch();
+        $liveSearch = new LiveSearch();
 
-        $data['liveSearch'] = ['dosbing' => $liveSearh->get_dosbing()];  
+        $data['liveSearch'] = ['dosbing' => $liveSearch->get_dosbing()];  
         $data['required'] = $this->required;  
         return view('signup/signup', $data);
     }

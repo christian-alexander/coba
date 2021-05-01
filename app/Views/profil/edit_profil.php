@@ -20,7 +20,6 @@ view_cell('\App\Libraries\Cells::form_akun',
         ],
         'live_search' => [],
         'is_edit_form' => TRUE,
-        'edit_auth' => ['email' => $_SESSION['loginData']['email'], 'no_unik' => $_SESSION['loginData']['no_unik']],
         'edit_data' => $edit_data
     ]
 ); 

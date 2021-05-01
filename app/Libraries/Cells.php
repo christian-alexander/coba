@@ -54,7 +54,7 @@ keterangan kurleb sama dengan form akun
 
 /*
     PEMANGGILAN SIMPLE TABLE
-    view_cell(\App\Libraries\Cells::simple_table,
+    view_cell('\App\Libraries\Cells::simple_table',
         [
             'judul_tabel' => 'namaTabel',
             'data_tabel' => 
@@ -128,6 +128,27 @@ keterangan kurleb sama dengan form akun
 */
 
 
+/*
+                PEMANGGILAN FORM TPPI
+        -------------------------------------
+
+echo view_cell('\App\Libraries\Cells::form_tppi',
+    [
+        'config' => ['form_title' => nama form, 'form_action' => form action],
+        'liveSearch' => data live search yang diperlukan, yaitu live search pemlap dan instansi
+        'tppi_si_mhs' => $tppi_si_mhs, dr controller,
+        'button' => [
+            ['button_type' => 'btn-success', 'button_text' => '(teks dalam btn)'],
+            ['button_type' => 'btn-danger', 'button_text' => '(teks dalam btn)', 'button_action' => "(lokasi bila btn di-klik, tidak diperlukan bila btn default form)"]
+        ], (button type menggunakan tipe2 button BootStrap4)
+        'is_tppi_edit' => boolean true or false
+        'data_edit' => data tppi edit, bila is tppi edit false maka ini tidak perlu ditulis, data berupa array data tppi edit
+    ]
+);
+
+
+*/
+
 class Cells
 {
     public function look_ur_email()
@@ -145,6 +166,13 @@ class Cells
         return view('cells/forms/instansi',$arrConfig);
     }
 
+    
+    public function form_tppi($arrConfig)
+    {
+        return view('cells/forms/tppi',$arrConfig);
+    }
+
+    
     public function nav_su($selected_nav_item)
     {
         return view('cells/nav/nav_su',$selected_nav_item);

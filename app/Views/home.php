@@ -7,52 +7,54 @@ session()->get();
 echo view_cell('\App\Libraries\Cells::nav_'.$_SESSION['loginData']['db'],['selected' => ['home']]);
 
 
-if($_SESSION['loginData']['db'] == "su" || $_SESSION['loginData']['db'] == "dosbing" || $_SESSION['loginData']['db'] == "dosbing"){
+if($_SESSION['loginData']['db'] == "su" || $_SESSION['loginData']['db'] == "dosbing" || $_SESSION['loginData']['db'] == "pemlap"){
     
 
     $data_dalam_bimbingan = [];
     $data_selesai_bimbingan = [];
     
-    foreach($data_db as $item){
-        $arr_dalam = [];
-        $arr_dalam['id_mhs'] = $item['id_mhs'];
-        $arr_dalam['nama_mhs'] = $item['nama_mhs'];
-        $arr_dalam['no_unik_mhs'] = $item['no_unik_mhs'];
-        $arr_dalam['nama_dosbing'] = $item['nama_dosbing'];
-        $arr_dalam['nama_instansi'] = $item['nama_instansi'];
-        $arr_dalam['nama_pemlap'] = $item['nama_pemlap'];
-
-        //untuk menghitung lama magang
-        if($item['time4']!="" && $item['time4']!=NULL){ 
-            //untuk tanggal mulai
-            $tanggalMulai = $item['time1'];
-
-            //untuk menghitung lama magang dlm bulan 
-            $awal = strtotime($item['time4']);
-            if($item['time6'] != NULL){
-                $now = strtotime($item['time6']);
+    if($data_db !== NULL){
+        foreach($data_db as $item){
+            $arr_dalam = [];
+            $arr_dalam['id_mhs'] = $item['id_mhs'];
+            $arr_dalam['nama_mhs'] = $item['nama_mhs'];
+            $arr_dalam['no_unik_mhs'] = $item['no_unik_mhs'];
+            $arr_dalam['nama_dosbing'] = $item['nama_dosbing'];
+            $arr_dalam['nama_instansi'] = $item['nama_instansi'];
+            $arr_dalam['nama_pemlap'] = $item['nama_pemlap'];
+    
+            //untuk menghitung lama magang
+            if($item['time4']!="" && $item['time4']!=NULL){ 
+                //untuk tanggal mulai
+                $tanggalMulai = $item['time1'];
+    
+                //untuk menghitung lama magang dlm bulan 
+                $awal = strtotime($item['time4']);
+                if($item['time6'] != NULL){
+                    $now = strtotime($item['time6']);
+                }else{
+                    $now = strtotime(date("Y-m-d G:i:s"));
+                }
+                $rentangBulan = floor(($now - $awal)/(30.4*24*60*60)); 
             }else{
-                $now = strtotime(date("Y-m-d G:i:s"));
+                $tanggalMulai = 'Belum Memulai';
+                $rentangBulan = "0";
             }
-            $rentangBulan = floor(($now - $awal)/(30.4*24*60*60)); 
-        }else{
-            $tanggalMulai = 'Belum Memulai';
-            $rentangBulan = "0";
-        }
-		
-        $arr_dalam['tanggal_mulai'] = $tanggalMulai;
-        $arr_dalam['lama_magang'] = $rentangBulan;
-
-        if($item['time6'] != null && $item['time6'] != ''){
-            $tanggalSelesai = $item['time6'];
-            $arr_dalam['tanggal_selesai'] = $tanggalSelesai;
-        }
-
-        //sekarang ada 2 array data untuk 2 tabel
-        if($item['time6'] != null && $item['time6'] != ''){
-			array_push($data_selesai_bimbingan,$arr_dalam);
-        }else{
-            array_push($data_dalam_bimbingan,$arr_dalam);
+            
+            $arr_dalam['tanggal_mulai'] = $tanggalMulai;
+            $arr_dalam['lama_magang'] = $rentangBulan;
+    
+            if($item['time6'] != null && $item['time6'] != ''){
+                $tanggalSelesai = $item['time6'];
+                $arr_dalam['tanggal_selesai'] = $tanggalSelesai;
+            }
+    
+            //sekarang ada 2 array data untuk 2 tabel
+            if($item['time6'] != null && $item['time6'] != ''){
+                array_push($data_selesai_bimbingan,$arr_dalam);
+            }else{
+                array_push($data_dalam_bimbingan,$arr_dalam);
+            }
         }
     }
 	
@@ -159,6 +161,27 @@ if($_SESSION['loginData']['db'] == "su" || $_SESSION['loginData']['db'] == "dosb
             'data' => $data_selesai_bimbingan
         ]
     );
+
+}else{
+    //nah ini untuk home mhs
+    if($is_accepted){
+        //kalo acc maka manggil cells apa, blm dibuat
+    }else{
+        //kalo blm dpt acc manggil cell form isian
+        echo view_cell('\App\Libraries\Cells::form_tppi',
+    		[
+				'config' => ['form_title' => 'Ajukan Pembimbing dan Instansi', 'form_action' => ''],
+                'liveSearch' => $liveSearch,
+                'tppi_si_mhs' => $tppi_si_mhs,
+                'button' =>
+                	[
+                        ['button_type' => 'btn-success', 'button_text' => 'Ajukan']
+                    ],
+                'is_tppi_edit' => FALSE,
+                'edit_data' => []
+            ]
+    	);
+    }
 
 }
 ?>

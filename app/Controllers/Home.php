@@ -2,6 +2,7 @@
 namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\Get;
+use App\Models\LiveSearch;
 
 class Home extends BaseController
 {
@@ -29,7 +30,55 @@ class Home extends BaseController
 
             //untuk home mhs
             if($_SESSION['loginData']['db'] == "mhs"){
-                $data['data_db'] = NULL;
+                //ambil semua data di tabel tppi
+                $data_tppi = $Get->get('tppi',NULL,'id_mhs_tppi,nama_pemlap_tppi,nama_instansi_tppi,acc_kampus_tppi,acc_pemlap_tppi');
+                
+                $id = $_SESSION['loginData']['id'];
+                $tppi_si_mhs = [];
+                if($data_tppi !== NULL){
+                    foreach($data_tppi as $item){
+                        if($item['id_mhs_tppi'] == $id){
+                            array_push($tppi_si_mhs,$item);
+                        }
+                    }
+                }
+                
+                //rangkaian if else utk tentukan apakah sudah ada yg ter acc blm
+                $is_accepted = FALSE;
+                if(count($tppi_si_mhs) != 0){
+                    //kalau ada data maka..
+                    foreach($tppi_si_mhs as $item){
+                        if($item['acc_kampus_tppi'] == 'disetujui' && $item['acc_pemlap_tppi'] == 'disetujui'){
+                            //kalau sudah disetujui semua berarti tampilkan home mhs yg sbenarnya
+                            $is_accepted = TRUE;
+                            break;
+                        }else{
+                            //kalau blm ada yg di acc maka tampilkan form isian
+                            $is_accepted = FALSE;
+                            break;
+                        }
+                    }
+                }else{
+                    //kalau tidak ada data maka tampilkan form isian
+                    $is_accepted = FALSE;
+                }
+                //rangkaian if else berakhir
+
+
+                if($is_accepted){
+                    //logic utk tampilkan data yang diperlukan utk home sebenarnya
+                    $data['is_accepted'] = TRUE;
+                }else{
+                    //logic untuk tampilkan data yang diperlukan utk form isian
+                    $liveSearch = new LiveSearch();
+
+                    $data['liveSearch'] = [
+                        'pemlap' => $liveSearch->get_pemlap(),
+                        'instansi' => $liveSearch->get_instansi()
+                    ];  
+                    $data['tppi_si_mhs'] = $tppi_si_mhs;
+                    $data['is_accepted'] = FALSE;
+                }
             }
 
             return view('home',$data);

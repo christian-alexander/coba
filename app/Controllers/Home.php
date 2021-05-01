@@ -31,7 +31,7 @@ class Home extends BaseController
             //untuk home mhs
             if($_SESSION['loginData']['db'] == "mhs"){
                 //ambil semua data di tabel tppi
-                $data_tppi = $Get->get('tppi',NULL,'id_mhs_tppi,nama_pemlap_tppi,nama_instansi_tppi,acc_kampus_tppi,acc_pemlap_tppi');
+                $data_tppi = $Get->get('tppi');
                 
                 $id = $_SESSION['loginData']['id'];
                 $tppi_si_mhs = [];

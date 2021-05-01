@@ -52,9 +52,22 @@
                                     <form method="POST" action="<?= $item2['href'] ?>" onsubmit ="return <?= $item2['confirm_func'] ?>()">  
                                     <span><a href="#" class="<?= $item2['jenis_icon'] ?>" title="<?= $item2['toggle'] ?>" data-toggle="tooltip"><button type="submit" style="background:rgba(0,0,0,0);color:inherit;border:0px solid white;" id="<?= $id ?>" class="<?= $class ?>"><i class="material-icons"><?= $item2['jenis_icon'] ?></i></button></a></span> 
                                     <?php
+                                }else if($item2['id'] !== NULL){
+                                    $class = $item2['class']; 
+                                    $kolom_id = str_replace('~','',$item2['id']);
+                                    $id = $item[$kolom_id];
+                                    if($item2['href'] !== NULL){ ?> 
+                                	    <form method="POST" action="<?= $item2['href'] ?>">
+                                    <?php
+                                    } ?>
+                                    <span><a href="#" class="<?= $item2['jenis_icon'] ?>" title="<?= $item2['toggle'] ?>" data-toggle="tooltip"><button type="submit" style="background:rgba(0,0,0,0);color:inherit;border:0px solid white;" id="<?= $id ?>" class="<?= $class ?>"><i class="material-icons"><?= $item2['jenis_icon'] ?></i></button></a></span> 
+                                    <?php
                                 }else{
-                                    $class = $item2['class']; ?> 
-                                	<form method="POST" action="<?= $item2['href'] ?>">
+                                    $class = $item2['class']; 
+                                    if($item2['href'] !== NULL){ ?> 
+                                	    <form method="POST" action="<?= $item2['href'] ?>">
+                                    <?php
+                                    } ?>
                                     <span><a href="#" class="<?= $item2['jenis_icon'] ?>" title="<?= $item2['toggle'] ?>" data-toggle="tooltip"><button type="submit" style="background:rgba(0,0,0,0);color:inherit;border:0px solid white;" class="<?= $class ?>"><i class="material-icons"><?= $item2['jenis_icon'] ?></i></button></a></span> 
                                     <?php
                                 }
@@ -73,7 +86,10 @@
                                         $id_clickable = $item[$kolom_id_clickable]; 
                                         ?>
                                         <input type="text" name="id" value="<?= $id_clickable ?>" style="display:none;">
-                                    </form> <?php
+                                    <?php
+                                    if($item2['href'] !== NULL){ ?>
+                                        </form> <?php
+                                    }
                             } ?>
                             <div class='dropdown'>
                                 <a href='#' aria-haspopup="true" aria-expanded="false" class='ondesktop-hide' title="Info" data-toggle="dropdown"><button type="submit" style="background:rgba(0,0,0,0);color:inherit;border:0px solid white;"><i class="material-icons">info</i></button></a>

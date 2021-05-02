@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2021 at 06:25 AM
+-- Generation Time: May 02, 2021 at 05:37 AM
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
@@ -64,7 +64,7 @@ CREATE TABLE `instansi` (
   `alamat_instansi` char(100) NOT NULL,
   `status_instansi` char(3) NOT NULL DEFAULT 'on',
   `acc_by_instansi` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='id instansi uwika harus di set di 0';
 
 --
 -- Dumping data for table `instansi`
@@ -148,7 +148,7 @@ CREATE TABLE `pemlap` (
   `timestamp_pemlap` timestamp NOT NULL DEFAULT current_timestamp(),
   `id_pemlap` int(50) NOT NULL,
   `email_pemlap` char(50) NOT NULL,
-  `no_unik_pemlap` char(20) NOT NULL,
+  `no_unik_pemlap` char(20) NOT NULL DEFAULT 'Tidak Ada',
   `nama_pemlap` char(100) NOT NULL,
   `no_wa_pemlap` char(15) NOT NULL,
   `id_instansi_pemlap` int(50) DEFAULT NULL,
@@ -299,7 +299,7 @@ CREATE TABLE `tppi` (
   `nama_pemlap_tppi` varchar(100) NOT NULL,
   `email_pemlap_tppi` varchar(100) NOT NULL,
   `no_wa_pemlap_tppi` varchar(15) NOT NULL,
-  `no_unik_pemlap_tppi` varchar(20) NOT NULL,
+  `no_unik_pemlap_tppi` varchar(20) NOT NULL DEFAULT 'Tidak Ada',
   `id_instansi_pemlap_tppi` int(11) DEFAULT NULL,
   `nama_instansi_tppi` varchar(100) NOT NULL,
   `email_instansi_tppi` varchar(100) NOT NULL,
@@ -390,11 +390,11 @@ ALTER TABLE `template_izin`
 --
 ALTER TABLE `tppi`
   ADD PRIMARY KEY (`id_tppi`),
-  ADD KEY `id_mhs_tppi1` (`id_mhs_tppi`),
-  ADD KEY `id_dosbing_tppi1` (`id_dosbing_tppi`),
-  ADD KEY `id_pemlap_tppi1` (`id_pemlap_tppi`),
-  ADD KEY `id_instansi_tppi1` (`id_instansi_tppi`),
-  ADD KEY `id_instansi_pemlap_tppi1` (`id_instansi_pemlap_tppi`);
+  ADD KEY `id_mhs_tppi` (`id_mhs_tppi`),
+  ADD KEY `id_dosbing_tppi` (`id_dosbing_tppi`),
+  ADD KEY `id_pemlap_tppi` (`id_pemlap_tppi`),
+  ADD KEY `id_instansi_tppi` (`id_instansi_tppi`),
+  ADD KEY `tppi_ibfk_5` (`id_instansi_pemlap_tppi`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -452,7 +452,7 @@ ALTER TABLE `su`
 -- AUTO_INCREMENT for table `tppi`
 --
 ALTER TABLE `tppi`
-  MODIFY `id_tppi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_tppi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -497,6 +497,16 @@ ALTER TABLE `sg_mhs`
 ALTER TABLE `status_magang`
   ADD CONSTRAINT `status_magang_ibfk_1` FOREIGN KEY (`id_mhs`) REFERENCES `mhs` (`id_mhs`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `status_magang_ibfk_2` FOREIGN KEY (`id_status`) REFERENCES `nama_status_magang` (`id_status`);
+
+--
+-- Constraints for table `tppi`
+--
+ALTER TABLE `tppi`
+  ADD CONSTRAINT `tppi_ibfk_1` FOREIGN KEY (`id_mhs_tppi`) REFERENCES `mhs` (`id_mhs`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tppi_ibfk_2` FOREIGN KEY (`id_dosbing_tppi`) REFERENCES `dosbing` (`id_dosbing`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `tppi_ibfk_3` FOREIGN KEY (`id_pemlap_tppi`) REFERENCES `pemlap` (`id_pemlap`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `tppi_ibfk_4` FOREIGN KEY (`id_instansi_tppi`) REFERENCES `instansi` (`id_instansi`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `tppi_ibfk_5` FOREIGN KEY (`id_instansi_pemlap_tppi`) REFERENCES `tppi` (`id_instansi_tppi`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

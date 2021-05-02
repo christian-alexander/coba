@@ -166,13 +166,24 @@ if($_SESSION['loginData']['db'] == "su" || $_SESSION['loginData']['db'] == "dosb
     //nah ini untuk home mhs
     if($is_accepted){
         //kalo acc maka manggil cells apa, blm dibuat
+    }else if($wait){ ?>
+        <div class='container'>
+        	<div class='box-info' style='font-size:15pt;'>
+            	Mohon menunggu, pengajuan anda sedang ditinjau oleh TU dan Pembimbing Lapangan.
+            </div>
+        </div>
+    <?php
+        echo view_cell('\App\Libraries\Cells::riwayat_tppi',
+            [
+                'tppi_si_mhs' => $tppi_si_mhs
+            ]
+        );
     }else{
         //kalo blm dpt acc manggil cell form isian
         echo view_cell('\App\Libraries\Cells::form_tppi',
     		[
 				'config' => ['form_title' => 'Ajukan Pembimbing dan Instansi', 'form_action' => base_url().'/TPPI/Form/auth_form_tppi'],
                 'liveSearch' => $liveSearch,
-                'tppi_si_mhs' => $tppi_si_mhs,
                 'button' =>
                 	[
                         ['button_type' => 'btn-success', 'button_text' => 'Ajukan']
@@ -181,6 +192,11 @@ if($_SESSION['loginData']['db'] == "su" || $_SESSION['loginData']['db'] == "dosb
                 'edit_data' => []
             ]
     	);
+        echo view_cell('\App\Libraries\Cells::riwayat_tppi',
+        	[
+				'tppi_si_mhs' => $tppi_si_mhs
+            ]
+        );
     }
 
 }

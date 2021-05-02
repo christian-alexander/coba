@@ -187,7 +187,7 @@ class BaseController extends Controller
 				session()->remove($nama_session);
 			}
 			foreach($_REQUEST as $key => $item){
-				if(strpos($jenis_form,$key) >= 0){
+				if(strpos($key,$jenis_form) !== FALSE){
 					//perlakuan khusus utk data password dari form akun
 					if($_REQUEST[$key] == "password_akun"){
 						$_SESSION[$nama_session][$key] = password_hash($item,PASSWORD_DEFAULT);

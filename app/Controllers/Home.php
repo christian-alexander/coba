@@ -45,6 +45,7 @@ class Home extends BaseController
                 
                 //rangkaian if else utk tentukan apakah sudah ada yg ter acc blm
                 $is_accepted = FALSE;
+                $wait = FALSE;
                 if(count($tppi_si_mhs) != 0){
                     //kalau ada data maka..
                     foreach($tppi_si_mhs as $item){
@@ -52,9 +53,8 @@ class Home extends BaseController
                             //kalau sudah disetujui semua berarti tampilkan home mhs yg sbenarnya
                             $is_accepted = TRUE;
                             break;
-                        }else{
-                            //kalau blm ada yg di acc maka tampilkan form isian
-                            $is_accepted = FALSE;
+                        }else if($item['acc_kampus_tppi'] == "diajukan" || $item['acc_pemlap_tppi'] == "diajukan") {
+                            $wait = TRUE;
                             break;
                         }
                     }
@@ -68,6 +68,11 @@ class Home extends BaseController
                 if($is_accepted){
                     //logic utk tampilkan data yang diperlukan utk home sebenarnya
                     $data['is_accepted'] = TRUE;
+                    $data['wait'] = FALSE;
+                }else if($wait){
+                    $data['is_accepted'] = FALSE;
+                    $data['wait'] = TRUE;                    
+                    $data['tppi_si_mhs'] = $tppi_si_mhs;
                 }else{
                     //logic untuk tampilkan data yang diperlukan utk form isian
                     $liveSearch = new LiveSearch();
@@ -78,6 +83,7 @@ class Home extends BaseController
                     ];  
                     $data['tppi_si_mhs'] = $tppi_si_mhs;
                     $data['is_accepted'] = FALSE;
+                    $data['wait'] = FALSE;
                 }
             }
 

@@ -138,7 +138,6 @@ echo view_cell('\App\Libraries\Cells::form_tppi',
     [
         'config' => ['form_title' => nama form, 'form_action' => form action],
         'liveSearch' => data live search yang diperlukan, yaitu live search pemlap dan instansi
-        'tppi_si_mhs' => $tppi_si_mhs, dr controller,
         'button' => [
             ['button_type' => 'btn-success', 'button_text' => '(teks dalam btn)'],
             ['button_type' => 'btn-danger', 'button_text' => '(teks dalam btn)', 'button_action' => "(lokasi bila btn di-klik, tidak diperlukan bila btn default form)"]
@@ -149,6 +148,17 @@ echo view_cell('\App\Libraries\Cells::form_tppi',
 );
 
 
+*/
+
+/*
+				PEMANGGILAN CELL RIWAYAT TPPI
+            --------------------------------------
+
+    echo view_cell('\App\Libraries\Cells::riwayat_tppi,
+    	[
+            'tppi_si_mhs' => $tppi_si_mhs //tppi si mhs dr controller
+        ]
+    );
 */
 
 class Cells
@@ -203,5 +213,9 @@ class Cells
 
     public function data_table($arrConfig){
         return view('cells/table/data_table',$arrConfig);
+    }
+
+    public function riwayat_tppi($arrConfig){
+        return view('cells/table/riwayat_tppi',$arrConfig);
     }
 }

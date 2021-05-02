@@ -173,9 +173,10 @@ class BaseController extends Controller
 		}
 	}
 
-	protected function buat_session_form($nama_session,$destroy_session = FALSE){
+	protected function buat_session_form($nama_session,$jenis_form,$destroy_session = FALSE){
 		//memasukkan data dari form ke dalam session
 		//khusus untuk pengambilan data dari form, mau apapun form itu
+		//setiap form mempunyai ciri khas name, jenis form isi dengan 'akun' atau 'instansi' atau ciri khas form lainnya bila ada
 		//karena mengambil dari request, nama session wajib, 
 		//bedanya dgn method buat_session ada di requestnya
 		session()->get();
@@ -186,11 +187,13 @@ class BaseController extends Controller
 				session()->remove($nama_session);
 			}
 			foreach($_REQUEST as $key => $item){
-				//perlakuan khusus utk data password dari form akun
-				if($_REQUEST[$key] == "password_akun"){
-					$_SESSION[$nama_session][$key] = password_hash($item,PASSWORD_DEFAULT);
-				}else{
-					$_SESSION[$nama_session][$key] = $item;
+				if(strpos($jenis_form,$key) >= 0){
+					//perlakuan khusus utk data password dari form akun
+					if($_REQUEST[$key] == "password_akun"){
+						$_SESSION[$nama_session][$key] = password_hash($item,PASSWORD_DEFAULT);
+					}else{
+						$_SESSION[$nama_session][$key] = $item;
+					}
 				}
 			}
 		}
@@ -208,7 +211,7 @@ class BaseController extends Controller
         
         // menyimpan data submittan form ke dalam session agar tidak hilang
         if(isset($_REQUEST)){
-			$this->buat_session_form('data_form_akun');	
+			$this->buat_session_form('data_form_akun','akun');	
 
 			session()->get();
 			$Get = new Get();
@@ -235,9 +238,9 @@ class BaseController extends Controller
 						$email_dobel = FALSE;
 					}
 				}
-				if($email_dobel !== FALSE){
+				if($no_unik_dobel !== FALSE){
 					if($_SESSION['edit_data']['id_'.$db] == $no_unik_dobel['id']){
-						$email_dobel = FALSE;
+						$no_unik_dobel = FALSE;
 					}
 				}
 			}	
@@ -260,7 +263,7 @@ class BaseController extends Controller
         
         // menyimpan data submittan form ke dalam session agar tidak hilang
         if(isset($_REQUEST)){
-			$this->buat_session_form('data_form_instansi');	
+			$this->buat_session_form('data_form_instansi','instansi');	
 
 			session()->get();
 			$Get = new Get();
@@ -286,14 +289,14 @@ class BaseController extends Controller
 						$email_dobel = FALSE;
 					}
 				}
-				if($email_dobel !== FALSE){
+				if($no_telepon_dobel !== FALSE){
 					if($_SESSION['edit_data']['id_instansi'] == $no_telepon_dobel['id']){
-						$email_dobel = FALSE;
+						$no_telepon_dobel = FALSE;
 					}
 				}
-				if($email_dobel !== FALSE){
+				if($no_fax_dobel !== FALSE){
 					if($_SESSION['edit_data']['id_instansi'] == $no_fax_dobel['id']){
-						$email_dobel = FALSE;
+						$no_fax_dobel = FALSE;
 					}
 				}
 			}	

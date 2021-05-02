@@ -7,7 +7,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
             <b><?= $config['form_title'] ?></b>
         </div>			
             
-        <form method = "POST" action = "<?= $config['form_action'] ?>" onsubmit ="return final_verify();">
+        <form method = "POST" action = "<?= $config['form_action'] ?>" onsubmit ="return final_verify_instansi();">
             <div class="container" style="padding-left:2em;"><?php
 }} ?>
                 <div class = "row"><?php
@@ -17,7 +17,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                             <div class = "col-lg-6 col-md-6 col-sm-12 col-xs-12 input-box" style="display:<?= $required[1][$i] ?>;"> 
                                 <?= $item['input_text'] ?> <a id="warning_<?= $item['name/id'] ?>" style="color:red;"></a>
                                 <p>
-                                    <input type = "<?= $item['input_type'] ?>" name="<?= $item['name/id'] ?>" id="<?= $item['name/id'] ?>" class = "inside-box form-control" value="" placeholder="<?= $item['placeholder'] ?>">
+                                    <input type = "<?= $item['input_type'] ?>" name="<?= $item['name/id'] ?>" id="<?= $item['name/id'] ?>" class = "inside-box form-control form-control-instansi" value="" placeholder="<?= $item['placeholder'] ?>">
                                 </p>
                             </div>
                             <?php
@@ -41,7 +41,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
         </form>
     </div><?php
 }} ?>
-<!-- <button onclick = "final_verify()">djkaja</button> -->
+<!-- <button onclick = "final_verify_instansi()">djkaja</button> -->
 <!-- loading bar -->
 <div id = 'bg-for-loading'>
     <div id = 'lds-dual-ring'></div>
@@ -60,7 +60,7 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
             } ?>
             //memberi class betul pada semua form-control
             
-            $('.form-control').addClass('correct');
+            $('.form-control-instansi').addClass('correct');
 
             <?php
             //menyalahkan email atau no telepon atau no fax
@@ -136,14 +136,14 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
     });
 
     //js untuk masukkan required ke arr js
-    var required = new Array();
+    var required_instansi = new Array();
     <?php
     foreach($required[0] as $item){ ?>
-		required.push('<?= $item ?>');<?php
+		required_instansi.push('<?= $item ?>');<?php
     }?>
 
-    function final_verify(){
-        if(verif_typo_instansi(required)){
+    function final_verify_instansi(){
+        if(verif_typo_instansi(required_instansi)){
             $('#bg-for-loading').css('display','block');
             $('#lds-dual-ring').css('display','inline-block');
             return true;

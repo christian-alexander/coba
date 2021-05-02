@@ -86,9 +86,10 @@ class Instansi extends BaseController
 
     public function auth_tambahkan_instansi(){
         if($this->verif_su()){
-            $email_dobel = $this->auth_dobel_instansi()[0];
-            $no_telepon_dobel = $this->auth_dobel_instansi()[1];
-            $no_fax_dobel = $this->auth_dobel_instansi()[2];
+            $dobel_instansi = $this->auth_dobel_instansi();
+            $email_dobel = $dobel_instansi[0];
+            $no_telepon_dobel = $dobel_instansi[1];
+            $no_fax_dobel = $dobel_instansi[2];
 
             if( ! $email_dobel && ! $no_telepon_dobel && ! $no_fax_dobel){
                 $this->save_tambahkan_instansi();
@@ -98,7 +99,7 @@ class Instansi extends BaseController
                     session()->remove('form_instansi_not_valid');
                 }
                 //penghapusan session data_form_instansi
-                $this->buat_session_form('data_form_instansi',TRUE);
+                $this->buat_session_form('data_form_instansi','instansi',TRUE);
                 
                 $alert['path'] = 'Akun_control/Instansi';
                 $alert['message'] = "Sukses menambahkan instansi.";
@@ -156,9 +157,10 @@ class Instansi extends BaseController
     
     public function auth_edit_instansi(){
         if($this->verif_su()){
-            $email_dobel = $this->auth_dobel_instansi(TRUE)[0];
-            $no_telepon_dobel = $this->auth_dobel_instansi(TRUE)[1];
-            $no_fax_dobel = $this->auth_dobel_instansi(TRUE)[2];
+            $dobel_instansi = $this->auth_dobel_instansi(TRUE);
+            $email_dobel = $dobel_instansi[0];
+            $no_telepon_dobel = $dobel_instansi[1];
+            $no_fax_dobel = $dobel_instansi[2];
 
             if( ! $email_dobel && ! $no_telepon_dobel && ! $no_fax_dobel){
                 $this->save_edit_instansi();
@@ -168,7 +170,7 @@ class Instansi extends BaseController
                     session()->remove('form_instansi_not_valid');
                 }
                 //penghapusan session data_form_instansi
-                $this->buat_session_form('data_form_instansi',TRUE);
+                $this->buat_session_form('data_form_instansi','instansi',TRUE);
                 
                 $alert['path'] = 'Akun_control/Instansi';
                 $alert['message'] = "Sukses mengedit instansi.";

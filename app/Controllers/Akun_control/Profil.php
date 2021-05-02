@@ -64,9 +64,9 @@ class Profil extends BaseController
     public function auth_edit_profil(){
         if($this->is_logged()){
             session()->get();
-
-            $email_dobel = $this->auth_dobel_akun(TRUE)[0];
-            $no_unik_dobel = $this->auth_dobel_akun(TRUE)[1];
+            $dobel_akun = $this->auth_dobel_akun(TRUE);
+            $email_dobel = $dobel_akun[0];
+            $no_unik_dobel = $dobel_akun[1];
 
             if( ! $email_dobel && ! $no_unik_dobel ){
                 $this->save_edit_profil();
@@ -76,7 +76,7 @@ class Profil extends BaseController
                     session()->remove('form_akun_not_valid');
                 }
                 //penghapusan session data_form_akun
-                $this->buat_session_form('data_form_akun',TRUE);
+                $this->buat_session_form('data_form_akun','akun',TRUE);
                 
                 $alert['path'] = 'Akun_control/Profil';
                 $alert['message'] = "Sukses mengedit profil.";

@@ -38,7 +38,12 @@ function verif_nama(tipe){
     //validasi nama
     var valid = true;
     var nameReg = /^([a-z,A-Z, ])+?$/;
-    valid = nameReg.test( $('#nama_'+tipe).val() );
+    var nameInstansiReg = /^(.{1,})$/;
+    if(tipe == 'akun'){
+        valid = nameReg.test( $('#nama_'+tipe).val() );
+    }else{
+        valid = nameInstansiReg.test( $('#nama_'+tipe).val() );
+    }
     
     if(valid){
         $('#warning_nama_'+tipe).html('');
@@ -180,7 +185,7 @@ function verif_typo_akun(required){
 function verif_typo_instansi(required){
     var valid = true;
 	
-    if(required.includes('nama_instansi')){if(!verif_alamat('instansi')){valid = false;};}
+    if(required.includes('nama_instansi')){if(!verif_nama('instansi')){valid = false;};}
     if(required.includes('email_instansi')){if(!verif_email('instansi')){valid = false;};}
     if(required.includes('no_telepon_instansi')){if(!verif_no('telepon_instansi')){valid = false;};}
     if(required.includes('no_fax_instansi')){if(!verif_no('fax_instansi')){valid = false;};}

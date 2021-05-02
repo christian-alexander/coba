@@ -18,7 +18,7 @@ if($is_tppi_edit === FALSE){
         <b><?= $config['form_title'] ?></b>
     </div>			
         
-    <form method = "POST" action = "<?= $config['form_action'] ?>" onsubmit ="return final_verify();">
+    <form method = "POST" action = "<?= $config['form_action'] ?>" onsubmit ="return final_verify_tppi();">
         <div class="box-info">
             <a>Sudah menemukan instansi / perusahaan yang mau menerima anda magang? Silahkan pilih data untuk meminta surat izin dari TU.</a>
         </div>
@@ -27,7 +27,7 @@ if($is_tppi_edit === FALSE){
             <div class = "row" style='text-align:center;'>
                 <div class = "col-md-6 select-calon" id='div-select-pemlap'>
                     Pembimbing Lapangan<br>
-                    <select name = "pembimbing_lapangan" id="select-pemlap" class="selectpicker" data-live-search="true">
+                    <select name = "id_pemlap_tppi" id="select-pemlap" class="selectpicker" data-live-search="true">
                         <?php
                         foreach($liveSearch['pemlap'] as $item){ ?>
                             <option value="<?= $item['id_pemlap']?>" data-subtext="<?= $item['nama_instansi'] ?>"><?= $item['nama_pemlap']?></option><?php
@@ -36,7 +36,7 @@ if($is_tppi_edit === FALSE){
                 </div>
                 <div class = "col-md-6 select-calon" id='div-select-instansi'> 
                     Instansi<br>
-                    <select name = "id_instansi" id= "select-instansi" class="selectpicker" data-live-search="true"><?php
+                    <select name = "id_instansi_tppi" id= "select-instansi" class="selectpicker" data-live-search="true"><?php
                         foreach($liveSearch['instansi'] as $item){ 
                             if($item['id_instansi'] != 0){ ?>
                                 <option value="<?= $item['id_instansi']?>" data-subtext= "<?= $item['alamat_instansi'] ?>" ><?= $item['nama_instansi']?></option><?php
@@ -220,6 +220,24 @@ if($_SESSION['loginData']['db'] == 'mhs'){
 	$(document).ready(function(){
         $('#teks_no_unik_akun').html('NIP (Opsional)');
         $('#peran_akun').val('pemlap').change();
+        <?php
+        session()->get();
+        if(isset($_SESSION['data_form_akun'])){ ?>
+			$('#show-pemlap').prop('checked','true');
+            show_pemlap();
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $("#show-pemlap").offset().top
+            }, 1000);
+        <?php
+        }
+        if(isset($_SESSION['data_form_instansi'])){ ?>
+			$('#show-instansi').prop('checked','true');
+            show_instansi();
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $("#show-instansi").offset().top
+            }, 1000);
+        <?php
+        } ?>
     });
 	
     function show_pemlap(){
@@ -260,4 +278,36 @@ if($_SESSION['loginData']['db'] == 'mhs'){
             scrollTop: $("#detail_"+this.id).offset().top
         }, 1000);
     });
+
+    function final_verify_tppi(){
+        if($('#show-pemlap:checked').length > 0 && $('#show-instansi:checked').length > 0){
+            var valid_akun = verif_typo_akun(required_akun);
+            var valid_instansi = verif_typo_instansi(required_instansi);
+            if(valid_akun && valid_instansi){
+                $('#bg-for-loading').css('display','block');
+                $('#lds-dual-ring').css('display','inline-block');
+                return true;
+            }else{
+                return false;
+            }
+        }else if($('#show-pemlap:checked').length > 0){
+            if(final_verify_akun(required_akun)){
+                $('#bg-for-loading').css('display','block');
+                $('#lds-dual-ring').css('display','inline-block');
+                return true;
+            }else{
+                return false;
+            }
+        }else if($('#show-instansi:checked').length > 0){
+            if(final_verify_instansi(required_instansi)){
+                $('#bg-for-loading').css('display','block');
+                $('#lds-dual-ring').css('display','inline-block');
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return true;
+        }
+    }
 </script>

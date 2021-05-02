@@ -170,7 +170,7 @@ if($_SESSION['loginData']['db'] == "su" || $_SESSION['loginData']['db'] == "dosb
         //kalo blm dpt acc manggil cell form isian
         echo view_cell('\App\Libraries\Cells::form_tppi',
     		[
-				'config' => ['form_title' => 'Ajukan Pembimbing dan Instansi', 'form_action' => ''],
+				'config' => ['form_title' => 'Ajukan Pembimbing dan Instansi', 'form_action' => base_url().'/TPPI/Form/auth_form_tppi'],
                 'liveSearch' => $liveSearch,
                 'tppi_si_mhs' => $tppi_si_mhs,
                 'button' =>

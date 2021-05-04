@@ -16,7 +16,7 @@ view_cell('\App\Libraries\Cells::form_akun',
         'peran_display' => ['block','block','block'], //karena ada peran namun none
         'button' => [
             ['button_type' => 'btn-success', 'button_text' => 'Edit'],
-            ['button_type' => 'btn-danger', 'button_text' => 'Cancel', 'button_action' => base_url()."/Pages/Home"]
+            ['button_type' => 'btn-danger', 'button_text' => 'Cancel', 'button_action' => base_url()."/Home"]
         ],
         'live_search' => [],
         'is_edit_form' => TRUE,

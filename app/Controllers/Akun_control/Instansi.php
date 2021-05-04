@@ -11,21 +11,6 @@ class Instansi extends BaseController
         ['block','block','block','block','block']
     ];
 
-    private function verif_su(){
-        session()->get();
-        if(isset($_SESSION['loginData'])){
-            if($_SESSION['loginData']['db'] == 'su'){
-                return TRUE;
-            }else{
-                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-            	return FALSE;
-        	}
-        }else{
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-            return FALSE;
-        }
-    }
-
     private function change_data_name(){
         //dari form nama data adalah nama_akun,email_akun, dst
         //maka dari itu ketika proses add atau edit ke db harus diubah
@@ -37,7 +22,7 @@ class Instansi extends BaseController
     }
 
     public function index(){
-        if($this->verif_su()){
+        if($this->filter_user(['su'])){
             $Get = new Get();
             $data['instansi_on'] = $Get->get('instansi',NULL,NULL,['status_instansi' => 'on']);  
             $data['instansi_off'] = $Get->get('instansi',NULL,NULL,['status_instansi' => 'off']);
@@ -48,7 +33,7 @@ class Instansi extends BaseController
 
 
     public function delete_instansi(){
-        if($this->verif_su()){
+        if($this->filter_user(['su'])){
             $id = $_REQUEST['id'];
             
             $AddEditDelete = new AddEditDelete();
@@ -63,7 +48,7 @@ class Instansi extends BaseController
     }
 
     public function restore_instansi(){
-        if($this->verif_su()){
+        if($this->filter_user(['su'])){
             $id = $_REQUEST['id'];
             
             $AddEditDelete = new AddEditDelete();
@@ -78,14 +63,14 @@ class Instansi extends BaseController
     }
 
     public function tambahkan_instansi(){
-        if($this->verif_su()){
+        if($this->filter_user(['su'])){
             $data['required'] = $this->required;  
             return view('su_control/tambahkan_instansi', $data);
         }
     }
 
     public function auth_tambahkan_instansi(){
-        if($this->verif_su()){
+        if($this->filter_user(['su'])){
             $dobel_instansi = $this->auth_dobel_instansi();
             $email_dobel = $dobel_instansi[0];
             $no_telepon_dobel = $dobel_instansi[1];
@@ -121,7 +106,7 @@ class Instansi extends BaseController
         }
     }
 
-    public function save_tambahkan_instansi(){
+    private function save_tambahkan_instansi(){
         session()->get();
         $dataForm = $_SESSION['data_form_instansi'];
         $AddEditDelete = new AddEditDelete();
@@ -138,7 +123,7 @@ class Instansi extends BaseController
     }
 
     public function edit_instansi(){
-        if($this->verif_su()){
+        if($this->filter_user(['su'])){
             $Get = new Get();
 
             if(isset($_SESSION['edit_data'])){
@@ -156,7 +141,7 @@ class Instansi extends BaseController
 
     
     public function auth_edit_instansi(){
-        if($this->verif_su()){
+        if($this->filter_user(['su'])){
             $dobel_instansi = $this->auth_dobel_instansi(TRUE);
             $email_dobel = $dobel_instansi[0];
             $no_telepon_dobel = $dobel_instansi[1];
@@ -192,7 +177,7 @@ class Instansi extends BaseController
         }
     }
 
-    public function save_edit_instansi(){
+    private function save_edit_instansi(){
         session()->get();
         $AddEditDelete = new AddEditDelete();
 

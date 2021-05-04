@@ -5,7 +5,7 @@
 
 <div class = "container">
     Tampilkan Tabel :
-    <select id = "seleksi" onchange="show()">
+    <select id = "seleksi" onchange="show()" class='selectpicker'>
         <option value = "semua">Semua</option>
         <option value = "Dosen Pembimbing ">Dosen Pembimbing</option>
         <option value = "Pembimbing Lapangan ">Pembimbing Lapangan</option>

@@ -13,21 +13,6 @@ class Akun extends BaseController
         ['block','block','block','block','block','block','block','block']
     ];
 
-    private function verif_su(){
-        session()->get();
-        if(isset($_SESSION['loginData'])){
-            if($_SESSION['loginData']['db'] == 'su'){
-                return TRUE;
-            }else{
-                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-            	return FALSE;
-        	}
-        }else{
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-            return FALSE;
-        }
-    }
-
     private function change_data_name($db){
         //dari form nama data adalah nama_akun,email_akun, dst
         //maka dari itu ketika proses add atau edit ke db harus diubah
@@ -49,7 +34,7 @@ class Akun extends BaseController
     }
     
     public function index(){
-        if($this->verif_su()){
+        if($this->filter_user(['su'])){
             $Get = new Get();
             
             $joined_mhs = [
@@ -76,7 +61,7 @@ class Akun extends BaseController
     }
 
     public function delete_akun(){
-        if($this->verif_su()){
+        if($this->filter_user(['su'])){
             $db = $_REQUEST['db'];
             $id = $_REQUEST['id'];
             
@@ -92,7 +77,7 @@ class Akun extends BaseController
     }
 
     public function restore_akun(){
-        if($this->verif_su()){
+        if($this->filter_user(['su'])){
             $db = $_REQUEST['db'];
             $id = $_REQUEST['id'];
             
@@ -108,7 +93,7 @@ class Akun extends BaseController
     }
 
     public function tambahkan_akun(){
-        if($this->verif_su()){
+        if($this->filter_user(['su'])){
             $liveSearh = new LiveSearch();
 
             $data['liveSearch'] = [
@@ -122,7 +107,7 @@ class Akun extends BaseController
     }
 
     public function auth_tambahkan_akun(){
-        if($this->verif_su()){
+        if($this->filter_user(['su'])){
             $dobel_akun = $this->auth_dobel_akun();
             $email_dobel = $dobel_akun[0];
             $no_unik_dobel = $dobel_akun[1];
@@ -154,62 +139,74 @@ class Akun extends BaseController
     }
 
     private function save_tambahkan_akun(){
-        if($this->verif_su()){
-            session()->get();
-            $AddEditDelete = new AddEditDelete();
-            $db = $_REQUEST['peran_akun'];
-            
-            //bila pemlap belum ada maka 'null' yg dr cell form akun hrs diganti null yg sebenarnya
-          	if(isset($_REQUEST['id_pemlap_akun'])){
-                if($_REQUEST['id_pemlap_akun'] == 'null'){
-                    $_REQUEST['id_pemlap_akun'] = NULL;
-                }
+        session()->get();
+        $AddEditDelete = new AddEditDelete();
+        $db = $_REQUEST['peran_akun'];
+        
+        //bila pemlap belum ada maka 'null' yg dr cell form akun hrs diganti null yg sebenarnya
+        if(isset($_REQUEST['id_pemlap_akun'])){
+            if($_REQUEST['id_pemlap_akun'] == 'null'){
+                $_REQUEST['id_pemlap_akun'] = NULL;
             }
-
-            
-			$data = $this->change_data_name($db);
-
-            $password = $this->get_captcha(10);
-            $data['password_'.$db] = password_hash($password, PASSWORD_DEFAULT);
-            $data['acc_by_'.$db] = $_SESSION['loginData']['nama'];
-            
-            $AddEditDelete->add($db,$data);
-
-            //kirim email
-            $nama = $_REQUEST['nama_akun'];
-            $nama_admin = $_SESSION['loginData']['nama'];
-            $url = base_url();
-            $no_unik = $_REQUEST['no_unik_akun'];
-            $email = $_REQUEST['email_akun'];
-            $pesan = "Hai, $nama <br><br> 
-                        Email anda telah didaftarkan ke Sistem KP UWIKA oleh admin atas nama $nama_admin. <br><br> 
-                        Anda bisa login ke $url dengan username dan password sebagai berikut : <br>
-                        Username : $no_unik atau $email<br>
-                        Password : $password<br><br>
-                        Harap segera mengganti password default dengan password anda sendiri untuk keamanan akun anda.<br><br>
-                        Terima kasih,<br>
-                        Sistem KP UWIKA" ;
-
-            $this->send_email("Selamat Datang di Sistem KP UWIKA",$pesan,NULL,$email);
-    
         }
+
+        
+        $data = $this->change_data_name($db);
+
+        $password = $this->get_captcha(10);
+        $data['password_'.$db] = password_hash($password, PASSWORD_DEFAULT);
+        $data['acc_by_'.$db] = $_SESSION['loginData']['nama'];
+        
+        $AddEditDelete->add($db,$data);
+
+        //kirim email
+        $nama = $_REQUEST['nama_akun'];
+        $nama_admin = $_SESSION['loginData']['nama'];
+        $url = base_url();
+        $no_unik = $_REQUEST['no_unik_akun'];
+        $email = $_REQUEST['email_akun'];
+        $pesan = "Hai, $nama <br><br> 
+                    Email anda telah didaftarkan ke Sistem KP UWIKA oleh admin atas nama $nama_admin. <br><br> 
+                    Anda bisa login ke $url dengan username dan password sebagai berikut : <br>
+                    Username : $no_unik atau $email<br>
+                    Password : $password<br><br>
+                    Harap segera mengganti password default dengan password anda sendiri untuk keamanan akun anda.<br><br>
+                    Terima kasih,<br>
+                    Sistem KP UWIKA" ;
+
+        $this->send_email("Selamat Datang di Sistem KP UWIKA",$pesan,NULL,$email);
+
     }
 
     public function edit_akun(){
-		if($this->verif_su()){
+        if($this->filter_user(['su'])){
             session()->get();
             $Get = new Get();
             $liveSearh = new LiveSearch();
 			
             if(isset($_SESSION['edit_data'])){
 				$db = $_SESSION['edit_data']['db'];
-                $id = $_SESSION['edit_data']['id_'.$db];
+                $id = $_SESSION['edit_data']['id'];
             }else{
                 $db = $_REQUEST['db'];
                 $id = $_REQUEST['id'];
             }
-            $data['edit_data'] = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE);
+
+            $edit_data = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE);
+            //foreach untuk mengganti key nama_pemlap,nama_dosbing menjadi seragam nama_akun dsb
+            foreach($edit_data as $key => $item){
+                foreach($this->required[0] as $req_item){
+                    $needed = explode("akun",$req_item)[0];
+                    if(strpos($key,$needed) !== FALSE){
+                        //menempatkan item yang sesuai di key yang sesuai, new key sudah nama_akun dsb
+                        $new_key = $needed."akun";
+                        $data['edit_data'][$new_key] = $item;
+                        break; 
+                    }
+                }
+            }
             $data['edit_data']['db'] = $db;
+            $data['edit_data']['id'] = $id;
             $this->buat_session('edit_data',$data['edit_data']); 
             
 
@@ -219,14 +216,14 @@ class Akun extends BaseController
                 'instansi' => $liveSearh->get_instansi(),
             ];  
             $data['required'] = $this->required;  
-
+            
             return view('su_control/edit_akun',$data);
         }
     }
 
 
     public function auth_edit_akun(){
-        if($this->verif_su()){
+        if($this->filter_user(['su'])){
             session()->get();
             $dobel_akun = $this->auth_dobel_akun(TRUE);
             $email_dobel = $dobel_akun[0];
@@ -246,12 +243,15 @@ class Akun extends BaseController
                 $alert['message'] = "Sukses mengedit akun.";
                 return view('alertBox',$alert);
             }else{
-                if( $email_dobel !== FALSE &&  $no_unik_dobel !== FALSE){
-                    $_SESSION['form_akun_not_valid'] = ['email_akun','no_unik_akun'];
-                }else if( $email_dobel !== FALSE){
-                    $_SESSION['form_akun_not_valid'] = ['email_akun'];
-                }else{
-                    $_SESSION['form_akun_not_valid'] = ['no_unik_akun'];
+                $arr = [
+                    [$email_dobel,'email_akun'],
+                    [$no_unik_dobel,'no_unik_akun']
+                ];
+                $_SESSION['form_akun_not_valid'] = [];
+                foreach($arr as $item){
+                    if($item[0] !== FALSE){
+                        array_push($_SESSION['form_akun_not_valid'],$item[1]);
+                    }
                 }
                 return redirect()->to(base_url()."/Akun_control/Akun/edit_akun");
             }
@@ -259,18 +259,17 @@ class Akun extends BaseController
     }
 
     private function save_edit_akun(){
-		if($this->verif_su()){
-            $db = $_SESSION['edit_data']['db'];
-			$AddEditDelete = new AddEditDelete();
+        $db = $_SESSION['edit_data']['db'];
+        $AddEditDelete = new AddEditDelete();
 
-            // kasus khusus bila terjadi pergantian peran
-            if($_REQUEST['peran_akun'] != $db){
-                $this->save_edit_peran_changed();
-            }else{
-                $data = $this->change_data_name($db);
-				$AddEditDelete->edit($db,$data,'id_'.$db,$_SESSION['edit_data']['id_'.$db]);
-            }
+        // kasus khusus bila terjadi pergantian peran
+        if($_REQUEST['peran_akun'] != $db){
+            $this->save_edit_peran_changed();
+        }else{
+            $data = $this->change_data_name($db);
+            $AddEditDelete->edit($db,$data,'id_'.$db,$_SESSION['edit_data']['id_'.$db]);
         }
+    
     }
 
     private function save_edit_peran_changed(){

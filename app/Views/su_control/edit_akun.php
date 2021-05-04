@@ -31,13 +31,13 @@ echo view_cell('\App\Libraries\Cells::form_akun',
 		alert('Mengganti peran akun dapat menyebabkan mahasiswa yang menjadikan akun ini sebagai dosen pembimbing / pembimbing lapangannya akan kehilangan dosen / pembimbing mereka (di set menjadi tidak ada)')
     	<?php
         if($edit_data['db'] == 'dosbing'){ ?>
-			$('#option_dosbing_<?= $edit_data['id_dosbing'] ?>').css('display','none');
+			$('#option_dosbing_<?= $edit_data['id'] ?>').css('display','none');
         <?php
         } ?>
 
 		<?php
         if($edit_data['db'] == 'pemlap'){ ?>
-			$('#option_pemlap_<?= $edit_data['id_pemlap'] ?>').css('display','none');
+			$('#option_pemlap_<?= $edit_data['id'] ?>').css('display','none');
         <?php
         } ?>
     });

@@ -55,6 +55,23 @@ class BaseController extends Controller
 	| FUNGSI FUNGSI YANG BANYAK DIGUNAKAN
 	|
 	*/
+
+	//			FUNGSI UNTUK VERIF APAKAH YANG AKSES ORG YANG BERHAK
+	//     --------------------------------------------------------------- 	
+	protected function filter_user($arrAllowed){
+		//arr allowed isinya bisa su dosbing pemlap dan atau mhs
+		$valid = TRUE;
+		session()->get();
+		if(isset($_SESSION['loginData'])){
+			if(in_array($_SESSION['loginData']['db'],$arrAllowed)){
+				return TRUE;
+			}else{
+				throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+			}
+		}else{
+			throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+		}
+	}
 	
 	protected function matching($objek,$arrDatabase)
 	{
@@ -63,7 +80,7 @@ class BaseController extends Controller
 		// struktur $arrDatabase adalah [data_yang_dari_model_get,namaKolom,namaDB] di setiap itemnya
 		// arr database yg di dump kesini harus bentuk array besar, walaupun db yg utk pencarian cuma 1
 		// contoh : $arrDatabase = array([$data_dari_db,'kolom','nama db']);
-		// returning arr kecocokan id dan db atau FALSE. bila ditemukan satu saja cocok akan stop searching
+		// returning arr kecocokan id dan db dan valuenya atau FALSE. bila ditemukan satu saja cocok akan stop searching
 		// karena ngereturn id jgn lupa untuk select id jg saat mendapatkan data dari model Get
 		
 		$lanjutScan = TRUE;
@@ -92,6 +109,7 @@ class BaseController extends Controller
 			return FALSE;
 		}else{
 			$arr = [
+				'value' => $objek,
 				'id'   => $idCocok,
 				'db' => $tipe
 			]; 
@@ -212,7 +230,7 @@ class BaseController extends Controller
         // menyimpan data submittan form ke dalam session agar tidak hilang
         if(isset($_REQUEST)){
 			$this->buat_session_form('data_form_akun','akun');	
-
+			
 			session()->get();
 			$Get = new Get();
 			$email = $_SESSION['data_form_akun']['email_akun'];
@@ -222,10 +240,11 @@ class BaseController extends Controller
 			$pemlap     = $Get->get('pemlap'    ,NULL,'id_pemlap    ,email_pemlap    ,no_unik_pemlap    ',['status_pemlap'  => 'on']);
 			$mhs        = $Get->get('mhs'       ,NULL,'id_mhs       ,email_mhs       ,no_unik_mhs       ',['status_mhs'     => 'on']);
 			$sg_mhs     = $Get->get('sg_mhs'    ,NULL,'id_sg_mhs    ,email_sg_mhs    ,no_unik_sg_mhs    ');
-			$sg_dosbing = $Get->get('sg_dosbing',NULL,'id_sg_dosbing,email_sg_dosbing,no_unik_sg_dosbing');			
+			$sg_dosbing = $Get->get('sg_dosbing',NULL,'id_sg_dosbing,email_sg_dosbing,no_unik_sg_dosbing');	
+			$tppi 		= $Get->get('tppi'	    ,NULL,'id_tppi      ,email_pemlap_tppi,no_unik_pemlap_tppi'); 		
 			
-			$arrDatabaseEmail  = array([$dosbing,'email_dosbing'  ,'dosbing'],[$pemlap,'email_pemlap'  ,'pemlap'],[$mhs,'email_mhs'  ,'mhs'],[$sg_dosbing,'email_sg_dosbing'  ,'sg_dosbing'],[$sg_mhs,'email_sg_mhs'  ,'sg_mhs']);
-			$arrDatabaseNoUnik = array([$dosbing,'no_unik_dosbing','dosbing'],[$pemlap,'no_unik_pemlap','pemlap'],[$mhs,'no_unik_mhs','mhs'],[$sg_dosbing,'no_unik_sg_dosbing','sg_dosbing'],[$sg_mhs,'no_unik_sg_mhs','sg_mhs']);
+			$arrDatabaseEmail  = array([$dosbing,'email_dosbing'  ,'dosbing'],[$pemlap,'email_pemlap'  ,'pemlap'],[$mhs,'email_mhs'  ,'mhs'],[$sg_dosbing,'email_sg_dosbing'  ,'sg_dosbing'],[$sg_mhs,'email_sg_mhs'  ,'sg_mhs'],[$tppi,'email_pemlap_tppi'  ,'tppi']);
+			$arrDatabaseNoUnik = array([$dosbing,'no_unik_dosbing','dosbing'],[$pemlap,'no_unik_pemlap','pemlap'],[$mhs,'no_unik_mhs','mhs'],[$sg_dosbing,'no_unik_sg_dosbing','sg_dosbing'],[$sg_mhs,'no_unik_sg_mhs','sg_mhs'],[$tppi,'no_unik_pemlap_tppi','tppi']);
 			
 			$email_dobel   = $this->matching($email,$arrDatabaseEmail);
 			$no_unik_dobel = $this->matching($no_unik,$arrDatabaseNoUnik);
@@ -234,12 +253,12 @@ class BaseController extends Controller
 				$db = $_SESSION['edit_data']['db'];
 				//kalau ternyata yg sama adalah datanya dia ndiri maka harusnya valid ga dihitung dobwl
 				if($email_dobel !== FALSE){
-					if($_SESSION['edit_data']['id_'.$db] == $email_dobel['id']){
+					if($_SESSION['edit_data']['email_akun'] == $email_dobel['value']){
 						$email_dobel = FALSE;
 					}
 				}
 				if($no_unik_dobel !== FALSE){
-					if($_SESSION['edit_data']['id_'.$db] == $no_unik_dobel['id']){
+					if($_SESSION['edit_data']['no_unik_akun'] == $no_unik_dobel['value']){
 						$no_unik_dobel = FALSE;
 					}
 				}
@@ -272,10 +291,12 @@ class BaseController extends Controller
 			$no_fax = $_SESSION['data_form_instansi']['no_fax_instansi']; 	
 			
 			$arrInstansi = $Get->get('instansi',NULL,'id_instansi,email_instansi,no_telepon_instansi,no_fax_instansi');			
-			
-			$arrDatabaseEmail  = array([$arrInstansi,'email_instansi' ,'instansi']);
-			$arrDatabaseNoTelepon  = array([$arrInstansi,'no_telepon_instansi' ,'instansi']);
-			$arrDatabaseNoFax  = array([$arrInstansi,'no_fax_instansi' ,'instansi']);
+			$arrInstansiTPPI = $Get->get('tppi',NULL,'id_tppi,email_instansi_tppi,no_telepon_instansi_tppi,no_fax_instansi_tppi');			
+			 
+
+			$arrDatabaseEmail  		= array([$arrInstansi,'email_instansi' ,'instansi'],[$arrInstansiTPPI,'email_instansi_tppi' ,'tppi']);
+			$arrDatabaseNoTelepon   = array([$arrInstansi,'no_telepon_instansi' ,'instansi'],[$arrInstansiTPPI,'no_telepon_instansi_tppi' ,'tppi']);
+			$arrDatabaseNoFax  		= array([$arrInstansi,'no_fax_instansi' ,'instansi'],[$arrInstansiTPPI,'no_fax_instansi_tppi' ,'tppi']);
 
 
 			$email_dobel   = $this->matching($email,$arrDatabaseEmail);
@@ -285,17 +306,17 @@ class BaseController extends Controller
 			if($is_edit){
 				//kalau ternyata yg sama adalah datanya dia ndiri maka harusnya valid ga dihitung dobwl
 				if($email_dobel !== FALSE){
-					if($_SESSION['edit_data']['id_instansi'] == $email_dobel['id']){
+					if($_SESSION['edit_data']['email_instansi'] == $email_dobel['value']){
 						$email_dobel = FALSE;
 					}
 				}
 				if($no_telepon_dobel !== FALSE){
-					if($_SESSION['edit_data']['id_instansi'] == $no_telepon_dobel['id']){
+					if($_SESSION['edit_data']['no_telepon_instansi'] == $no_telepon_dobel['value']){
 						$no_telepon_dobel = FALSE;
 					}
 				}
 				if($no_fax_dobel !== FALSE){
-					if($_SESSION['edit_data']['id_instansi'] == $no_fax_dobel['id']){
+					if($_SESSION['edit_data']['no_fax_instansi'] == $no_fax_dobel['value']){
 						$no_fax_dobel = FALSE;
 					}
 				}

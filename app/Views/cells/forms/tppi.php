@@ -3,16 +3,14 @@
 <?php
 if($is_tppi_edit === FALSE){ 
     $display_instansi = 'none';
-    $display_pemlap = 'none';
+    $display_pemlap = 'none'; 
+    $display_checkbox = 'block';
 }else{
-    if($edit_data['id_pemlap_tppi'] === NULL){
-        $display_pemlap = 'block';
-    }
-    if($edit_data['id_instansi_tppi'] === NULL){
-        $display_instansi = 'block';
-    }
-    
-} ?>
+    $display_instansi = 'none';
+    $display_pemlap = 'none';
+    $display_checkbox = 'none';
+}
+?>
 <div class = "box" style='padding:30px 0 30px 0;'>
     <div class = 'box-title'>
         <b><?= $config['form_title'] ?></b>
@@ -20,7 +18,7 @@ if($is_tppi_edit === FALSE){
         
     <form method = "POST" action = "<?= $config['form_action'] ?>" onsubmit ="return final_verify_tppi();">
         <div class="box-info">
-            <a>Sudah menemukan instansi / perusahaan yang mau menerima anda magang? Silahkan pilih data untuk meminta surat izin dari TU.</a>
+            <a><?= $info ?></a>
         </div>
 
         <div class="container">
@@ -46,8 +44,7 @@ if($is_tppi_edit === FALSE){
                 </div>
             </div>
             <br>
-            <?php
-            if($is_tppi_edit === FALSE){ ?>
+            <div id = 'box-checkbox' style='display:<?= $display_checkbox ?>;'>
                 <div style = "text-align:center;">
                     <p style="color:red">Instansi atau pembimbing lapangan belum terdaftar?</p>
                 </div>
@@ -67,8 +64,7 @@ if($is_tppi_edit === FALSE){
                         </div>
                     </div>
                 </div>
-            <?php
-            } ?>
+            </div>
             <div id = "box-pemlap" class = "box2" style="border:none;display:<?= $display_pemlap ?>;">
                 <div class='box-title' style='margin-top:2em;'>
                     <b>Data Pembimbing</b>
@@ -77,16 +73,11 @@ if($is_tppi_edit === FALSE){
                     view_cell('\App\Libraries\Cells::form_akun',
                     [
                         'config' => ['show_password' => FALSE,'use_box' => FALSE],
-                        'required' => 
-                            [
-                                ['nama_akun','email_akun','no_unik_akun','no_wa_akun','peran_akun'],
-                                ['block','block','block','block','none']
-                            ],
+                        'required' => $required_akun,
                         'peran_display' => ['block','block','block'], //peran akun diperlukan karena berkaitan dgn verif typo akun, namun displaynya di none kan
                         'live_search' => [],
                         'button' => [],
-                        'is_edit_form' => $is_tppi_edit,
-                        'edit_data' => $edit_data
+                        'is_edit_form' => FALSE
                     ]
                     ); 
                 ?>
@@ -99,14 +90,9 @@ if($is_tppi_edit === FALSE){
                     view_cell('\App\Libraries\Cells::form_instansi',
                         [
                             'config' => ['use_box' => FALSE],
-                            'required' => 
-                            	[
-                                    ['nama_instansi','no_telepon_instansi','email_instansi','no_fax_instansi','alamat_instansi'],
-                                    ['block','block','block','block','block']
-                        		],
+                            'required' => $required_instansi,
                             'button' => [],
-                            'is_edit_form' => $is_tppi_edit,
-                            'edit_data' => $edit_data
+                            'is_edit_form' => FALSE
                         ]
                     ); 
                 ?>
@@ -129,29 +115,6 @@ if($is_tppi_edit === FALSE){
 </div>
 
 <script>
-	$(document).ready(function(){
-        $('#teks_no_unik_akun').html('NIP (Opsional)');
-        $('#peran_akun').val('pemlap').change();
-        <?php
-        session()->get();
-        if(isset($_SESSION['data_form_akun'])){ ?>
-			$('#show-pemlap').prop('checked','true');
-            show_pemlap();
-            $([document.documentElement, document.body]).animate({
-                scrollTop: $("#show-pemlap").offset().top
-            }, 1000);
-        <?php
-        }
-        if(isset($_SESSION['data_form_instansi'])){ ?>
-			$('#show-instansi').prop('checked','true');
-            show_instansi();
-            $([document.documentElement, document.body]).animate({
-                scrollTop: $("#show-instansi").offset().top
-            }, 1000);
-        <?php
-        } ?>
-    });
-	
     function show_pemlap(){
         if($('#show-pemlap:checked').length > 0){
         	$('#box-pemlap').css('display','block');
@@ -182,6 +145,76 @@ if($is_tppi_edit === FALSE){
         
         }
     }
+	$(document).ready(function(){
+        $('#teks_no_unik_akun').html('NIP (Opsional)');
+        $('#peran_akun').val('pemlap').change();
+        <?php
+        session()->get();
+        if( isset($_SESSION['form_akun_not_valid']) || isset($_SESSION['form_instansi_not_valid']) ){
+            //bila balenan karena dobel data
+            if(isset($_SESSION['data_form_akun'])){ ?>
+                $('#show-pemlap').prop('checked','true');
+                show_pemlap();
+                $([document.documentElement, document.body]).animate({
+                    scrollTop: $("#box-pemlap").offset().top
+                }, 1000);
+            <?php
+            }
+            if(isset($_SESSION['data_form_instansi'])){ ?>
+                $('#show-instansi').prop('checked','true');
+                show_instansi();
+                $([document.documentElement, document.body]).animate({
+                    scrollTop: $("#box-instansi").offset().top
+                }, 1000);
+            <?php
+            } 
+        }else{
+            // bila edit2 an
+            if(isset($edit_data)){
+                if($edit_data['id_instansi_tppi'] === NULL){ ?>
+                    $('#show-instansi').prop('checked','true');
+                    show_instansi();
+                <?php
+                } 
+                if($edit_data['id_pemlap_tppi'] === NULL){ ?>
+                    $('#show-pemlap').prop('checked','true');
+                    show_pemlap();
+                <?php
+                } ?>
+                isi_data_edit();
+            <?php
+            }
+        }?>
+        
+        
+    });
+	
+    <?php
+    if(isset($edit_data)){ ?>
+        function isi_data_edit(){
+            //mengisi data akun bila ada
+            if($('#show-pemlap:checked').length > 0){
+                $('#nama_akun').val('<?= $edit_data['nama_akun'] ?>');
+                $('#email_akun').val('<?= $edit_data['email_akun'] ?>');
+                $('#no_wa_akun').val('<?= $edit_data['no_wa_akun'] ?>');
+                <?php
+                if($edit_data['no_unik_akun'] === 'Tidak Ada'){ $no_unik = ''; }
+                else{ $no_unik = $edit_data['no_unik_akun'] ;} ?>
+                $('#no_unik_akun').val('<?= $no_unik ?>');
+            }
+
+            //mengisi data instansi bila ada
+            if($('#show-instansi:checked').length > 0){
+                $('#nama_instansi').val('<?= $edit_data['nama_instansi'] ?>');
+                $('#email_instansi').val('<?= $edit_data['email_instansi'] ?>');
+                $('#no_telepon_instansi').val('<?= $edit_data['no_telepon_instansi'] ?>');
+                $('#no_fax_instansi').val('<?= $edit_data['no_fax_instansi'] ?>');
+                $('#alamat_instansi').val('<?= $edit_data['alamat_instansi'] ?>');
+            }
+        }
+    <?php
+    } ?>
+
 
     function final_verify_tppi(){
         if($('#show-pemlap:checked').length > 0 && $('#show-instansi:checked').length > 0){
@@ -195,7 +228,7 @@ if($is_tppi_edit === FALSE){
                 return false;
             }
         }else if($('#show-pemlap:checked').length > 0){
-            if(final_verify_akun(required_akun)){
+            if(verif_typo_akun(required_akun)){
                 $('#bg-for-loading').css('display','block');
                 $('#lds-dual-ring').css('display','inline-block');
                 return true;
@@ -203,7 +236,7 @@ if($is_tppi_edit === FALSE){
                 return false;
             }
         }else if($('#show-instansi:checked').length > 0){
-            if(final_verify_instansi(required_instansi)){
+            if(verif_typo_instansi(required_instansi)){
                 $('#bg-for-loading').css('display','block');
                 $('#lds-dual-ring').css('display','inline-block');
                 return true;

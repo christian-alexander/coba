@@ -16,31 +16,35 @@ class Password_change extends BaseController
     ];
 
     public function index(){
-        $data['required'] = $this->required_old;
-        return view('password/get_old_password',$data);
+        if($this->filter_user(['su','dosbing','pemlap','mhs'])){
+            $data['required'] = $this->required_old;
+            return view('password/get_old_password',$data);
+        }
     }   
 
     public function auth(){
-        $Get = new Get();
-        session()->get();
+        if($this->filter_user(['su','dosbing','pemlap','mhs'])){
+            $Get = new Get();
+            session()->get();
 
-        $db = $_SESSION['loginData']['db']; 
-        $id = $_SESSION['loginData']['id'];
+            $db = $_SESSION['loginData']['db']; 
+            $id = $_SESSION['loginData']['id'];
 
-        $inputted_password = $_REQUEST['password_akun'];
-        $real_password = $Get->get($db,NULL,"password_".$db,["id_".$db => $id],TRUE);
-        $real_password = $real_password['password_'.$db];
-        if(password_verify($inputted_password,$real_password)){
-            $data['required'] = $this->required_new;
-            return view('password/reset',$data);
-        }else{
-            $alert['message'] = "Password yang anda masukkan salah";
-            $alert['path'] = "Password_manager/Password_change";
-            return view("alertBox",$alert);
+            $inputted_password = $_REQUEST['password_akun'];
+            $real_password = $Get->get($db,NULL,"password_".$db,["id_".$db => $id],TRUE);
+            $real_password = $real_password['password_'.$db];
+            if(password_verify($inputted_password,$real_password)){
+                $data['required'] = $this->required_new;
+                return view('password/reset',$data);
+            }else{
+                $alert['message'] = "Password yang anda masukkan salah";
+                $alert['path'] = "Password_manager/Password_change";
+                return view("alertBox",$alert);
+            }
         }
     }
 
-    public function save_new_password(){
+    private function save_new_password(){
         session()->get();
         $AddEditDelete = new AddEditDelete();
         $data['password_'.$_SESSION['loginData']['db']] = password_hash($_REQUEST['password_akun'],PASSWORD_DEFAULT);

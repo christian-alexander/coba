@@ -7,9 +7,9 @@ use App\Models\LiveSearch;
 class Home extends BaseController
 {
     public function index(){
-        session()->get();
-        $Get = new Get();
-        if(isset($_SESSION['loginData'])){
+        if($this->filter_user(['su','dosbing','pemlap','mhs'])){
+            session()->get();
+            $Get = new Get();
             //utk home su dosbing pemlap
             $joinArray = [
                 ['dosbing','dosbing.id_dosbing = mhs.id_dosbing_mhs','left'],
@@ -30,6 +30,17 @@ class Home extends BaseController
 
             //untuk home mhs
             if($_SESSION['loginData']['db'] == "mhs"){
+                $required_akun = 
+                    [
+                        ['nama_akun','email_akun','no_unik_akun','no_wa_akun','peran_akun'],
+                        ['block','block','block','block','none']
+                    ];
+                $required_instansi = 
+                    [
+                        ['nama_instansi','no_telepon_instansi','email_instansi','no_fax_instansi','alamat_instansi'],
+                        ['block','block','block','block','block']
+                    ];
+        
                 //ambil semua data di tabel tppi
                 $data_tppi = $Get->get('tppi');
                 
@@ -84,6 +95,9 @@ class Home extends BaseController
                     $data['tppi_si_mhs'] = $tppi_si_mhs;
                     $data['is_accepted'] = FALSE;
                     $data['wait'] = FALSE;
+                    $data['required_akun'] = $required_akun;
+                    $data['required_instansi'] = $required_instansi;
+
                 }
             }
 

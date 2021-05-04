@@ -99,7 +99,7 @@ function verif_no(tipe,isPemlap = false){
         $('#no_'+tipe).removeClass('wrong');
         $('#no_'+tipe).addClass('correct');
     }else{
-        $('#warning_no_'+tipe).html(' *Min 8 Angka');
+        $('#warning_no_'+tipe).html(' *Tidak Valid');
         $('#no_'+tipe).removeClass('correct');
         $('#no_'+tipe).addClass('wrong');
     }

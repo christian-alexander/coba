@@ -6,64 +6,38 @@ use App\Models\AddEditDelete;
 
 class Form extends BaseController
 {
-    private function verif_form_tppi(){
-        session()->get();
-        if(isset($_SESSION['loginData'])){
-            if($_SESSION['loginData']['db'] == 'su' || $_SESSION['loginData']['db'] == 'mhs'){
-                return TRUE;
-            }else{
-                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-            	return FALSE;
-        	}
-        }else{
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-            return FALSE;
-        }
-    }
-    
-    private function verif_su(){
-        session()->get();
-        if(isset($_SESSION['loginData'])){
-            if($_SESSION['loginData']['db'] == 'su'){
-                return TRUE;
-            }else{
-                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-            	return FALSE;
-        	}
-        }else{
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-            return FALSE;
-        }
-    }
-    
-    private function verif_mhs(){
-        session()->get();
-        if(isset($_SESSION['loginData'])){
-            if($_SESSION['loginData']['db'] == 'mhs'){
-                return TRUE;
-            }else{
-                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-            	return FALSE;
-        	}
-        }else{
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-            return FALSE;
-        }
-    }
-    
+    // dicomment karena memang tidak digunakan disini, trus kenapa ditulis? supaya tahu saja form tppi isinya apa saja    
+    // private $required_akun = 
+    //     [
+    //         ['nama_akun','email_akun','no_unik_akun','no_wa_akun','peran_akun'],
+    //         ['block','block','block','block','none']
+    //     ];
+    // private $required_instansi = 
+    //     [
+    //         ['nama_instansi','no_telepon_instansi','email_instansi','no_fax_instansi','alamat_instansi'],
+    //         ['block','block','block','block','block']
+    //     ];
+
+
+  
+
 	public function auth_form_tppi(){
         //ternyata bila selectnya tadi null gaakan ke post datanya, yowes ilang dianggap gaada inputan tsb
         //jadi id_instansi_tppi, id_pemlap_tppi bisa hilangmuncul, begitu jg dgn session data_id_tppi
-        if($this->verif_form_tppi()){
+        if($this->filter_user(['su','mhs'])){
+            session()->get();
 			$akun_valid = TRUE;
             $instansi_valid = TRUE;
 
             //utk simpan id pemlap dan instansi tppi, bila ada
             $this->buat_session_form('data_id_tppi','tppi');
 
-
             if( ! isset($_REQUEST['id_pemlap_tppi']) ){
-                $dobel_akun = $this->auth_dobel_akun();
+                if($_SESSION['loginData']['db'] == 'mhs'){
+                    $dobel_akun = $this->auth_dobel_akun();
+                }else{
+                    $dobel_akun = $this->auth_dobel_akun(TRUE);
+                }
                 $email_dobel = $dobel_akun[0];
                 $no_unik_dobel = $dobel_akun[1];
 
@@ -77,18 +51,26 @@ class Form extends BaseController
                 }else{
                     $akun_valid = FALSE;
 
-                    if( $email_dobel !== FALSE &&  $no_unik_dobel !== FALSE){
-                        $_SESSION['form_akun_not_valid'] = ['email_akun','no_unik_akun'];
-                    }else if( $email_dobel !== FALSE){
-                        $_SESSION['form_akun_not_valid'] = ['email_akun'];
-                    }else{
-                        $_SESSION['form_akun_not_valid'] = ['no_unik_akun'];
+                    $arr = [
+                        [$email_dobel,'email_akun'],
+                        [$no_unik_dobel,'no_unik_akun']
+                    ];
+                    $_SESSION['form_akun_not_valid'] = [];
+                    foreach($arr as $item){
+                        if($item[0] !== FALSE){
+                            array_push($_SESSION['form_akun_not_valid'],$item[1]);
+                        }
                     }
                 }
             }
 
             if( ! isset($_REQUEST['id_instansi_tppi'] ) ){
-                $dobel_instansi = $this->auth_dobel_instansi();
+                if($_SESSION['loginData']['db'] == 'mhs'){
+                    $dobel_instansi = $this->auth_dobel_instansi();
+                }else{
+                    $dobel_instansi = $this->auth_dobel_instansi(TRUE);
+                }
+                
                 $email_dobel = $dobel_instansi[0];
                 $no_telepon_dobel = $dobel_instansi[1];
                 $no_fax_dobel = $dobel_instansi[2];
@@ -119,15 +101,19 @@ class Form extends BaseController
 
             //path redirect utk su atau mhs
             //path utk alertbox sukses, redirect utk balik bila dobel data
-            session()->get();
             if($_SESSION['loginData']['db'] == 'mhs'){$path = 'Home';$redirect = base_url().'/Home';}
-            else{$path = "#";$redirect='#';} //blm dibuat, path utk su
+            else{$path = 'TPPI/Data/daftar_pengajuan';$redirect= base_url()."/TPPI/Data/detail_pengajuan";} //blm dibuat, path utk su
             
 			if($akun_valid && $instansi_valid){
                 if($_SESSION['loginData']['db'] == 'mhs'){
                     $this->save_form_tppi();
+                    $msg_alert = "Sukses mengajukan. Hubungi TU untuk di acc.";
                 }else{
                     $this->save_edit_form_tppi();
+                    session()->remove('edit_data');
+                    session()->remove('form_akun_not_valid');
+                    session()->remove('form_instansi_not_valid');
+                    $msg_alert = "on progress";
                 }
 				
                 //penghapusan session data_form_akun
@@ -140,7 +126,7 @@ class Form extends BaseController
                 $this->buat_session_form('data_id_tppi','tppi',TRUE);
 
                 $alert['path'] = $path;
-                $alert['message'] = "Sukses mengajukan. Hubungi TU untuk di acc.";
+                $alert['message'] = $msg_alert;
                 return view('alertBox',$alert);
             }else{
 				return redirect()->to($redirect);
@@ -214,5 +200,9 @@ class Form extends BaseController
             $AddEditDelete->add('tppi',$data);
         }
 	}
+
+    private function save_edit_form_tppi(){
+        echo 'on_progress';
+    }
 
 }

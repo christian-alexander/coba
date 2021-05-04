@@ -12,17 +12,9 @@ class Profil extends BaseController
         ['block','block','block','block','none']
     ];
 
-    private function is_logged(){
-        session()->get();
-        if(isset($_SESSION['loginData'])){
-            return TRUE;
-        }else{
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
-        }
-    }
 
     public function index(){
-        if($this->is_logged()){
+        if($this->filter_user(['dosbing','pemlap','mhs'])){
             $Get = new Get();
             session()->get();
 
@@ -46,7 +38,7 @@ class Profil extends BaseController
 
 
     public function edit_profil(){
-        if($this->is_logged()){
+        if($this->filter_user(['dosbing','pemlap','mhs'])){
             $Get = new Get();
             session()->get();
     
@@ -54,15 +46,28 @@ class Profil extends BaseController
 
             $db = $_SESSION['loginData']['db'];
             $id = $_SESSION['loginData']['id'];
-            $data['edit_data'] = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE); 
+            $edit_data = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE); 
+            //foreach untuk mengganti key nama_pemlap,nama_dosbing menjadi seragam nama_akun dsb
+            foreach($edit_data as $key => $item){
+                foreach($this->required[0] as $req_item){
+                    $needed = explode("akun",$req_item)[0];
+                    if(strpos($key,$needed) !== FALSE){
+                        //menempatkan item yang sesuai di key yang sesuai, new key sudah nama_akun dsb
+                        $new_key = $needed."akun";
+                        $data['edit_data'][$new_key] = $item;
+                        break; 
+                    }
+                }
+            }
             $data['edit_data']['db'] = $db;
+            $data['edit_data']['id'] = $id;
             $this->buat_session('edit_data',$data['edit_data']); 
             return view('profil/edit_profil', $data);
         }
     }
 
     public function auth_edit_profil(){
-        if($this->is_logged()){
+        if($this->filter_user(['dosbing','pemlap','mhs'])){
             session()->get();
             $dobel_akun = $this->auth_dobel_akun(TRUE);
             $email_dobel = $dobel_akun[0];
@@ -82,38 +87,39 @@ class Profil extends BaseController
                 $alert['message'] = "Sukses mengedit profil.";
                 return view('alertBox',$alert);
             }else{
-                if( $email_dobel !== FALSE &&  $no_unik_dobel !== FALSE){
-                    $_SESSION['form_akun_not_valid'] = ['email_akun','no_unik_akun'];
-                }else if( $email_dobel !== FALSE){
-                    $_SESSION['form_akun_not_valid'] = ['email_akun'];
-                }else{
-                    $_SESSION['form_akun_not_valid'] = ['no_unik_akun'];
+                $arr = [
+                    [$email_dobel,'email_akun'],
+                    [$no_unik_dobel,'no_unik_akun']
+                ];
+                $_SESSION['form_akun_not_valid'] = [];
+                foreach($arr as $item){
+                    if($item[0] !== FALSE){
+                        array_push($_SESSION['form_akun_not_valid'],$item[1]);
+                    }
                 }
                 return redirect()->to(base_url()."/Akun_control/Profil/edit_profil");
             }
         }
     }
 
-    public function save_edit_profil(){
-        if($this->is_logged()){
-            session()->get();
-            $AddEditDelete = new AddEditDelete();
-            $db = $_SESSION['loginData']['db'];
-            $id = $_SESSION['loginData']['id'];
+    private function save_edit_profil(){
+        session()->get();
+        $AddEditDelete = new AddEditDelete();
+        $db = $_SESSION['loginData']['db'];
+        $id = $_SESSION['loginData']['id'];
 
-            $data = [
-                'nama_'.$db => $_REQUEST['nama_akun'],
-                'no_unik_'.$db => $_REQUEST['no_unik_akun'],
-                'email_'.$db => $_REQUEST['email_akun'],
-                'no_wa_'.$db => $_REQUEST['no_wa_akun']
-            ];
+        $data = [
+            'nama_'.$db => $_REQUEST['nama_akun'],
+            'no_unik_'.$db => $_REQUEST['no_unik_akun'],
+            'email_'.$db => $_REQUEST['email_akun'],
+            'no_wa_'.$db => $_REQUEST['no_wa_akun']
+        ];
 
-            $AddEditDelete->edit($db,$data,"id_".$db,$id);
+        $AddEditDelete->edit($db,$data,"id_".$db,$id);
 
-            //session tentu harus ikut berubah juga, karena verif dobel data bergantung dari session
-            $_SESSION['loginData']['nama'] = $_REQUEST['nama_akun'];
-            $_SESSION['loginData']['no_unik'] = $_REQUEST['no_unik_akun'];
-            $_SESSION['loginData']['email'] = $_REQUEST['email_akun'];
-        }
+        //session tentu harus ikut berubah juga, karena verif dobel data bergantung dari session
+        $_SESSION['loginData']['nama'] = $_REQUEST['nama_akun'];
+        $_SESSION['loginData']['no_unik'] = $_REQUEST['no_unik_akun'];
+        $_SESSION['loginData']['email'] = $_REQUEST['email_akun'];
     }
 }

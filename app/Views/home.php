@@ -184,12 +184,12 @@ if($_SESSION['loginData']['db'] == "su" || $_SESSION['loginData']['db'] == "dosb
     		[
 				'config' => ['form_title' => 'Ajukan Pembimbing dan Instansi', 'form_action' => base_url().'/TPPI/Form/auth_form_tppi'],
                 'liveSearch' => $liveSearch,
+                'info' => 'Sudah menemukan instansi / perusahaan yang mau menerima anda magang? Silahkan pilih data untuk meminta surat izin dari TU.',
                 'button' =>
                 	[
                         ['button_type' => 'btn-success', 'button_text' => 'Ajukan']
                     ],
-                'is_tppi_edit' => FALSE,
-                'edit_data' => []
+                'is_tppi_edit' => FALSE
             ]
     	);
         echo view_cell('\App\Libraries\Cells::riwayat_tppi',

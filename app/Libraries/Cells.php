@@ -138,6 +138,7 @@ echo view_cell('\App\Libraries\Cells::form_tppi',
     [
         'config' => ['form_title' => nama form, 'form_action' => form action],
         'liveSearch' => data live search yang diperlukan, yaitu live search pemlap dan instansi
+        'info' => 'string untuk ditaruh di box info'
         'button' => [
             ['button_type' => 'btn-success', 'button_text' => '(teks dalam btn)'],
             ['button_type' => 'btn-danger', 'button_text' => '(teks dalam btn)', 'button_action' => "(lokasi bila btn di-klik, tidak diperlukan bila btn default form)"]

@@ -7,8 +7,7 @@ use App\Models\AddEditDelete;
 class Signup_request extends BaseController
 {
     public function index(){
-        session()->get();
-        if(isset($_SESSION['loginData'])){
+        if($this->filter_user(['su','dosbing'])){
             if($_SESSION['loginData']['db'] == "su"){
                 $Get = new Get();
                 $data = [];
@@ -38,74 +37,72 @@ class Signup_request extends BaseController
                 
                 return view('signup/signup_request',$data);
             
-            }else{
-                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();    
             }
-        }else{
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
     }
 
     public function terima_signup(){
-        session()->get();
+        if($this->filter_user(['su','dosbing'])){
+            session()->get();
 
-        $db = $_REQUEST['db'];
-        $to_db = explode("_",$_REQUEST['db'])[1];
-        $id = $_REQUEST['id'];
-        $AddEditDelete = new AddEditDelete();
-        $Get = new Get();
+            $db = $_REQUEST['db'];
+            $to_db = explode("_",$_REQUEST['db'])[1];
+            $id = $_REQUEST['id'];
+            $AddEditDelete = new AddEditDelete();
+            $Get = new Get();
 
-        $data_sg = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE);
-        $data['nama_'.$to_db]                                    = $data_sg['nama_'.$db];
-        $data['no_unik_'.$to_db]                                 = $data_sg['no_unik_'.$db];
-        $data['email_'.$to_db]                                   = $data_sg['email_'.$db];
-        $data['no_wa_'.$to_db]                                   = $data_sg['no_wa_'.$db];
-        $data['id_instansi_'.$to_db]                             = $data_sg['id_instansi_'.$db];
-        $data['password_'.$to_db]                                = $data_sg['password_'.$db];
-        $data['acc_by_'.$_SESSION['loginData']['db']]            = $_SESSION['loginData']['nama'];
-        if($db == "sg_mhs"){
-            $data['id_dosbing_'.$to_db] = $data_sg['id_dosbing_'.$db];
-            $data['id_pemlap_'.$to_db] = NULL;
+            $data_sg = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE);
+            $data['nama_'.$to_db]                                    = $data_sg['nama_'.$db];
+            $data['no_unik_'.$to_db]                                 = $data_sg['no_unik_'.$db];
+            $data['email_'.$to_db]                                   = $data_sg['email_'.$db];
+            $data['no_wa_'.$to_db]                                   = $data_sg['no_wa_'.$db];
+            $data['id_instansi_'.$to_db]                             = $data_sg['id_instansi_'.$db];
+            $data['password_'.$to_db]                                = $data_sg['password_'.$db];
+            $data['acc_by_'.$_SESSION['loginData']['db']]            = $_SESSION['loginData']['nama'];
+            if($db == "sg_mhs"){
+                $data['id_dosbing_'.$to_db] = $data_sg['id_dosbing_'.$db];
+                $data['id_pemlap_'.$to_db] = NULL;
+            }
+
+            $utk_email['nama_calon'] = $data_sg['nama_'.$db];
+            $utk_email['email_calon'] = $data_sg['email_'.$db];
+            $utk_email['nama_admin'] = $_SESSION['loginData']['nama'];
+            $this->email_notif($utk_email,'disetujui');
+            
+            $AddEditDelete->add($to_db,$data);
+            $AddEditDelete->hapus($db,'id_'.$db,$id);
+
+
+            $alert['path'] = 'Signup/Signup_request';
+            $alert['message'] = "Sukses menerima permintaaan signup";
+            
+            return view("alertBox",$alert);
         }
-
-        $utk_email['nama_calon'] = $data_sg['nama_'.$db];
-        $utk_email['email_calon'] = $data_sg['email_'.$db];
-        $utk_email['nama_admin'] = $_SESSION['loginData']['nama'];
-        $this->email_notif($utk_email,'disetujui');
-        
-        $AddEditDelete->add($to_db,$data);
-        $AddEditDelete->hapus($db,'id_'.$db,$id);
-
-
-        $alert['path'] = 'Signup/Signup_request';
-        $alert['message'] = "Sukses menerima permintaaan signup";
-        
-        return view("alertBox",$alert);
-    
     }
 
     public function tolak_signup(){
-        session()->get();
-        $db = $_REQUEST['db'];
-        $id = $_REQUEST['id'];
-        $AddEditDelete = new AddEditDelete();
-        $Get = new Get();
+        if($this->filter_user(['su','dosbing'])){
+            session()->get();
+            $db = $_REQUEST['db'];
+            $id = $_REQUEST['id'];
+            $AddEditDelete = new AddEditDelete();
+            $Get = new Get();
 
-        $data_sg = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE);
-        $utk_email['nama_calon'] = $data_sg['nama_'.$db];
-        $utk_email['email_calon'] = $data_sg['email_'.$db];
-        $utk_email['nama_admin'] = $_SESSION['loginData']['nama'];
-        $this->email_notif($utk_email,'ditolak');
+            $data_sg = $Get->get($db,NULL,NULL,['id_'.$db => $id],TRUE);
+            $utk_email['nama_calon'] = $data_sg['nama_'.$db];
+            $utk_email['email_calon'] = $data_sg['email_'.$db];
+            $utk_email['nama_admin'] = $_SESSION['loginData']['nama'];
+            $this->email_notif($utk_email,'ditolak');
 
-        $AddEditDelete = new AddEditDelete();
-        $AddEditDelete->hapus($db,'id_'.$db,$id);
+            $AddEditDelete = new AddEditDelete();
+            $AddEditDelete->hapus($db,'id_'.$db,$id);
 
 
-        $alert['path'] = 'Signup/Signup_request';
-        $alert['message'] = "Sukses menolak permintaaan signup";
-        
-        return view("alertBox",$alert);
-    
+            $alert['path'] = 'Signup/Signup_request';
+            $alert['message'] = "Sukses menolak permintaaan signup";
+            
+            return view("alertBox",$alert);
+        }
     }
 
     private function email_notif($data,$keputusan){

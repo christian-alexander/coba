@@ -149,47 +149,38 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                 $("#peran_akun").val("<?= $db ?>").change();
 
                 if($('#nama_akun').length > 0){
-                    $('#nama_akun').val("<?= $edit_data['nama_'.$db] ?>");
+                    $('#nama_akun').val("<?= $edit_data['nama_akun'] ?>");
                 }
                 if($('#no_unik_akun').length > 0){
-                    $('#no_unik_akun').val("<?= $edit_data['no_unik_'.$db] ?>");
+                    $('#no_unik_akun').val("<?= $edit_data['no_unik_akun'] ?>");
                 }
                 if($('#email_akun').length > 0){
-                    $('#email_akun').val("<?= $edit_data['email_'.$db] ?>");
+                    $('#email_akun').val("<?= $edit_data['email_akun'] ?>");
                 }
                 if($('#no_wa_akun').length > 0){
-                    $('#no_wa_akun').val("<?= $edit_data['no_wa_'.$db] ?>");
+                    $('#no_wa_akun').val("<?= $edit_data['no_wa_akun'] ?>");
                 }
-                <?php if($db == "mhs"){ ?>
-                if($('#id_dosbing_akun').length > 0){ 
-					<?php
-                    $id_dosbing = $edit_data['id_dosbing_'.$db];
-                    if($id_dosbing === NULL){
-                        $id_dosbing = 'null';
+                <?php 
+                if($db == "mhs"){ 
+                    if(in_array('id_dosbing_akun',$required[0])){ 
+                        $id_dosbing = $edit_data['id_dosbing_akun'];
+                        if($id_dosbing === NULL){$id_dosbing = 'null';}
+                        echo "$('#id_dosbing_akun').val('$id_dosbing').change();";
                     }
-                    ?>
-                    $('#id_dosbing_akun').val("<?= $id_dosbing ?>").change();
-                }<?php } ?>
-                <?php if($db == "mhs"){ ?>
-                if($('#id_pemlap_akun').length > 0){
-                    <?php
-					$id_pemlap = $edit_data['id_pemlap_'.$db];
-                    if($id_pemlap === NULL){
-                        $id_pemlap = 'null';
-                    }
-                    ?>
-                    $('#id_pemlap_akun').val("<?= $id_pemlap ?>").change();
-                }<?php } ?>
-                if($('#id_instansi_akun').length > 0){
-                    <?php
-					$id_instansi = $edit_data['id_instansi_'.$db];
-                    if($id_instansi === NULL){
-                        $id_instansi = 'null';
-                    }
-                    ?>
-                    $('#id_instansi_akun').val("<?= $id_instansi ?>").change();
-                }
-            });    <?php
+                    if(in_array('id_pemlap_akun',$required[0])){ 
+                        $id_pemlap = $edit_data['id_pemlap_akun'];
+                        if($id_pemlap === NULL){$id_pemlap = 'null';}
+                        echo "$('#id_pemlap_akun').val('$id_pemlap').change();";
+                    } 
+                } 
+                //kalau ada instansi
+                if(in_array('id_instansi_akun',$required[0])){ 
+                    $id_dosbing = $edit_data['id_dosbing_akun'];
+                    if($id_dosbing === NULL){$id_dosbing = 'null';} 
+                    echo "$('#id_dosbing_akun').val('$id_dosbing').change();";
+                } ?>
+            });    
+        <?php
         } 
     }?>
 

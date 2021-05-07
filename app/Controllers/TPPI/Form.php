@@ -204,6 +204,10 @@ class Form extends BaseController
             //time pengajuan juga perlu diinsert
             $time = $Get->get("tppi",NULL,'timestamp_tppi',['id_tppi' => $insert_id],TRUE)['timestamp_tppi'];
             $AddEditDelete->edit('tppi',['time_pengajuan_tppi' => $time],'id_tppi',$insert_id);
+
+            //menaikkan status si mhs tsb
+            $id_status_sblmnya = $Get->get('status_magang',NULL,NULL,['id_mhs' => $id_mhs],TRUE)['id_status'];
+            $AddEditDelete->edit('status_magang',['id_status' => $id_status_sblmnya+1],'id_mhs',$id_mhs);
         }
 	}
 

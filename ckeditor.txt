@@ -10,7 +10,7 @@
 
 <div style='margin-top:5em;'>
 <form action="Login" method='post' id="he">
-<textarea name="hu" class="editor" height="20em" form='he'></textarea>
+<textarea name="hu" class="ckeditor" height="20em" form='he'></textarea>
 <button>jfakjak</button>
 </form>
 </div>

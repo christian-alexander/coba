@@ -31,8 +31,8 @@
     <!-- untuk data tables -->
     <script src="<?= base_url() ?>/DataTables-1.10.24/js/jquery.dataTables.min.js"></script>
     <!-- ckeditor -->
-    <script src="ckeditor5/build/ckeditor.js"></script>
-    <script src='js/ckeditor.js'></script>
+    <script src="<?= base_url() ?>/ckeditor5/build/ckeditor.js"></script>
+    <script src='<?= base_url() ?>/js/ckeditor.js'></script>
 
 
 

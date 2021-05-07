@@ -17,7 +17,7 @@ watchdog.setDestructor( editor => {
 watchdog.on( 'error', handleError );
 
 watchdog
-    .create( document.querySelector( '.editor' ), {
+    .create( document.querySelector( '.ckeditor' ), {
         
         toolbar: {
             items: [
@@ -32,7 +32,6 @@ watchdog
                 'indent',
                 '|',
                 'fontFamily',
-                'fontSize',
                 'fontColor',
                 '|',
                 'superscript',

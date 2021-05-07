@@ -35,7 +35,7 @@
                         <a class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Surat Izin</a>
                         <div class="dropdown-menu dropdown-menu-nav">
                             <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/TPPI/Data/daftar_pengajuan/pengajuan">Pengajuan</a>
-                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/#">Ubah Template</a>
+                            <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/TPPI/Template/form_template">Ubah Template</a>
                             <a class="dropdown-item dropdown-item-nav" href="<?= base_url()?>/TPPI/Data/daftar_pengajuan/riwayat">Riwayat</a>
                         </div>
                     </li>

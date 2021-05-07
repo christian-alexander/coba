@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 07, 2021 at 09:17 AM
+-- Generation Time: May 07, 2021 at 03:26 PM
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
@@ -237,9 +237,9 @@ CREATE TABLE `status_magang` (
 --
 
 INSERT INTO `status_magang` (`timestamp_status_magang`, `id_status_magang`, `id_mhs`, `id_status`, `time1`, `time2`, `time3`, `time4`, `time5`, `time6`) VALUES
-('2021-04-14 14:24:09', 3, 7, 1, '2021-04-14 19:15:23', '', '', '', '', ''),
-('2021-04-14 14:55:26', 4, 12, 1, '2021-04-14 19:15:23', '', '', '', '', ''),
-('2021-04-26 13:15:42', 12, 22, 1, '2021-04-26 20:15:42', '', '', '', '', '');
+('2021-05-07 13:22:11', 3, 7, 2, '2021-04-14 19:15:23', '', '', '', '', ''),
+('2021-05-07 13:21:48', 4, 12, 2, '2021-04-14 19:15:23', '', '', '', '', ''),
+('2021-05-07 13:24:58', 12, 22, 2, '2021-04-26 20:15:42', '', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -270,18 +270,18 @@ INSERT INTO `su` (`id_su`, `email_su`, `no_unik_su`, `password_su`, `nama_su`) V
 --
 
 CREATE TABLE `template_izin` (
-  `id` int(11) NOT NULL,
-  `nama_file` char(200) NOT NULL,
-  `subjek_email` char(200) NOT NULL,
-  `isi_email` text NOT NULL
+  `id_template_izin` int(11) NOT NULL,
+  `path_file_template_izin` varchar(1000) NOT NULL,
+  `subjek_email_template_izin` char(200) NOT NULL,
+  `isi_email_template_izin` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `template_izin`
 --
 
-INSERT INTO `template_izin` (`id`, `nama_file`, `subjek_email`, `isi_email`) VALUES
-(1, 'Template Izin (2) (2).docx', 'Pemberitahuan Izin KP', 'Kepada Yth,\r\n${nama_cp}\r\n${nama_ci}\r\n\r\nTerima kasih telah bersedia menerima mahasiswa kami atas nama ${nama_mhs} untuk dapat melakukan Kerja Praktek di perusahaan yang Bapak/Ibu pimpin. Berikut kami lampirkan surat izin agar mahasiswa kami dapat melaksanakan Kerja Praktek. \r\n\r\nHormat kami,\r\nUniversitas Widya Kartika\r\n\r\nSurabaya,\r\n${tanggal}');
+INSERT INTO `template_izin` (`id_template_izin`, `path_file_template_izin`, `subjek_email_template_izin`, `isi_email_template_izin`) VALUES
+(1, 'Template Izin.docx', 'Pemberitahuan Izin KP', 'Kepada Yth,\r\n${nama_cp}\r\n${nama_ci}\r\n\r\nTerima kasih telah bersedia menerima mahasiswa kami atas nama ${nama_mhs} untuk dapat melakukan Kerja Praktek di perusahaan yang Bapak/Ibu pimpin. Berikut kami lampirkan surat izin agar mahasiswa kami dapat melaksanakan Kerja Praktek. \r\n\r\nHormat kami,\r\nUniversitas Widya Kartika\r\n\r\nSurabaya,\r\n${tanggal}');
 
 -- --------------------------------------------------------
 
@@ -318,8 +318,9 @@ CREATE TABLE `tppi` (
 --
 
 INSERT INTO `tppi` (`timestamp_tppi`, `id_tppi`, `id_mhs_tppi`, `id_dosbing_tppi`, `id_pemlap_tppi`, `id_instansi_tppi`, `nama_pemlap_tppi`, `email_pemlap_tppi`, `no_wa_pemlap_tppi`, `no_unik_pemlap_tppi`, `id_instansi_pemlap_tppi`, `nama_instansi_tppi`, `email_instansi_tppi`, `no_telepon_instansi_tppi`, `no_fax_instansi_tppi`, `alamat_instansi_tppi`, `acc_kampus_tppi`, `acc_pemlap_tppi`, `time_pengajuan_tppi`, `time_acc_kampus_tppi`, `time_acc_pemlap_tppi`) VALUES
-('2021-05-02 11:59:05', 7, 22, 6, NULL, 1, 'Yonatan', 'yonatan@yo.com', '02329929', 'Tidak Ada', NULL, 'UD. Bangkit', 'bangkit2@gmail.com', '031245679', '031245679', 'Jalan Bangkit No. 2-4', 'diajukan', 'diajukan', '2021-05-02 18:59:05', '', ''),
-('2021-05-07 01:01:16', 11, 7, 2, 20, 1, 'PemlapSatu', 'pemlap1@gmail.com', '08123456789', '88800001', NULL, 'UD. Bangkit', 'bangkit@gmail.com', '031245679', '031245679', 'Jalan Bangkit No. 2-4', 'diajukan', 'diajukan', '2021-05-07 07:54:24', '', '');
+('2021-05-07 12:43:20', 7, 22, 6, NULL, 1, 'Yonatan', 'yonatan@yo.com', '02329929', 'Tidak Ada', NULL, 'UD. Bangkit', 'bangkit2@gmail.com', '031245679', '031245679', 'Jalan Bangkit No. 2-4', 'diajukan', 'diajukan', '2021-05-02 18:59:05', '', ''),
+('2021-05-07 09:16:56', 11, 7, 2, 20, 1, 'PemlapSatu', 'pemlap1@gmail.com', '08123456789', '88800001', NULL, 'UD. Bangkit', 'bangkit@gmail.com', '031245679', '031245679', 'Jalan Bangkit No. 2-4', 'diajukan', 'diajukan', '2021-05-07 07:54:24', '', ''),
+('2021-05-07 13:21:48', 24, 12, 6, 20, 2, 'PemlapSatu', 'pemlap1@gmail.com', '08123456789', '88800001', 2, 'PT. Berkarya', 'berkarya@berkarya.com', '03198980', '03198980', 'Jl. Karya Bakti No.5', 'diajukan', 'diajukan', '2021-05-07 20:21:48', '', '');
 
 --
 -- Indexes for dumped tables
@@ -394,7 +395,7 @@ ALTER TABLE `su`
 -- Indexes for table `template_izin`
 --
 ALTER TABLE `template_izin`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_template_izin`);
 
 --
 -- Indexes for table `tppi`
@@ -463,7 +464,7 @@ ALTER TABLE `su`
 -- AUTO_INCREMENT for table `tppi`
 --
 ALTER TABLE `tppi`
-  MODIFY `id_tppi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_tppi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Constraints for dumped tables

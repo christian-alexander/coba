@@ -178,7 +178,7 @@ class Form extends BaseController
                 $data['no_wa_pemlap_tppi'] = $data_pemlap['no_wa_pemlap'];
                 $data['email_pemlap_tppi'] = $data_pemlap['email_pemlap'];
             }
-            if(isset($_SESSION['dats_id_tppi']['id_instansi_tppi'])){
+            if(isset($_SESSION['data_id_tppi']['id_instansi_tppi'])){
                 $data['id_instansi_pemlap_tppi'] = $data['id_instansi_tppi'];
             }
 			

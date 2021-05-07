@@ -42,7 +42,7 @@ class Data extends BaseController
     public function detail_pengajuan(){
         if($this->filter_user(['su'])){
             session()->get();
-            if(isset($_SESSION['edit_data'])){
+            if( (isset($_SESSION['form_akun_not_valid']) || isset($_SESSION['form_instansi_not_valid'])) && ! isset($_REQUEST) ){
                 $id_tppi = $_SESSION['edit_data']['id_tppi'];
             }else{
                 $id_tppi = $_REQUEST['id'];

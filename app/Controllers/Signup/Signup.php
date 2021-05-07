@@ -37,12 +37,15 @@ class Signup extends BaseController
             
             return view('signup/look_ur_email');
         }else{
-            if( $email_dobel !== FALSE &&  $no_unik_dobel !== FALSE){
-                $_SESSION['form_akun_not_valid'] = ['email_akun','no_unik_akun'];
-            }else if( $email_dobel !== FALSE){
-                $_SESSION['form_akun_not_valid'] = ['email_akun'];
-            }else{
-                $_SESSION['form_akun_not_valid'] = ['no_unik_akun'];
+            $arr = [
+                [$email_dobel,'email_akun'],
+                [$no_unik_dobel,'no_unik_akun']
+            ];
+            $_SESSION['form_akun_not_valid'] = [];
+            foreach($arr as $item){
+                if($item[0] !== FALSE){
+                    array_push($_SESSION['form_akun_not_valid'],$item[1]);
+                }
             }
             return redirect()->to(base_url()."/Signup/Signup");
         }

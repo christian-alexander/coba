@@ -175,9 +175,9 @@ if(isset($config['use_box'])){if($config['use_box']){ ?>
                 } 
                 //kalau ada instansi
                 if(in_array('id_instansi_akun',$required[0])){ 
-                    $id_dosbing = $edit_data['id_dosbing_akun'];
+                    $id_dosbing = $edit_data['id_instansi_akun'];
                     if($id_dosbing === NULL){$id_dosbing = 'null';} 
-                    echo "$('#id_dosbing_akun').val('$id_dosbing').change();";
+                    echo "$('#id_instansi_akun').val('$id_dosbing').change();";
                 } ?>
             });    
         <?php

@@ -25,8 +25,8 @@ view_cell('\App\Libraries\Cells::form_akun',
         'required' => $required,
         'peran_display' => [],
         'button' => [
-            ['button_type' => 'btn-success', 'button_text' => 'Ubah'],
-            ['button_type' => 'btn-danger', 'button_text' => 'Cancel', 'button_action' => $path_cancel]
+            ['button_type' => 'btn-success', 'button_text' => 'Ubah', 'button_id' => 'btn-submit'],
+            ['button_type' => 'btn-danger', 'button_text' => 'Cancel', 'button_id' => 'btn-cancel', 'button_action' => $path_cancel]
         ],
         'live_search' => [],
         'for_auth' => [],

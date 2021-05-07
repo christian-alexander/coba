@@ -118,7 +118,7 @@ class Instansi extends BaseController
         if($this->filter_user(['su'])){
             $Get = new Get();
 
-            if(isset($_SESSION['edit_data'])){
+            if(isset($_SESSION['form_instansi_not_valid']) && !isset($_REQUEST) ){
                 $id = $_SESSION['edit_data']['id_instansi'];
             }else{
                 $id = $_REQUEST['id'];

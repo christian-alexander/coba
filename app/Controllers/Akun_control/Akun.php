@@ -175,7 +175,7 @@ class Akun extends BaseController
             $Get = new Get();
             $liveSearh = new LiveSearch();
 			
-            if(isset($_SESSION['edit_data'])){
+            if(isset($_SESSION['form_akun_not_valid']) && ! isset($_REQUEST) ){
 				$db = $_SESSION['edit_data']['db'];
                 $id = $_SESSION['edit_data']['id'];
             }else{

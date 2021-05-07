@@ -1,18 +1,14 @@
 <?php
 
-?>
+session()->get();
 
-<?= $this->extend("layout/main_constructor") ?>
-<?= $this->section("content") ?>
+$_SESSION['he'] = [ '1' => 'hoho', '2' => 'hehe' ];
+session()->markAsFlashdata('he');
 
-<div style='margin-top:5em;'>
-<form action="Login" method='post' id="he">
-<textarea name="hu" class="editor" height="20em" form='he'></textarea>
-<button>jfakjak</button>
-</form>
-</div>
-<!-- <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script> -->
+if(isset($_SESSION['he'])){
+	echo $_SESSION['he']['1'];
+	echo $_SESSION['he']['2'];
+	
+}
 
 
-
-<?= $this->endSection() ?>

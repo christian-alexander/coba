@@ -13,8 +13,8 @@ echo view_cell('\App\Libraries\Cells::form_akun',
         'required' => $required,
         'peran_display' => ['block','block','block'],
         'button' => [
-            ['button_type' => 'btn-success', 'button_text' => 'Edit'],
-            ['button_type' => 'btn-danger', 'button_text' => 'Cancel', 'button_action' => base_url()."/Akun_control/Akun"]
+            ['button_type' => 'btn-success', 'button_text' => 'Edit', 'button_id' => 'btn-edit'],
+            ['button_type' => 'btn-danger', 'button_text' => 'Cancel', 'button_id' => 'btn-cancel' ,'button_action' => base_url()."/Akun_control/Akun"]
         ],
         'live_search' => $liveSearch,
         'is_edit_form' => TRUE,

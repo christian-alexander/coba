@@ -20,7 +20,7 @@ class Data extends BaseController
             ['block','block','block','block','block']
         ];
 
-    public function daftar_pengajuan(){
+    public function daftar_pengajuan($tipe){
         if($this->filter_user(['su'])){
             $Get = new Get();
             $join = [
@@ -28,8 +28,14 @@ class Data extends BaseController
                 ['dosbing','dosbing.id_dosbing = tppi.id_dosbing_tppi']
             ];
             $select = 'tppi.*,mhs.nama_mhs,mhs.no_unik_mhs,dosbing.nama_dosbing';
-            $data['data_tppi'] = $Get->get('tppi',$join,$select,['acc_kampus_tppi' => 'diajukan']);
-            return view('tppi/daftar_pengajuan',$data);
+            if($tipe == "pengajuan"){
+                $data['data_tppi'] = $Get->get('tppi',$join,$select,['acc_kampus_tppi' => 'diajukan']);
+                return view('tppi/daftar_pengajuan',$data);
+            }else if($tipe == "riwayat"){
+                $data['data_tppi'] = $Get->get('tppi',$join,$select,['acc_kampus_tppi !=' => 'diajukan']);
+                return view('tppi/daftar_riwayat',$data);
+            }
+            
         }
     }
 

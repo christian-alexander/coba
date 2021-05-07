@@ -20,12 +20,12 @@
             $status = 'Aktif';
             $btn = "delete";
             $btn_msg = "Hapus";
-            $href = base_url()."/Akun_control/Akun/delete_akun";
+            $href = base_url()."/Akun_control/Akun/delete_restore_akun/delete";
         }else{
             $status = 'Non-Aktif';
             $btn = 'restore_from_trash';
             $btn_msg = "Restore";
-            $href = base_url()."/Akun_control/Akun/restore_akun";
+            $href = base_url()."/Akun_control/Akun/delete_restore_akun/restore";
         }
 
     	if($i == 1 || $i ==2){

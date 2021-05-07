@@ -60,34 +60,25 @@ class Akun extends BaseController
         }
     }
 
-    public function delete_akun(){
+    public function delete_restore_akun($tipe){
         if($this->filter_user(['su'])){
             $db = $_REQUEST['db'];
             $id = $_REQUEST['id'];
             
             $AddEditDelete = new AddEditDelete();
     
-            $AddEditDelete->edit($db,['status_'.$db => 'off'],'id_'.$db,$id);
+            if($tipe == "delete"){
+                $AddEditDelete->edit($db,['status_'.$db => 'off'],'id_'.$db,$id);
+        
+                $alert['path'] = 'Akun_control/Akun';
+                $alert['message'] = 'Berhasil menonaktifkan akun';
+            }else if($tipe == "restore"){
+                $AddEditDelete->edit($db,['status_'.$db => 'on'],'id_'.$db,$id);
+
+                $alert['path'] = 'Akun_control/Akun';
+                $alert['message'] = 'Berhasil mengaktifkan akun';
     
-            $alert['path'] = 'Akun_control/Akun';
-            $alert['message'] = 'Berhasil menonaktifkan akun';
-    
-            return view('alertBox',$alert);
-        }
-    }
-
-    public function restore_akun(){
-        if($this->filter_user(['su'])){
-            $db = $_REQUEST['db'];
-            $id = $_REQUEST['id'];
-            
-            $AddEditDelete = new AddEditDelete();
-            
-            $AddEditDelete->edit($db,['status_'.$db => 'on'],'id_'.$db,$id);
-
-            $alert['path'] = 'Akun_control/Akun';
-            $alert['message'] = 'Berhasil mengaktifkan akun';
-
+            } 
             return view('alertBox',$alert);
         }
     }

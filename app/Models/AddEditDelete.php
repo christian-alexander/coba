@@ -7,10 +7,15 @@ use CodeIgniter\Model;
 class AddEditDelete extends Model
 {
     //semua data berbentuk ['namakolom' => 'value']
-    public function add($table,$data) //data adalah array
+    public function add($table,$data,$insert_id = FALSE) //data adalah array
     {
-        $this->db->table($table)
-        ->insert($data);
+        $db = $this->db;
+        
+        $db->table($table)->insert($data);
+
+        if($insert_id){
+            return $db->insertID();
+        }
     }
 
     public function edit($table, $data, $namaKolom, $value) //data adalah array

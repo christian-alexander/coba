@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2021 at 01:59 PM
+-- Generation Time: May 07, 2021 at 09:17 AM
 -- Server version: 10.4.16-MariaDB
 -- PHP Version: 7.4.12
 
@@ -162,7 +162,7 @@ CREATE TABLE `pemlap` (
 --
 
 INSERT INTO `pemlap` (`timestamp_pemlap`, `id_pemlap`, `email_pemlap`, `no_unik_pemlap`, `nama_pemlap`, `no_wa_pemlap`, `id_instansi_pemlap`, `acc_by_pemlap`, `password_pemlap`, `status_pemlap`) VALUES
-('2021-04-26 13:45:08', 20, 'pemlap1@gmail.com', '88800001', 'PemlapSatu', '08123456789', 0, 'Koordinator KP', '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on');
+('2021-04-26 13:45:08', 20, 'pemlap1@gmail.com', '88800001', 'PemlapSatu', '08123456789', 1, 'Koordinator KP', '$2y$10$vpKpfi7DVo.5Tro5.2vDke4YUvjkSa7C0Ghs7MD62qElmAMTmNuMK', 'on');
 
 -- --------------------------------------------------------
 
@@ -290,7 +290,7 @@ INSERT INTO `template_izin` (`id`, `nama_file`, `subjek_email`, `isi_email`) VAL
 --
 
 CREATE TABLE `tppi` (
-  `timestamp_tppi` timestamp NOT NULL DEFAULT current_timestamp(),
+  `timestamp_tppi` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `id_tppi` int(11) NOT NULL,
   `id_mhs_tppi` int(11) DEFAULT NULL,
   `id_dosbing_tppi` int(11) DEFAULT NULL,
@@ -307,15 +307,19 @@ CREATE TABLE `tppi` (
   `no_fax_instansi_tppi` varchar(15) NOT NULL,
   `alamat_instansi_tppi` varchar(200) NOT NULL,
   `acc_kampus_tppi` varchar(10) NOT NULL DEFAULT 'diajukan',
-  `acc_pemlap_tppi` varchar(10) NOT NULL DEFAULT 'diajukan'
+  `acc_pemlap_tppi` varchar(10) NOT NULL DEFAULT 'diajukan',
+  `time_pengajuan_tppi` varchar(50) NOT NULL,
+  `time_acc_kampus_tppi` varchar(50) NOT NULL,
+  `time_acc_pemlap_tppi` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='tppi = temp pengajuan pemlap dan instansi';
 
 --
 -- Dumping data for table `tppi`
 --
 
-INSERT INTO `tppi` (`timestamp_tppi`, `id_tppi`, `id_mhs_tppi`, `id_dosbing_tppi`, `id_pemlap_tppi`, `id_instansi_tppi`, `nama_pemlap_tppi`, `email_pemlap_tppi`, `no_wa_pemlap_tppi`, `no_unik_pemlap_tppi`, `id_instansi_pemlap_tppi`, `nama_instansi_tppi`, `email_instansi_tppi`, `no_telepon_instansi_tppi`, `no_fax_instansi_tppi`, `alamat_instansi_tppi`, `acc_kampus_tppi`, `acc_pemlap_tppi`) VALUES
-('2021-05-02 11:59:05', 7, 22, 6, NULL, 1, 'Yonatan', 'yonatan@yo.com', '02329929', 'Tidak Ada', NULL, 'UD. Bangkit', 'bangkit@gmail.com', '031245679', '031245679', 'Jalan Bangkit No. 2-4', 'diajukan', 'diajukan');
+INSERT INTO `tppi` (`timestamp_tppi`, `id_tppi`, `id_mhs_tppi`, `id_dosbing_tppi`, `id_pemlap_tppi`, `id_instansi_tppi`, `nama_pemlap_tppi`, `email_pemlap_tppi`, `no_wa_pemlap_tppi`, `no_unik_pemlap_tppi`, `id_instansi_pemlap_tppi`, `nama_instansi_tppi`, `email_instansi_tppi`, `no_telepon_instansi_tppi`, `no_fax_instansi_tppi`, `alamat_instansi_tppi`, `acc_kampus_tppi`, `acc_pemlap_tppi`, `time_pengajuan_tppi`, `time_acc_kampus_tppi`, `time_acc_pemlap_tppi`) VALUES
+('2021-05-02 11:59:05', 7, 22, 6, NULL, 1, 'Yonatan', 'yonatan@yo.com', '02329929', 'Tidak Ada', NULL, 'UD. Bangkit', 'bangkit2@gmail.com', '031245679', '031245679', 'Jalan Bangkit No. 2-4', 'diajukan', 'diajukan', '2021-05-02 18:59:05', '', ''),
+('2021-05-07 01:01:16', 11, 7, 2, 20, 1, 'PemlapSatu', 'pemlap1@gmail.com', '08123456789', '88800001', NULL, 'UD. Bangkit', 'bangkit@gmail.com', '031245679', '031245679', 'Jalan Bangkit No. 2-4', 'diajukan', 'diajukan', '2021-05-07 07:54:24', '', '');
 
 --
 -- Indexes for dumped tables
@@ -459,7 +463,7 @@ ALTER TABLE `su`
 -- AUTO_INCREMENT for table `tppi`
 --
 ALTER TABLE `tppi`
-  MODIFY `id_tppi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_tppi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables

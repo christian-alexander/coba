@@ -20,7 +20,7 @@ if($_SESSION['loginData']['db'] == 'mhs'){
             'head_clickable' => 'Detail',
             'arr_item' => 
                 [
-                    ['~timestamp_tppi',FALSE],
+                    ['~time_pengajuan_tppi',FALSE],
                     ['~nama_pemlap_tppi',TRUE],
                     ['~nama_instansi_tppi',TRUE],
                     ['~acc_kampus_tppi',FALSE],
@@ -60,7 +60,8 @@ if($_SESSION['loginData']['db'] == 'mhs'){
                                 ['NIP',$item['no_unik_pemlap_tppi']],
                                 ['Email',$item['email_pemlap_tppi']],
                                 ['No WhatsApp',$item['no_wa_pemlap_tppi']],
-                                ['Status',$item['acc_pemlap_tppi']]
+                                ['Status',$item['acc_pemlap_tppi']],
+                                ['Tanggal Disetujui / Ditolak',$item['time_acc_kampus_tppi']]
                             ]
                     ]);
                     ?>
@@ -77,7 +78,8 @@ if($_SESSION['loginData']['db'] == 'mhs'){
                                 ['No Telepon',$item['no_telepon_instansi_tppi']],
                                 ['No Fax',$item['no_fax_instansi_tppi']],
                                 ['Email',$item['email_instansi_tppi']],
-                                ['Status',$item['acc_pemlap_tppi']]
+                                ['Status',$item['acc_pemlap_tppi']],
+                                ['Tanggal Disetujui / Ditolak',$item['time_acc_pemlap_tppi']]
                             ]
                     ]); 
                     ?>

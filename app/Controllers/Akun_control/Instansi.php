@@ -32,32 +32,24 @@ class Instansi extends BaseController
     }
 
 
-    public function delete_instansi(){
+    public function delete_restore_instansi($tipe){
         if($this->filter_user(['su'])){
             $id = $_REQUEST['id'];
             
             $AddEditDelete = new AddEditDelete();
     
-            $AddEditDelete->edit('instansi',['status_instansi' => 'off'],'id_instansi',$id);
+            if($tipe == "delete"){
+                $AddEditDelete->edit('instansi',['status_instansi' => 'off'],'id_instansi',$id);
+        
+                $alert['path'] = 'Akun_control/Instansi';
+                $alert['message'] = 'Berhasil menonaktifkan instansi';
+            }else if($tipe == "restore"){
+                $AddEditDelete->edit('instansi',['status_instansi' => 'on'],'id_instansi',$id);
+
+                $alert['path'] = 'Akun_control/Instansi';
+                $alert['message'] = 'Berhasil mengaktifkan instansi';
     
-            $alert['path'] = 'Akun_control/Instansi';
-            $alert['message'] = 'Berhasil menonaktifkan instansi';
-    
-            return view('alertBox',$alert);
-        }
-    }
-
-    public function restore_instansi(){
-        if($this->filter_user(['su'])){
-            $id = $_REQUEST['id'];
-            
-            $AddEditDelete = new AddEditDelete();
-            
-            $AddEditDelete->edit('instansi',['status_instansi' => 'on'],'id_instansi',$id);
-
-            $alert['path'] = 'Akun_control/Instansi';
-            $alert['message'] = 'Berhasil mengaktifkan instansi';
-
+            }
             return view('alertBox',$alert);
         }
     }

@@ -22,7 +22,7 @@ view_cell('\App\Libraries\Cells::data_table',
         ],
         'head_clickable' => 'Aksi',
         'arr_item' =>  [
-            ['~timestamp_tppi',FALSE],
+            ['~time_pengajuan_tppi',FALSE],
             ['~nama_mhs',TRUE],
             ['~no_unik_mhs',TRUE],
             ['~nama_dosbing',FALSE],

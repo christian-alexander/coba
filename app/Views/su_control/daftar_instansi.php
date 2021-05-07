@@ -12,12 +12,12 @@ for($i = 1 ; $i <= 2 ; $i++){
         $status = 'Aktif';
         $btn = "delete";
         $btn_msg = "Hapus";
-        $href = base_url()."/Akun_control/Instansi/delete_instansi";
+        $href = base_url()."/Akun_control/Instansi/delete_restore_instansi/delete";
     }else{
         $status = 'Non Aktif';
         $btn = "restore_from_trash";
         $btn_msg = "Restore";
-        $href = base_url()."/Akun_control/Instansi/restore_instansi";
+        $href = base_url()."/Akun_control/Instansi/delete_restore_instansi/restore";
     }
 
     $class_btn = $btn.'_instansi';

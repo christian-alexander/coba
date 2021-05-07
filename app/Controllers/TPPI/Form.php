@@ -6,6 +6,9 @@ use App\Models\AddEditDelete;
 
 class Form extends BaseController
 {
+    // yang bisa add HANYA mhs, yang bisa edit HANYA su
+
+
     // dicomment karena memang tidak digunakan disini, trus kenapa ditulis? supaya tahu saja form tppi isinya apa saja    
     // private $required_akun = 
     //     [
@@ -136,7 +139,7 @@ class Form extends BaseController
     }
 
     private function save_form_tppi(){
-        if($this->verif_mhs()){
+        if($this->filter_user(['mhs'])){
             $Get = new Get();
             $AddEditDelete = new AddEditDelete();
             session()->get();
@@ -197,7 +200,10 @@ class Form extends BaseController
             
 
             //oke beres sekarang tinggal insert deh
-            $AddEditDelete->add('tppi',$data);
+            $insert_id = $AddEditDelete->add('tppi',$data,TRUE); 
+            //time pengajuan juga perlu diinsert
+            $time = $Get->get("tppi",NULL,'timestamp_tppi',['id_tppi' => $insert_id],TRUE)['timestamp_tppi'];
+            $AddEditDelete->edit('tppi',['time_pengajuan_tppi' => $time],'id_tppi',$insert_id);
         }
 	}
 

@@ -24,13 +24,22 @@
             'info' => 'Anda dapat mengedit data sebelum menyetujui. Ketika anda menekan setujui maka email akan otomatis terkirim ke calon pembimbing lapangan berdasarkan data ini.',
             'button' =>
                 [
-                    ['button_type' => 'btn-success', 'button_text' => 'Setujui'],
-                    ['button_type' => 'btn-primary', 'button_text' => 'Simulasi Surat', 'button_action' => ''],
-                    ['button_type' => 'btn-danger', 'button_text' => 'Tolak', 'button_action' => '']
+                    ['button_type' => 'btn-success', 'button_text' => 'Setujui', 'button_id' => 'btn-setuju'],
+                    ['button_type' => 'btn-primary', 'button_text' => 'Simulasi Surat', 'button_id' => 'btn-simulasi', 'button_action' => ''],
+                    ['button_type' => 'btn-danger', 'button_text' => 'Tolak', 'button_id' => 'btn-tolak' ,'button_action' => '']
                 ],
             'is_tppi_edit' => TRUE,
             'edit_data' => $edit_data
         ]
     )
 ?>
+<script>
+	$('form').submit(function(e){
+        if( ! confirm("Yakin setujui? setelah ini surat akan langsung dilayangkan ke email pembimbing lapangan.")){
+            e.preventDefault();
+            $('#bg-for-loading').css('display','none');
+            $('#lds-dual-ring').css('display','none');
+        }
+    });
+</script>
 <?= $this->endSection() ?>

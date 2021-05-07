@@ -104,9 +104,9 @@ if($is_tppi_edit === FALSE){
             <div class="div-tombol"> <?php
                 foreach($button as $item){ ?><?php
                     if(!isset($item['button_action'])){ ?>
-                        <button type = "submit" class = "btn <?= $item['button_type'] ?> tombol"><?= $item['button_text'] ?></button><?php
+                        <button type = "submit" class = "btn <?= $item['button_type'] ?> tombol" id='<?= $item['button_id'] ?>'><?= $item['button_text'] ?></button><?php
                     }else{ ?>
-                        <a href = "<?= $item['button_action'] ?>" class = "btn <?= $item['button_type'] ?> tombol"><?= $item['button_text'] ?></a><?php    
+                        <a href = "<?= $item['button_action'] ?>" class = "btn <?= $item['button_type'] ?> tombol" id='<?= $item['button_id'] ?>'><?= $item['button_text'] ?></a><?php    
                     }
                 } ?>
             </div><?php

@@ -187,7 +187,7 @@ if($_SESSION['loginData']['db'] == "su" || $_SESSION['loginData']['db'] == "dosb
                 'info' => 'Sudah menemukan instansi / perusahaan yang mau menerima anda magang? Silahkan pilih data untuk meminta surat izin dari TU.',
                 'button' =>
                 	[
-                        ['button_type' => 'btn-success', 'button_text' => 'Ajukan']
+                        ['button_type' => 'btn-success', 'button_text' => 'Ajukan', 'button_id' => 'btn-ajukan']
                     ],
                 'is_tppi_edit' => FALSE
             ]

@@ -9,6 +9,10 @@ class Login extends BaseController
 {
     public function index()
     {
+        if(isset($_REQUEST['hu'])){
+            echo"ehehe";
+            echo $_REQUEST['hu'];
+        }
         return view('login');
     }
 

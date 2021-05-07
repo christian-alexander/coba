@@ -11,8 +11,8 @@
         ],
         'peran_display' => ['relative','none','relative'], 
         'button' => [
-            ['button_type' => 'btn-success', 'button_text' => '(teks dalam btn)'],
-            ['button_type' => 'btn-danger', 'button_text' => '(teks dalam btn)', 'button_action' => "(lokasi bila btn di-klik, tidak diperlukan bila btn default form)"]
+            ['button_type' => 'btn-success', 'button_text' => '(teks dalam btn)', 'button_id' => 'id'],
+            ['button_type' => 'btn-danger', 'button_text' => '(teks dalam btn)', 'button_id' => 'id', 'button_action' => "(lokasi bila btn di-klik, tidak diperlukan bila btn default form)"]
         ], (button type menggunakan tipe2 button BootStrap4)
         'live_search' => ['instansi' => $instansi,'dosbing' => $dosbing] ini hanya meneruskan data yang dari controller
         'is_edit_form => boolean, is edit form atau tidak,
@@ -41,8 +41,8 @@
             ['display1','display2']
         ], 
         'button' => [
-            ['button_type' => 'btn-success', 'button_text' => '(teks dalam btn)'],
-            ['button_type' => 'btn-danger', 'button_text' => '(teks dalam btn)', 'button_action' => "(lokasi bila btn di-klik, tidak diperlukan bila btn default form)"]
+            ['button_type' => 'btn-success', 'button_text' => '(teks dalam btn)', 'button_id' => 'id'],
+            ['button_type' => 'btn-danger', 'button_text' => '(teks dalam btn)', 'button_id' => 'id', 'button_action' => "(lokasi bila btn di-klik, tidak diperlukan bila btn default form)"]
         ], (button type menggunakan tipe2 button BootStrap4)
         'is_edit_form => boolean, is edit form atau tidak,
         'edit_data' => array edit data, bila bukan edit form tidak perlu ditulis
@@ -140,8 +140,8 @@ echo view_cell('\App\Libraries\Cells::form_tppi',
         'liveSearch' => data live search yang diperlukan, yaitu live search pemlap dan instansi
         'info' => 'string untuk ditaruh di box info'
         'button' => [
-            ['button_type' => 'btn-success', 'button_text' => '(teks dalam btn)'],
-            ['button_type' => 'btn-danger', 'button_text' => '(teks dalam btn)', 'button_action' => "(lokasi bila btn di-klik, tidak diperlukan bila btn default form)"]
+            ['button_type' => 'btn-success', 'button_text' => '(teks dalam btn)', 'button_id' => 'id'],
+            ['button_type' => 'btn-danger', 'button_text' => '(teks dalam btn)', 'button_id' => 'id', 'button_action' => "(lokasi bila btn di-klik, tidak diperlukan bila btn default form)"]
         ], (button type menggunakan tipe2 button BootStrap4)
         'is_tppi_edit' => boolean true or false
         'data_edit' => data tppi edit, bila is tppi edit false maka ini tidak perlu ditulis, data berupa array data tppi edit

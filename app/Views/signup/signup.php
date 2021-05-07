@@ -10,8 +10,8 @@ view_cell('\App\Libraries\Cells::form_akun',
         'required' => $required,
         'peran_display' => ['block','none','block'],
         'button' => [
-            ['button_type' => 'btn-success', 'button_text' => 'Sign Up'],
-            ['button_type' => 'btn-danger', 'button_text' => 'Cancel', 'button_action' => base_url()]
+            ['button_type' => 'btn-success', 'button_text' => 'Sign Up', 'button_id' => 'btn-sg'],
+            ['button_type' => 'btn-danger', 'button_text' => 'Cancel', 'button_id' => 'btn-cancel','button_action' => base_url()]
         ],
         'live_search' => $liveSearch,
         'is_edit_form' => FALSE
